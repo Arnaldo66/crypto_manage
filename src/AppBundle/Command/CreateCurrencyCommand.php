@@ -19,7 +19,7 @@ class CreateCurrencyCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-      $em = $this->getContainer()->get('doctrine')->getEntityManager();
+      $em = $this->getContainer()->get('doctrine')->getManager();
       $currency = new Currency;
       $currency->setName('bitcoion');
       $currency->setSymbol('BTC');

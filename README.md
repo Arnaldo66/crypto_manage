@@ -15,3 +15,7 @@ In a second time create a back office for manage information about any currency:
 After that:
   - Create a complete user system
   - Create a configurable alert system (mail,sms) for inform user when a specific currency up/down
+
+  Idea:
+  - best up in hours, days, week, year, all
+  - best down " " " "
