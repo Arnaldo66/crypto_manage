@@ -121,16 +121,14 @@ class CurrencyValueMoment
     /**
      * @var float
      *
-     * @Assert\NotBlank()
-     * @ORM\Column(name="volume_usd_24h", type="float")
+     * @ORM\Column(name="volume_usd_24h", type="float", nullable=true)
      */
     private $volumeUsd24h;
 
     /**
      * @var float
      *
-     * @Assert\NotBlank()
-     * @ORM\Column(name="volume_eur_24h", type="float")
+     * @ORM\Column(name="volume_eur_24h", type="float", nullable=true)
      */
     private $volumeEur24h;
 

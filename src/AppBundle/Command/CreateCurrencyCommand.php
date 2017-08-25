@@ -25,17 +25,17 @@ class CreateCurrencyCommand extends ContainerAwareCommand
       $res = $client->request('GET', 'https://api.coinmarketcap.com/v1/ticker/?convert=EUR&limit=100');
       $em = $this->getContainer()->get('doctrine')->getManager();
 
-      $output_message = 'KO\n';
+      $output_message = 'KO';
       //test if the request is valid and with good content
       if($res->getStatusCode() == '200' && $res->getHeaderLine('content-type') == 'application/json'){
           $body = json_decode($res->getBody());
           foreach ($body as $key => $value) {
             $this->createCurrency($em,$value);
           }
-          $output_message = 'OK\n';
+          $output_message = 'OK';
       }
 
-      $output->write($output_message);
+      $output->writeln($output_message);
     }
 
     //Create new Currency if not exist. Base on currency name

@@ -1,21 +1,21 @@
 <?php
 namespace AppBundle\Test\Command;
 
-use AppBundle\Command\CreateCurrencyCommand;
+use AppBundle\Command\CreateCurrencyValueMomentCommand;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class CreateCurrencyCommandTest extends KernelTestCase
+class CreateCurrencyValueMomentCommandTest extends KernelTestCase
 {
   public function testExecute()
     {
         self::bootKernel();
         $application = new Application(self::$kernel);
 
-        $application->add(new CreateCurrencyCommand());
+        $application->add(new CreateCurrencyValueMomentCommand());
 
-        $command = $application->find('cron:create-currency');
+        $command = $application->find('cron:create-currency-value-moment');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'  => $command->getName()
