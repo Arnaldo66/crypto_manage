@@ -61,6 +61,11 @@ class Currency
     private $updatedAt;
 
     /**
+     * @ORM\OneToOne(targetEntity="CurrencyValueMoment", mappedBy="currency")
+     */
+    private $currencyValue;
+
+    /**
      * Get id
      *
      * @return int
@@ -164,5 +169,29 @@ class Currency
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set currencyValue
+     *
+     * @param \AppBundle\Entity\CurrencyValueMoment $currencyValue
+     *
+     * @return Currency
+     */
+    public function setCurrencyValue(\AppBundle\Entity\CurrencyValueMoment $currencyValue = null)
+    {
+        $this->currencyValue = $currencyValue;
+
+        return $this;
+    }
+
+    /**
+     * Get currencyValue
+     *
+     * @return \AppBundle\Entity\CurrencyValueMoment
+     */
+    public function getCurrencyValue()
+    {
+        return $this->currencyValue;
     }
 }

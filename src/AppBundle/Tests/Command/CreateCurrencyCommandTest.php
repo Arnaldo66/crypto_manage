@@ -8,7 +8,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class CreateCurrencyCommandTest extends KernelTestCase
 {
-  /*  public function testExecute()
+  public function testExecute()
     {
         self::bootKernel();
         $application = new Application(self::$kernel);
@@ -23,6 +23,6 @@ class CreateCurrencyCommandTest extends KernelTestCase
 
         // the output of the command in the console
         $output = $commandTester->getDisplay();
-        var_dump($output);
-    }*/
+        $this->assertEquals('OK', $output);
+    }
 }
