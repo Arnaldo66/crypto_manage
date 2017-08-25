@@ -24,3 +24,4 @@ After that:
   Idea:
   - best up in hours, days, week, year, all
   - best down " " " "
+  - for cache (redis, memcached ..) puts moment value in cache for front. Reload it by cron

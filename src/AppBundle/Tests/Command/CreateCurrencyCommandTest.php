@@ -23,6 +23,6 @@ class CreateCurrencyCommandTest extends KernelTestCase
 
         // the output of the command in the console
         $output = $commandTester->getDisplay();
-        $this->assertEquals('OK', $output);
+        $this->assertEquals('OK\n', $output);
     }
 }

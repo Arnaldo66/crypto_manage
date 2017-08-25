@@ -34,6 +34,13 @@ class Currency
     private $name;
 
     /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(length=128, unique=true)
+     */
+    private $slug;
+
+
+    /**
      * @var string
      * @Assert\Length(max = 30)
      * @ORM\Column(name="symbol", type="string", length=30, nullable=true)
@@ -193,5 +200,29 @@ class Currency
     public function getCurrencyValue()
     {
         return $this->currencyValue;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Currency
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

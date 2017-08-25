@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CurrencyValueMoment
@@ -24,6 +25,7 @@ class CurrencyValueMoment
     /**
      * @var int
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="rank", type="integer")
      */
     private $rank;
@@ -31,6 +33,7 @@ class CurrencyValueMoment
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="price_usd", type="float")
      */
     private $priceUsd;
@@ -38,6 +41,7 @@ class CurrencyValueMoment
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="price_btc", type="float")
      */
     private $priceBtc;
@@ -45,6 +49,7 @@ class CurrencyValueMoment
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="market_cap_usd", type="float")
      */
     private $marketCapUsd;
@@ -52,6 +57,7 @@ class CurrencyValueMoment
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="available_supply", type="float")
      */
     private $availableSupply;
@@ -59,6 +65,7 @@ class CurrencyValueMoment
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="total_supply", type="float")
      */
     private $totalSupply;
@@ -66,6 +73,7 @@ class CurrencyValueMoment
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="percent_change_1h", type="float")
      */
     private $percentChange1h;
@@ -73,6 +81,7 @@ class CurrencyValueMoment
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="percent_change_24h", type="float")
      */
     private $percentChange24h;
@@ -80,6 +89,7 @@ class CurrencyValueMoment
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="percent_change_7d", type="float")
      */
     private $percentChange7d;
@@ -87,6 +97,7 @@ class CurrencyValueMoment
     /**
      * @var int
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="last_updated", type="integer")
      */
     private $lastUpdated;
@@ -94,6 +105,7 @@ class CurrencyValueMoment
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="price_eur", type="float")
      */
     private $priceEur;
@@ -101,6 +113,7 @@ class CurrencyValueMoment
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="market_cap_eur", type="float")
      */
     private $marketCapEur;
@@ -108,6 +121,7 @@ class CurrencyValueMoment
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="volume_usd_24h", type="float")
      */
     private $volumeUsd24h;
@@ -115,13 +129,15 @@ class CurrencyValueMoment
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="volume_eur_24h", type="float")
      */
     private $volumeEur24h;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\OneToOne(targetEntity="Currency", inversedBy="currencyValue")
-     * @ORM\JoinColumn(name="currency_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="currency_id", referencedColumnName="id", nullable=false)
      **/
     private $currency;
 
