@@ -3,6 +3,11 @@ crypto_manage
 
 A Symfony project created on August 23, 2017
 
+What you need:
+  - phpunit
+  - mysql
+  - sqlite3
+
 A list of what I need in a first time:
   - Create specific database for insert value of different crypto currency
   - Create cron for get api information from the site: https://coinmarketcap.com/api/
