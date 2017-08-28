@@ -1,1 +1,19 @@
 {% extends 'base.html.twig' %}
+
+{% block body %}
+  {{ parent() }}
+  <div class="container">
+    <table>
+      <tr>
+        <th>Nom</th>
+        <th>Valeur euro</th>
+      </tr>
+      {% for currencyValue in currencyMomentValues %}
+        <tr>
+          <td>{{ currencyValue.currency.name }}</td>
+          <td>{{ currencyValue.priceEur}}</td>
+        </tr>
+      {% endfor %}
+    <table>
+  </div>
+{% endblock %}
