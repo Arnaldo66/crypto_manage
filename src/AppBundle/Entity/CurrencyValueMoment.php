@@ -129,7 +129,7 @@ class CurrencyValueMoment
     private $volumeEur24h;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @ORM\OneToOne(targetEntity="Currency", inversedBy="currencyValueMoment")
      * @ORM\JoinColumn(name="currency_id", referencedColumnName="id", nullable=false)
      **/

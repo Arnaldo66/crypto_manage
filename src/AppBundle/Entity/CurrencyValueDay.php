@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * CurrencyValueDay
@@ -24,6 +26,7 @@ class CurrencyValueDay
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="price_usd", type="float")
      */
     private $priceUsd;
@@ -31,6 +34,7 @@ class CurrencyValueDay
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="price_btc", type="float")
      */
     private $priceBtc;
@@ -38,15 +42,27 @@ class CurrencyValueDay
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="price_eur", type="float")
      */
     private $priceEur;
 
     /**
+     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Currency", inversedBy="currencyValues")
-     * @ORM\JoinColumn(name="currency_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="currency_id", referencedColumnName="id", nullable=false)
      */
     private $currency;
+
+    /**
+     * @var datetime
+     *
+     * @Assert\NotNull()
+     * @Assert\DateTime()
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
 
     /**
      * Get id
@@ -152,5 +168,29 @@ class CurrencyValueDay
     public function getCurrency()
     {
         return $this->currency;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return CurrencyValueDay
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 }

@@ -7,6 +7,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use AppBundle\Entity\Currency;
 use AppBundle\Entity\CurrencyValueMoment;
+use AppBundle\Entity\CurrencyValueDay;
 
 class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
 {
@@ -27,7 +28,10 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
       $res = $client->request('GET', 'https://api.coinmarketcap.com/v1/ticker/?convert=EUR&limit=100');
       $em = $this->getContainer()->get('doctrine')->getManager();
 
-      //distroy all value
+      //insert old value in table currencyValueDay
+      $this->createCurrencyValueDay($em);
+
+      //destroy all value
       $this->truncateTable($em);
 
       $output_message = 'KO';
@@ -43,14 +47,29 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
       $output->writeln($output_message);
     }
 
+    //insert into CurrencyValueDay
+    private function createCurrencyValueDay($em){
+      $momentValues = $em->getRepository('AppBundle:CurrencyValueMoment')->findAll();
+      foreach ($momentValues as $momentValue) {
+        $currencyValueDay = new CurrencyValueDay;
+        $currencyValueDay->setCurrency($momentValue->getCurrency());
+        $currencyValueDay->setPriceUsd($momentValue->getPriceUsd());
+        $currencyValueDay->setPriceBtc($momentValue->getPriceBtc());
+        $currencyValueDay->setPriceEur($momentValue->getPriceEur());
+
+        $em->persist($currencyValueDay);
+      }
+
+      $em->flush();
+    }
+
+
     //truncate table currency_moment_value
     private function truncateTable($em){
       $connection = $em->getConnection();
       $platform   = $connection->getDatabasePlatform();
       $connection->executeUpdate($platform->getTruncateTableSQL('currency_value_moment', true));
     }
-
-    //insert into CurrencyValueDay
 
     //Create new Currency if not exist. Base on currency name
     private function createCurrencyValueMoment($em,$value){
