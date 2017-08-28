@@ -50,6 +50,8 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
       $connection->executeUpdate($platform->getTruncateTableSQL('currency_value_moment', true));
     }
 
+    //insert into CurrencyValueDay
+
     //Create new Currency if not exist. Base on currency name
     private function createCurrencyValueMoment($em,$value){
         $currency = $em->getRepository('AppBundle:Currency')->findOneByName($value->name);

@@ -22,6 +22,6 @@ After that:
   - Create a configurable alert system (mail,sms) for inform user when a specific currency up/down
 
   Idea:
-  - best up in hours, days, week, year, all
+  - best up down avg in hours, days, week, year, all
   - best down " " " "
   - for cache (redis, memcached ..) puts moment value in cache for front. Reload it by cron

@@ -70,7 +70,21 @@ class Currency
     /**
      * @ORM\OneToOne(targetEntity="CurrencyValueMoment", mappedBy="currency")
      */
-    private $currencyValue;
+    private $currencyValueMoment;
+
+    /**
+     * @ORM\OneToMany(targetEntity="CurrencyValueDay", mappedBy="currency")
+     */
+    private $currencyValues;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->currencyValues = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -179,27 +193,27 @@ class Currency
     }
 
     /**
-     * Set currencyValue
+     * Set currencyValueMoment
      *
-     * @param \AppBundle\Entity\CurrencyValueMoment $currencyValue
+     * @param \AppBundle\Entity\CurrencyValueMoment $currencyValueMoment
      *
      * @return Currency
      */
-    public function setCurrencyValue(\AppBundle\Entity\CurrencyValueMoment $currencyValue = null)
+    public function setCurrencyValueMoment(\AppBundle\Entity\CurrencyValueMoment $currencyValueMoment = null)
     {
-        $this->currencyValue = $currencyValue;
+        $this->currencyValueMoment = $currencyValueMoment;
 
         return $this;
     }
 
     /**
-     * Get currencyValue
+     * Get currencyValueMoment
      *
      * @return \AppBundle\Entity\CurrencyValueMoment
      */
-    public function getCurrencyValue()
+    public function getCurrencyValueMoment()
     {
-        return $this->currencyValue;
+        return $this->currencyValueMoment;
     }
 
     /**
@@ -224,5 +238,39 @@ class Currency
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Add currencyValue
+     *
+     * @param \AppBundle\Entity\CurrencyValueDay $currencyValue
+     *
+     * @return Currency
+     */
+    public function addCurrencyValue(\AppBundle\Entity\CurrencyValueDay $currencyValue)
+    {
+        $this->currencyValues[] = $currencyValue;
+
+        return $this;
+    }
+
+    /**
+     * Remove currencyValue
+     *
+     * @param \AppBundle\Entity\CurrencyValueDay $currencyValue
+     */
+    public function removeCurrencyValue(\AppBundle\Entity\CurrencyValueDay $currencyValue)
+    {
+        $this->currencyValues->removeElement($currencyValue);
+    }
+
+    /**
+     * Get currencyValues
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCurrencyValues()
+    {
+        return $this->currencyValues;
     }
 }

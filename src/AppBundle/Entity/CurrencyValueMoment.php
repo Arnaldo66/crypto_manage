@@ -73,24 +73,21 @@ class CurrencyValueMoment
     /**
      * @var float
      *
-     * @Assert\NotBlank()
-     * @ORM\Column(name="percent_change_1h", type="float")
+     * @ORM\Column(name="percent_change_1h", type="float", nullable=true)
      */
     private $percentChange1h;
 
     /**
      * @var float
      *
-     * @Assert\NotBlank()
-     * @ORM\Column(name="percent_change_24h", type="float")
+     * @ORM\Column(name="percent_change_24h", type="float", nullable=true)
      */
     private $percentChange24h;
 
     /**
      * @var float
      *
-     * @Assert\NotBlank()
-     * @ORM\Column(name="percent_change_7d", type="float")
+     * @ORM\Column(name="percent_change_7d", type="float", nullable=true)
      */
     private $percentChange7d;
 
@@ -113,8 +110,7 @@ class CurrencyValueMoment
     /**
      * @var float
      *
-     * @Assert\NotBlank()
-     * @ORM\Column(name="market_cap_eur", type="float")
+     * @ORM\Column(name="market_cap_eur", type="float", nullable=true)
      */
     private $marketCapEur;
 
@@ -134,7 +130,7 @@ class CurrencyValueMoment
 
     /**
      * @Assert\NotBlank()
-     * @ORM\OneToOne(targetEntity="Currency", inversedBy="currencyValue")
+     * @ORM\OneToOne(targetEntity="Currency", inversedBy="currencyValueMoment")
      * @ORM\JoinColumn(name="currency_id", referencedColumnName="id", nullable=false)
      **/
     private $currency;
