@@ -19,6 +19,11 @@ class CreateCurrencyValueHistoryCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+      $em = $this->getContainer()->get('doctrine')->getManager();
+      $values = $em->getRepository('AppBundle:CurrencyValueDay')->getHistoricalValueByDay();
+
+      var_dump($values);
+
       $output->writeln('ok');
     }
 
