@@ -79,3 +79,12 @@ assetic:
         cssrewrite: ~
     bundles:
         - AppBundle
+
+# fosuserbundle config
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+    from_email:
+        address: "crypto_currency@gmail.com"
+        sender_name: "Arno"
