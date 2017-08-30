@@ -3,12 +3,16 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * CurrencyValueHistory
  *
  * @ORM\Table(name="currency_value_history")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CurrencyValueHistoryRepository")
+ * @UniqueEntity("day")
  */
 class CurrencyValueHistory
 {
@@ -23,40 +27,42 @@ class CurrencyValueHistory
 
     /**
      * @var float
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="open", type="float")
      */
     private $open;
 
     /**
      * @var float
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="hight", type="float")
      */
     private $hight;
 
     /**
      * @var float
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="low", type="float")
      */
     private $low;
 
     /**
      * @var float
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="close", type="float")
      */
     private $close;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotBlank()
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="day", type="date", unique=true)
      */
     private $day;
 
     /**
+     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Currency", inversedBy="currencyHistoryValues")
      * @ORM\JoinColumn(name="currency_id", referencedColumnName="id", nullable=false)
      */
