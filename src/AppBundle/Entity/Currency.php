@@ -77,6 +77,11 @@ class Currency
      */
     private $currencyValues;
 
+    /**
+     * @ORM\OneToMany(targetEntity="CurrencyValueHistory", mappedBy="currency")
+     */
+    private $currencyHistoryValues;
+
 
     /**
      * Constructor
@@ -84,6 +89,7 @@ class Currency
     public function __construct()
     {
         $this->currencyValues = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->currencyHistoryValues = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -272,5 +278,39 @@ class Currency
     public function getCurrencyValues()
     {
         return $this->currencyValues;
+    }
+
+    /**
+     * Add currencyHistoryValue
+     *
+     * @param \AppBundle\Entity\CurrencyValueHistory $currencyHistoryValue
+     *
+     * @return Currency
+     */
+    public function addCurrencyHistoryValue(\AppBundle\Entity\CurrencyValueHistory $currencyHistoryValue)
+    {
+        $this->currencyHistoryValues[] = $currencyHistoryValue;
+
+        return $this;
+    }
+
+    /**
+     * Remove currencyHistoryValue
+     *
+     * @param \AppBundle\Entity\CurrencyValueHistory $currencyHistoryValue
+     */
+    public function removeCurrencyHistoryValue(\AppBundle\Entity\CurrencyValueHistory $currencyHistoryValue)
+    {
+        $this->currencyHistoryValues->removeElement($currencyHistoryValue);
+    }
+
+    /**
+     * Get currencyHistoryValues
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCurrencyHistoryValues()
+    {
+        return $this->currencyHistoryValues;
     }
 }
