@@ -9,7 +9,7 @@ class CurrencyValueHistoryTest extends KernelTestCase
 {
     private $em;
     private $validator;
-    const NB_FIELD_NOT_NULL = 7;
+    const NB_FIELD_NOT_NULL = 8;
     const NB_FIELD_UNIQUE = 1;
 
     public function setUp(){
@@ -29,25 +29,5 @@ class CurrencyValueHistoryTest extends KernelTestCase
 
       $violationList = $this->validator->validate($currencyValueHistory);
       $this->assertEquals($violationList->count(), self::NB_FIELD_NOT_NULL);
-    }
-
-    /**
-     * The test unique day value
-     */
-    public function testUniqueDayValue(){
-      $currency = $this->em->getRepository('AppBundle:Currency')->find(1);
-
-      $currencyValueHistory = new CurrencyValueHistory;
-      $currencyValueHistory->setLowUsd(1.00);
-      $currencyValueHistory->setLowEur(1.00);
-      $currencyValueHistory->setHightUsd(1.00);
-      $currencyValueHistory->setHightEur(1.00);
-      $currencyValueHistory->setAverage(1.00);
-      $currencyValueHistory->setCurrency($currency);
-      $currencyValueHistory->setDay(new \DateTime());
-
-
-      $violationList = $this->validator->validate($currencyValueHistory);
-      $this->assertEquals($violationList->count(), self::NB_FIELD_UNIQUE);
     }
 }

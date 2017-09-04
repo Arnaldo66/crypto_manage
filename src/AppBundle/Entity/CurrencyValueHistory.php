@@ -4,7 +4,6 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -12,7 +11,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="currency_value_history")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CurrencyValueHistoryRepository")
- * @UniqueEntity("day")
  */
 class CurrencyValueHistory
 {
@@ -57,15 +55,21 @@ class CurrencyValueHistory
     /**
      * @var float
      * @Assert\NotBlank()
-     * @ORM\Column(name="average", type="float")
+     * @ORM\Column(name="average_usd", type="float")
      */
-    private $average;
+    private $averageUsd;
+
+    /**
+     * @var float
+     * @Assert\NotBlank()
+     * @ORM\Column(name="average_eur", type="float")
+     */
+    private $averageEur;
 
     /**
      * @var \DateTime
      * @Assert\NotBlank()
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="day", type="date", unique=true)
+     * @ORM\Column(name="day", type="date")
      */
     private $day;
 
@@ -184,27 +188,27 @@ class CurrencyValueHistory
     }
 
     /**
-     * Set average
+     * Set averageUsd
      *
-     * @param float $average
+     * @param float $aaverageUsd
      *
      * @return CurrencyValueHistory
      */
-    public function setAverage($average)
+    public function setAverageUsd($averageUsd)
     {
-        $this->average = $average;
+        $this->averageUsd = $averageUsd;
 
         return $this;
     }
 
     /**
-     * Get average
+     * Get averageUsd
      *
      * @return float
      */
-    public function getAverage()
+    public function getAverageUsd()
     {
-        return $this->average;
+        return $this->averageUsd;
     }
 
     /**
@@ -253,5 +257,29 @@ class CurrencyValueHistory
     public function getLowEur()
     {
         return $this->lowEur;
+    }
+
+    /**
+     * Set averageEur
+     *
+     * @param float $averageEur
+     *
+     * @return CurrencyValueHistory
+     */
+    public function setAverageEur($averageEur)
+    {
+        $this->averageEur = $averageEur;
+
+        return $this;
+    }
+
+    /**
+     * Get averageEur
+     *
+     * @return float
+     */
+    public function getAverageEur()
+    {
+        return $this->averageEur;
     }
 }

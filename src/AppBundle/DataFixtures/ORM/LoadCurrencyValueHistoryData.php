@@ -10,17 +10,18 @@ class LoadCurrencyValueHistoryData extends AbstractFixture implements OrderedFix
 {
     public function load(ObjectManager $manager)
     {
-        $currencyValueHistory = new CurrencyValueHistory;
+        /*$currencyValueHistory = new CurrencyValueHistory;
         $currencyValueHistory->setLowUsd(1.00);
         $currencyValueHistory->setLowEur(1.00);
         $currencyValueHistory->setHightUsd(1.00);
         $currencyValueHistory->setHightEur(1.00);
-        $currencyValueHistory->setAverage(1.00);
+        $currencyValueHistory->setAverageUsd(1.00);
+        $currencyValueHistory->setAverageEur(1.00);
         $currencyValueHistory->setCurrency($this->getReference('currency'));
         $currencyValueHistory->setDay(new \DateTime());
 
         $manager->persist($currencyValueHistory);
-        $manager->flush();
+        $manager->flush();*/
     }
 
     public function getOrder()

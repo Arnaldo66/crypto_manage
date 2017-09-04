@@ -11,7 +11,6 @@ use AppBundle\Entity\CurrencyValueDay;
 
 class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
 {
-    //TODO: have to transfert data in other table before truncate
     // add validation verification before flush entity
 
     protected function configure()
