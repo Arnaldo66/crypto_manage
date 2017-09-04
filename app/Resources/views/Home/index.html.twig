@@ -3,19 +3,25 @@
 {% block body %}
   {{ parent() }}
   <div class="container">
-    <table>
-      <tr>
-        <th>Nom</th>
-        <th>Valeur euro</th>
-        <th>Valeur dollars</th>
-      </tr>
-      {% for currencyValue in currencyMomentValues %}
-        <tr>
-          <td>{{ currencyValue.currency.name }}</td>
-          <td>{{ currencyValue.priceEur}}</td>
-          <td>{{ currencyValue.priceUsd}}</td>
-        </tr>
-      {% endfor %}
-    <table>
+    <div class="starter-template">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Valeur euro</th>
+            <th>Valeur dollars</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for currencyValue in currencyMomentValues %}
+            <tr>
+              <td>{{ currencyValue.currency.name }}</td>
+              <td>{{ currencyValue.priceEur|round(2, 'floor')}}</td>
+              <td>{{ currencyValue.priceUsd|round(2, 'floor') }}</td>
+            </tr>
+          {% endfor %}
+      </tbody>
+      <table>
+    </div>
   </div>
 {% endblock %}

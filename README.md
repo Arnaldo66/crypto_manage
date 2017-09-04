@@ -25,3 +25,4 @@ After that:
   - best up down avg in hours, days, week, year, all
   - best down " " " "
   - for cache (redis, memcached ..) puts moment value in cache for front. Reload it by cron
+  - Do a game trading free with false money
