@@ -11,11 +11,11 @@ class LoadCurrencyValueHistoryData extends AbstractFixture implements OrderedFix
     public function load(ObjectManager $manager)
     {
         $currencyValueHistory = new CurrencyValueHistory;
-        $currencyValueHistory->setOpen(1.00);
-        $currencyValueHistory->setClose(1.00);
-        $currencyValueHistory->setLow(1.00);
-        $currencyValueHistory->setHight(1.00);
-        $currencyValueHistory->setHight(1.00);
+        $currencyValueHistory->setLowUsd(1.00);
+        $currencyValueHistory->setLowEur(1.00);
+        $currencyValueHistory->setHightUsd(1.00);
+        $currencyValueHistory->setHightEur(1.00);
+        $currencyValueHistory->setAverage(1.00);
         $currencyValueHistory->setCurrency($this->getReference('currency'));
         $currencyValueHistory->setDay(new \DateTime());
 

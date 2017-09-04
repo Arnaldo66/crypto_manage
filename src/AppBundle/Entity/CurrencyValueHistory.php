@@ -25,33 +25,41 @@ class CurrencyValueHistory
      */
     private $id;
 
-    /**
-     * @var float
-     * @Assert\NotBlank()
-     * @ORM\Column(name="open", type="float")
-     */
-    private $open;
 
     /**
      * @var float
      * @Assert\NotBlank()
-     * @ORM\Column(name="hight", type="float")
+     * @ORM\Column(name="hight_usd", type="float")
      */
-    private $hight;
+    private $hightUsd;
 
     /**
      * @var float
      * @Assert\NotBlank()
-     * @ORM\Column(name="low", type="float")
+     * @ORM\Column(name="low_usd", type="float")
      */
-    private $low;
+    private $lowUsd;
 
     /**
      * @var float
      * @Assert\NotBlank()
-     * @ORM\Column(name="close", type="float")
+     * @ORM\Column(name="hight_eur", type="float")
      */
-    private $close;
+    private $hightEur;
+
+    /**
+     * @var float
+     * @Assert\NotBlank()
+     * @ORM\Column(name="low_eur", type="float")
+     */
+    private $lowEur;
+
+    /**
+     * @var float
+     * @Assert\NotBlank()
+     * @ORM\Column(name="average", type="float")
+     */
+    private $average;
 
     /**
      * @var \DateTime
@@ -80,99 +88,51 @@ class CurrencyValueHistory
     }
 
     /**
-     * Set open
+     * Set hightUsd
      *
-     * @param float $open
+     * @param float $hightUsd
      *
      * @return CurrencyValueHistory
      */
-    public function setOpen($open)
+    public function setHightUsd($hightUsd)
     {
-        $this->open = $open;
+        $this->hightUsd = $hightUsd;
 
         return $this;
     }
 
     /**
-     * Get open
+     * Get hightUsd
      *
      * @return float
      */
-    public function getOpen()
+    public function getHightUsd()
     {
-        return $this->open;
-    }
-
-    /**
-     * Set hight
-     *
-     * @param float $hight
-     *
-     * @return CurrencyValueHistory
-     */
-    public function setHight($hight)
-    {
-        $this->hight = $hight;
-
-        return $this;
-    }
-
-    /**
-     * Get hight
-     *
-     * @return float
-     */
-    public function getHight()
-    {
-        return $this->hight;
+        return $this->hightUsd;
     }
 
     /**
      * Set low
      *
-     * @param float $low
+     * @param float $lowUsd
      *
      * @return CurrencyValueHistory
      */
-    public function setLow($low)
+    public function setLowUsd($lowUsd)
     {
-        $this->low = $low;
+        $this->lowUsd = $lowUsd;
 
         return $this;
     }
 
     /**
-     * Get low
+     * Get lowUsd
      *
      * @return float
      */
-    public function getLow()
+    public function getLowUsd()
     {
-        return $this->low;
-    }
-
-    /**
-     * Set close
-     *
-     * @param float $close
-     *
-     * @return CurrencyValueHistory
-     */
-    public function setClose($close)
-    {
-        $this->close = $close;
-
-        return $this;
-    }
-
-    /**
-     * Get close
-     *
-     * @return float
-     */
-    public function getClose()
-    {
-        return $this->close;
+        return $this->lowUsd;
     }
 
     /**
@@ -221,5 +181,77 @@ class CurrencyValueHistory
     public function getCurrency()
     {
         return $this->currency;
+    }
+
+    /**
+     * Set average
+     *
+     * @param float $average
+     *
+     * @return CurrencyValueHistory
+     */
+    public function setAverage($average)
+    {
+        $this->average = $average;
+
+        return $this;
+    }
+
+    /**
+     * Get average
+     *
+     * @return float
+     */
+    public function getAverage()
+    {
+        return $this->average;
+    }
+
+    /**
+     * Set hightEur
+     *
+     * @param float $hightEur
+     *
+     * @return CurrencyValueHistory
+     */
+    public function setHightEur($hightEur)
+    {
+        $this->hightEur = $hightEur;
+
+        return $this;
+    }
+
+    /**
+     * Get hightEur
+     *
+     * @return float
+     */
+    public function getHightEur()
+    {
+        return $this->hightEur;
+    }
+
+    /**
+     * Set lowEur
+     *
+     * @param float $lowEur
+     *
+     * @return CurrencyValueHistory
+     */
+    public function setLowEur($lowEur)
+    {
+        $this->lowEur = $lowEur;
+
+        return $this;
+    }
+
+    /**
+     * Get lowEur
+     *
+     * @return float
+     */
+    public function getLowEur()
+    {
+        return $this->lowEur;
     }
 }

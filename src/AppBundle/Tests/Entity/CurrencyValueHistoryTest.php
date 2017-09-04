@@ -9,7 +9,7 @@ class CurrencyValueHistoryTest extends KernelTestCase
 {
     private $em;
     private $validator;
-    const NB_FIELD_NOT_NULL = 6;
+    const NB_FIELD_NOT_NULL = 7;
     const NB_FIELD_UNIQUE = 1;
 
     public function setUp(){
@@ -38,11 +38,11 @@ class CurrencyValueHistoryTest extends KernelTestCase
       $currency = $this->em->getRepository('AppBundle:Currency')->find(1);
 
       $currencyValueHistory = new CurrencyValueHistory;
-      $currencyValueHistory->setOpen(1.00);
-      $currencyValueHistory->setClose(1.00);
-      $currencyValueHistory->setLow(1.00);
-      $currencyValueHistory->setHight(1.00);
-      $currencyValueHistory->setHight(1.00);
+      $currencyValueHistory->setLowUsd(1.00);
+      $currencyValueHistory->setLowEur(1.00);
+      $currencyValueHistory->setHightUsd(1.00);
+      $currencyValueHistory->setHightEur(1.00);
+      $currencyValueHistory->setAverage(1.00);
       $currencyValueHistory->setCurrency($currency);
       $currencyValueHistory->setDay(new \DateTime());
 
