@@ -14,7 +14,7 @@ class HomeController extends Controller
     {
         $currencyMomentValues = $this->getDoctrine()->getRepository('AppBundle:CurrencyValueMoment')->findAll();
 
-        return $this->render(':home:index.html.twig',array('currencyMomentValues'=>$currencyMomentValues));
+        return $this->render(':Home:index.html.twig',array('currencyMomentValues'=>$currencyMomentValues));
     }
 
 }
