@@ -26,3 +26,5 @@ After that:
   - best down " " " "
   - for cache (redis, memcached ..) puts moment value in cache for front. Reload it by cron
   - Do a game trading free with false money
+  - Create home page, array of currency. Login and register link to.
+  - Create page. Contact && about. This 
