@@ -66,6 +66,13 @@ class Currency
     private $updatedAt;
 
     /**
+     * @var string
+     * @Assert\Length(max = 255)
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     */
+    private $image;
+
+    /**
      * @ORM\OneToOne(targetEntity="CurrencyValueMoment", mappedBy="currency")
      */
     private $currencyValueMoment;
@@ -310,5 +317,29 @@ class Currency
     public function getCurrencyHistoryValues()
     {
         return $this->currencyHistoryValues;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return Currency
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

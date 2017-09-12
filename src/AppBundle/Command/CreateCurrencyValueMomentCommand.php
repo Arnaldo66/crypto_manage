@@ -4,6 +4,10 @@ namespace AppBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Debug\Exception\ContextErrorException;
+
 
 use AppBundle\Entity\Currency;
 use AppBundle\Entity\CurrencyValueMoment;
@@ -23,8 +27,9 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+
       $client = new \GuzzleHttp\Client();
-      $res = $client->request('GET', 'https://api.coinmarketcap.com/v1/ticker/?convert=EUR&limit=100');
+      $res = $client->request('GET', 'https://api.coinmarketcap.com/v1/ticker/?convert=EUR&limit=200');
       $em = $this->getContainer()->get('doctrine')->getManager();
 
       //insert old value in table currencyValueDay
@@ -79,6 +84,8 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
           $currency = new Currency;
           $currency->setName($value->name);
           $currency->setSymbol($value->symbol);
+          $currency->setImage($this->createImage($value));
+
           $em->persist($currency);
         }
 
@@ -100,5 +107,35 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
 
         $em->persist($currencyValueMoment);
         $em->flush();
+    }
+
+
+    //create image from distant img
+    private function createImage($value){
+      $folder = $this->getContainer()->get('kernel')->getRootDir().'/../web/images/currency-logo';
+      $this->createLogoFolder($folder);
+      $filename = strtolower($value->name.'.png');
+
+      try{
+        file_put_contents($folder.'/'.$filename, file_get_contents('https://files.coinmarketcap.com/static/img/coins/64x64/bitcoin.png'));
+      } catch (ContextErrorException $e){
+        return null;
+      }
+
+      return $filename;
+    }
+
+    //create folder
+    private function createLogoFolder($folder){
+      $fs = new Filesystem();
+
+      try {
+          if(!$fs->exists($folder)){
+            $fs->mkdir($folder);
+          }
+      } catch (IOExceptionInterface $e) {
+          echo "An error occurred while creating your directory at ".$e->getPath();
+          exit();
+      }
     }
 }
