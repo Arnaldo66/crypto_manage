@@ -19,8 +19,48 @@ class User extends BaseUser
      */
     protected $id;
 
+    /**
+     * @ORM\OneToMany(targetEntity="TradingWallet", mappedBy="user")
+     */
+    private $tradingWallets;
+
     public function __construct()
     {
-        parent::__construct();
+      parent::__construct();
+      $this->tradingWallets = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add tradingWallet
+     *
+     * @param \AppBundle\Entity\TradingWallet $tradingWallet
+     *
+     * @return User
+     */
+    public function addTradingWallet(\AppBundle\Entity\TradingWallet $tradingWallet)
+    {
+        $this->tradingWallets[] = $tradingWallet;
+
+        return $this;
+    }
+
+    /**
+     * Remove tradingWallet
+     *
+     * @param \AppBundle\Entity\TradingWallet $tradingWallet
+     */
+    public function removeTradingWallet(\AppBundle\Entity\TradingWallet $tradingWallet)
+    {
+        $this->tradingWallets->removeElement($tradingWallet);
+    }
+
+    /**
+     * Get tradingWallets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTradingWallets()
+    {
+        return $this->tradingWallets;
     }
 }

@@ -88,6 +88,7 @@ class Currency
     private $currencyHistoryValues;
 
 
+
     /**
      * Constructor
      */
