@@ -1,3 +1,4 @@
 DATABASE_USER=XXXX
 DATABASE_PASSWORD=XXXXX
 */10 * * * * php /Users/adeparseval/workspace/perso/crypto_manage/bin/console cron:create-currency-value-moment >> /Users/adeparseval/myjob.log 2>&1
+01 12 * * * php /Users/adeparseval/workspace/perso/crypto_manage/bin/console cron:create-currency-history >> /Users/adeparseval/myjobhistory.log 2>&1

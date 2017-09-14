@@ -117,7 +117,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
       $filename = strtolower($value->name.'.png');
 
       try{
-        file_put_contents($folder.'/'.$filename, file_get_contents('https://files.coinmarketcap.com/static/img/coins/64x64/bitcoin.png'));
+        file_put_contents($folder.'/'.$filename, file_get_contents('https://files.coinmarketcap.com/static/img/coins/64x64/'.$filename));
       } catch (ContextErrorException $e){
         return null;
       }
