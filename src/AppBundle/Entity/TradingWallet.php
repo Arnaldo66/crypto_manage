@@ -51,6 +51,11 @@ class TradingWallet
      */
     private $currencyWallets;
 
+    /**
+     * @ORM\OneToMany(targetEntity="TradingOrder", mappedBy="tradingWallet")
+     */
+    private $tradingOrders;
+
 
     /**
      * Constructor
@@ -58,6 +63,7 @@ class TradingWallet
     public function __construct()
     {
         $this->currencyWallets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tradingOrders = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -199,5 +205,40 @@ class TradingWallet
     public function getCurrencyWallets()
     {
         return $this->currencyWallets;
+    }
+
+
+    /**
+     * Add tradingOrder
+     *
+     * @param \AppBundle\Entity\TradingOrder $tradingOrder
+     *
+     * @return TradingWallet
+     */
+    public function addTradingOrder(\AppBundle\Entity\TradingOrder $tradingOrder)
+    {
+        $this->tradingOrders[] = $tradingOrder;
+
+        return $this;
+    }
+
+    /**
+     * Remove tradingOrder
+     *
+     * @param \AppBundle\Entity\TradingOrder $tradingOrder
+     */
+    public function removeTradingOrder(\AppBundle\Entity\TradingOrder $tradingOrder)
+    {
+        $this->tradingOrders->removeElement($tradingOrder);
+    }
+
+    /**
+     * Get tradingOrders
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTradingOrders()
+    {
+        return $this->tradingOrders;
     }
 }
