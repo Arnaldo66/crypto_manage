@@ -24,7 +24,7 @@
                           {% for currencyValue in currencyMomentValues %}
                             <tr class="odd gradeX">
                               <td>{% if currencyValue.currency.image is not null %}<img height="32" width"32" src="{{ asset('images/currency-logo/32/' ~ currencyValue.currency.image ) }}">{% endif %}</td>
-                              <td>{{ currencyValue.currency.name }}</td>
+                              <td><a href="{{ path('currency_show', {'slug': currencyValue.currency.slug }) }}">{{ currencyValue.currency.name }}</a></td>
                               <td>{{ currencyValue.currency.symbol }}</td>
                               <td>{{ currencyValue.priceEur|round(2, 'floor')}}</td>
                               <td>{{ currencyValue.priceUsd|round(2, 'floor') }}</td>
