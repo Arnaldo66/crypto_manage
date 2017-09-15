@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * TradingOrder
@@ -23,33 +25,36 @@ class TradingOrder
 
     /**
      * @var float
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="nb_currency", type="float")
      */
     private $nbCurrency;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotBlank()
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
 
     /**
      * @var float
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="amount", type="float")
      */
     private $amount;
 
 
     /**
+     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="TradingWallet", inversedBy="tradingOrders")
      * @ORM\JoinColumn(name="trading_wallet_id", referencedColumnName="id", nullable=false)
      */
     private $tradingWallet;
 
     /**
+     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Currency")
      * @ORM\JoinColumn(name="currency_id", referencedColumnName="id", nullable=false)
      */

@@ -117,15 +117,16 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
       $this->createLogoFolder($folder, $size);
       $filename = strtolower($value->name.'.png');
 
-      foreach ($size as $value) {
-        $new_folder = $folder .'/'. $value;
-        try{
-          file_put_contents($new_folder.'/'.$filename, file_get_contents('https://files.coinmarketcap.com/static/img/coins/'.$value.'x'.$value.'/'.$filename));
-        } catch (ContextErrorException $e){
-          return null;
+      if($this->getContainer()->get('kernel')->getEnvironment() !== 'test'){
+        foreach ($size as $value) {
+          $new_folder = $folder .'/'. $value;
+          try{
+            file_put_contents($new_folder.'/'.$filename, file_get_contents('https://files.coinmarketcap.com/static/img/coins/'.$value.'x'.$value.'/'.$filename));
+          } catch (ContextErrorException $e){
+            return null;
+          }
         }
       }
-
       return $filename;
     }
 

@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * CurrencyWallet
@@ -23,33 +25,38 @@ class CurrencyWallet
 
     /**
      * @var float
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="amount", type="float")
      */
     private $amount;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotBlank()
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotBlank()
+     * @Gedmo\Timestampable(on="create")
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
 
 
     /**
+     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="TradingWallet", inversedBy="currencyWallets")
      * @ORM\JoinColumn(name="trading_wallet_id", referencedColumnName="id", nullable=false)
      */
     private $tradingWallet;
 
     /**
+     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Currency")
      * @ORM\JoinColumn(name="currency_id", referencedColumnName="id", nullable=false)
      */

@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * TradingWallet
@@ -23,19 +25,22 @@ class TradingWallet
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
+     * @Assert\Length(max = 255)
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotBlank()
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
 
     /**
+     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="User", inversedBy="tradingWallets")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
