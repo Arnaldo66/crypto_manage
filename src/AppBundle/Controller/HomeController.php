@@ -12,7 +12,9 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
-        $currencyMomentValues = $this->getDoctrine()->getRepository('AppBundle:CurrencyValueMoment')->findAll();
+        $currencyMomentValues = $this->getDoctrine()
+          ->getRepository('AppBundle:CurrencyValueMoment')
+          ->findBy([],[],100);
 
         return $this->render(':Home:index.html.twig',array('currencyMomentValues'=>$currencyMomentValues));
     }

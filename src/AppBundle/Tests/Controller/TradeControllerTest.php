@@ -39,4 +39,12 @@ class TradeControllerTest extends WebTestCase
         $this->assertCount(1, $crawler->filter('div.alert-success'));
     }
 
+    /**
+     * Important to respect test order show after new
+     */
+    public function testShow()
+    {
+        $crawler = $this->client->request('GET', '/user/trade/wallets/1');
+        $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
+    }
 }

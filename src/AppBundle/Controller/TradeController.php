@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use AppBundle\Form\TradingWalletType;
 use AppBundle\Entity\TradingWallet;
@@ -14,18 +15,27 @@ class TradeController extends Controller
 {
 
 
-    /**
-     * @Route("/user/trade/wallets", name="trade_index")
-     */
-     public function index(){
-       $em = $this->getDoctrine()->getManager();
-       $wallets = $this->getUser()->getTradingWallets();
+  /**
+   * @Route("/user/trade/wallets", name="trade_index")
+   */
+   public function indexAction(){
+     $em = $this->getDoctrine()->getManager();
+     $wallets = $this->getUser()->getTradingWallets();
 
-       return $this->render(':Trade:index.html.twig', array(
-           'wallets' => $wallets
-       ));
-     }
+     return $this->render(':Trade:index.html.twig', array(
+         'wallets' => $wallets
+     ));
+   }
 
+   /**
+    * @Route("/user/trade/wallets/{id}", name="trade_show")
+    * @ParamConverter("tradingWallet", class="AppBundle:TradingWallet")
+    */
+    public function showAction(TradingWallet $tradingWallet){
+      return $this->render(':Trade:show.html.twig', array(
+          'tradingWallet' => $tradingWallet
+      ));
+    }
 
     /**
      * @Route("/user/trade/new", name="trade_new")
