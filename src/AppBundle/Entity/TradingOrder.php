@@ -60,6 +60,20 @@ class TradingOrder
     private $currency;
 
     /**
+     * @Assert\NotNull()
+     * @ORM\OneToOne(targetEntity="OrderAction")
+     * @ORM\JoinColumn(name="order_action_id", referencedColumnName="id", nullable=false)
+     */
+    private $orderAction;
+
+    /**
+     * @Assert\NotNull()
+     * @ORM\OneToOne(targetEntity="OrderStatus")
+     * @ORM\JoinColumn(name="order_status_id", referencedColumnName="id", nullable=false)
+     */
+    private $OrderStatus;
+
+    /**
      * Get id
      *
      * @return int
@@ -187,5 +201,53 @@ class TradingOrder
     public function getCurrency()
     {
         return $this->currency;
+    }
+
+    /**
+     * Set orderAction
+     *
+     * @param \AppBundle\Entity\OrderAction $orderAction
+     *
+     * @return TradingOrder
+     */
+    public function setOrderAction(\AppBundle\Entity\OrderAction $orderAction)
+    {
+        $this->orderAction = $orderAction;
+
+        return $this;
+    }
+
+    /**
+     * Get orderAction
+     *
+     * @return \AppBundle\Entity\OrderAction
+     */
+    public function getOrderAction()
+    {
+        return $this->orderAction;
+    }
+
+    /**
+     * Set orderStatus
+     *
+     * @param \AppBundle\Entity\OrderStatus $orderStatus
+     *
+     * @return TradingOrder
+     */
+    public function setOrderStatus(\AppBundle\Entity\OrderStatus $orderStatus)
+    {
+        $this->OrderStatus = $orderStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get orderStatus
+     *
+     * @return \AppBundle\Entity\OrderStatus
+     */
+    public function getOrderStatus()
+    {
+        return $this->OrderStatus;
     }
 }

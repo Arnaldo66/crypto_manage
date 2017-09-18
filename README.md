@@ -29,3 +29,4 @@ After that:
   - Create home page, array of currency. Login and register link to.
   - Create page. Contact && about.
   - Create a widget with 10 interesting crypto. This widget is parametrable by user on his account
+  - Do admin for create/update some value
