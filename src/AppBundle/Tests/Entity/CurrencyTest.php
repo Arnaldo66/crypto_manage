@@ -11,6 +11,7 @@ class CurrencyTest extends KernelTestCase
     private $validator;
 
     public function setUp(){
+      //TODO: found how to order test
       exec('php bin/console doctrine:fixtures:load -e test --no-interaction --purge-with-truncate');
 
       self::bootKernel();
