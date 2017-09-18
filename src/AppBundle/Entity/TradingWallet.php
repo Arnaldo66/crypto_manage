@@ -32,6 +32,13 @@ class TradingWallet
     private $name;
 
     /**
+     * @var boolean
+     * @Assert\NotBlank()
+     * @ORM\Column(name="public", type="boolean")
+     */
+    private $public;
+
+    /**
      * @var \DateTime
      * @Assert\NotBlank()
      * @Gedmo\Timestampable(on="create")
@@ -245,5 +252,29 @@ class TradingWallet
     public function getTradingOrders()
     {
         return $this->tradingOrders;
+    }
+
+    /**
+     * Set public
+     *
+     * @param boolean $public
+     *
+     * @return TradingWallet
+     */
+    public function setPublic($public)
+    {
+        $this->public = $public;
+
+        return $this;
+    }
+
+    /**
+     * Get public
+     *
+     * @return boolean
+     */
+    public function getPublic()
+    {
+        return $this->public;
     }
 }
