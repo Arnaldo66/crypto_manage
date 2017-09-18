@@ -9,7 +9,7 @@ class CurrencyWalletTest extends KernelTestCase
 {
     private $em;
     private $validator;
-    const NB_FIELD_NOT_NULL = 5;
+    const NB_FIELD_NOT_NULL = 3;
 
     public function setUp(){
       self::bootKernel();

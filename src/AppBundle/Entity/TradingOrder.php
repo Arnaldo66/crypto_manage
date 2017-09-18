@@ -32,7 +32,6 @@ class TradingOrder
 
     /**
      * @var \DateTime
-     * @Assert\NotBlank()
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      */

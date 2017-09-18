@@ -58,7 +58,6 @@ class CurrencyValueDay
     /**
      * @var datetime
      *
-     * @Assert\NotNull()
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      */

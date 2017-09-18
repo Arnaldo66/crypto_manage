@@ -32,7 +32,6 @@ class CurrencyWallet
 
     /**
      * @var \DateTime
-     * @Assert\NotBlank()
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      */
@@ -40,7 +39,6 @@ class CurrencyWallet
 
     /**
      * @var \DateTime
-     * @Assert\NotBlank()
      * @Gedmo\Timestampable(on="create")
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated_at", type="datetime")

@@ -9,7 +9,7 @@ class EuroWalletTest extends KernelTestCase
 {
     private $em;
     private $validator;
-    const NB_FIELD_NOT_NULL = 4;
+    const NB_FIELD_NOT_NULL = 2;
 
     public function setUp(){
       self::bootKernel();

@@ -9,7 +9,7 @@ class CurrencyValueDayTest extends KernelTestCase
 {
     private $em;
     private $validator;
-    const NB_FIELD_NOT_NULL = 5;
+    const NB_FIELD_NOT_NULL = 4;
 
     public function setUp(){
       exec('php bin/console doctrine:fixtures:load -e test --no-interaction --purge-with-truncate');

@@ -71,11 +71,9 @@ class CurrencyTest extends KernelTestCase
       $currency = new Currency;
       $currency->setName(NULL);
       $currency->setSymbol('BIT');
-      $currency->setCreatedAt(NULL);
-      $currency->setUpdatedAt(NULL);
 
       $violationList = $this->validator->validate($currency);
-      $this->assertEquals($violationList->count(), 3);
+      $this->assertEquals($violationList->count(), 1);
     }
 
     /**
@@ -86,8 +84,6 @@ class CurrencyTest extends KernelTestCase
       $currency = new Currency;
       $currency->setName('thisnameneverexists');
       $currency->setSymbol('bitbitbit');
-      $currency->setCreatedAt(new \DateTime());
-      $currency->setUpdatedAt(new \DateTime());
 
       $violationList = $this->validator->validate($currency);
       $this->assertEquals($violationList->count(), 0);
