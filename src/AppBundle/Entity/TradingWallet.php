@@ -58,7 +58,7 @@ class TradingWallet
     private $euroWallet;
 
     /**
-     * @ORM\OneToMany(targetEntity="EuroWallet", mappedBy="tradingWallet")
+     * @ORM\OneToMany(targetEntity="CurrencyWallet", mappedBy="tradingWallet")
      */
     private $currencyWallets;
 
