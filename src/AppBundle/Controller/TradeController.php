@@ -12,6 +12,21 @@ use AppBundle\Entity\EuroWallet;
 
 class TradeController extends Controller
 {
+
+
+    /**
+     * @Route("/user/trade/wallets", name="trade_index")
+     */
+     public function index(){
+       $em = $this->getDoctrine()->getManager();
+       $wallets = $this->getUser()->getTradingWallets();
+
+       return $this->render(':Trade:index.html.twig', array(
+           'wallets' => $wallets
+       ));
+     }
+
+
     /**
      * @Route("/user/trade/new", name="trade_new")
      */
@@ -29,6 +44,9 @@ class TradeController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
           $em->persist($tradingWallet);
           $em->flush();
+
+          $this->addFlash('success-message','Votre portefeuille a bien été crée !');
+          return $this->redirectToRoute('trade_index');
         }
 
         return $this->render(':Trade:new.html.twig', array(

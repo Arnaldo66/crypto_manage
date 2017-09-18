@@ -17,6 +17,11 @@ class TradeControllerTest extends WebTestCase
       ));
     }
 
+    public function testIndex(){
+      $crawler = $this->client->request('GET', '/user/trade/wallets');
+      $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
+    }
+
     public function testNew()
     {
         $crawler = $this->client->request('GET', '/user/trade/new');
@@ -28,6 +33,10 @@ class TradeControllerTest extends WebTestCase
             'trading_wallet[name]'  => 'Name',
         ));
         $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isRedirect('/user/trade/wallets'));
+
+        $crawler = $this->client->followRedirect();
+        $this->assertCount(1, $crawler->filter('div.alert-success'));
     }
 
 }
