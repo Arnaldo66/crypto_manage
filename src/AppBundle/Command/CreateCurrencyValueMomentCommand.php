@@ -27,7 +27,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
+      //TODO: error on ,no limit: have to investigate
       $client = new \GuzzleHttp\Client();
       $res = $client->request('GET', 'https://api.coinmarketcap.com/v1/ticker/?convert=EUR&limit=200');
       $em = $this->getContainer()->get('doctrine')->getManager();

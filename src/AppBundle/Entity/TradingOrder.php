@@ -26,9 +26,9 @@ class TradingOrder
     /**
      * @var float
      * @Assert\NotBlank()
-     * @ORM\Column(name="nb_currency", type="float")
+     * @ORM\Column(name="price", type="float")
      */
-    private $nbCurrency;
+    private $price;
 
     /**
      * @var \DateTime
@@ -74,6 +74,13 @@ class TradingOrder
     private $OrderStatus;
 
     /**
+     * @Assert\NotNull()
+     * @ORM\OneToOne(targetEntity="OrderMethod")
+     * @ORM\JoinColumn(name="order_method_id", referencedColumnName="id", nullable=false)
+     */
+    private $orderMethod;
+
+    /**
      * Get id
      *
      * @return int
@@ -81,30 +88,6 @@ class TradingOrder
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set nbCurrency
-     *
-     * @param float $nbCurrency
-     *
-     * @return TradingOrder
-     */
-    public function setNbCurrency($nbCurrency)
-    {
-        $this->nbCurrency = $nbCurrency;
-
-        return $this;
-    }
-
-    /**
-     * Get nbCurrency
-     *
-     * @return float
-     */
-    public function getNbCurrency()
-    {
-        return $this->nbCurrency;
     }
 
     /**
@@ -249,5 +232,53 @@ class TradingOrder
     public function getOrderStatus()
     {
         return $this->OrderStatus;
+    }
+
+    /**
+     * Set price
+     *
+     * @param float $price
+     *
+     * @return TradingOrder
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return float
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Set orderMethod
+     *
+     * @param \AppBundle\Entity\OrderMethod $orderMethod
+     *
+     * @return TradingOrder
+     */
+    public function setOrderMethod(\AppBundle\Entity\OrderMethod $orderMethod)
+    {
+        $this->orderMethod = $orderMethod;
+
+        return $this;
+    }
+
+    /**
+     * Get orderMethod
+     *
+     * @return \AppBundle\Entity\OrderMethod
+     */
+    public function getOrderMethod()
+    {
+        return $this->orderMethod;
     }
 }
