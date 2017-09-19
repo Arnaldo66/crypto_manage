@@ -47,14 +47,51 @@
         </div>
 
         <div class="form-group input-group">
-            {{ form_widget(form.total,{'attr':{'class':'form-control', 'placeholder': 'Total', 'autocomplete':'off'}}) }}
+            {{ form_widget(form.total,{'attr':{'class':'form-control', 'placeholder': 'Total', 'autocomplete':'off', 'readonly': 'readonly'}}) }}
             <span class="input-group-addon">€</span>
+        </div>
+
+        <div class="invisible">
+            {{ form_widget(form.currency,{'attr':{'autocomplete':'off', 'readonly': 'readonly'}}) }}
         </div>
 
 
         <a href="" class="btn btn-default"><< Retour</a>
-        <button type="submit" class="btn btn-default">Prochaine étape</button>
+        <button type="submit" class="btn btn-default">Soumettre</button>
       </div>
     </div>
   {{ form_end(form) }}
+{% endblock %}
+
+{% block local_javascripts %}
+  <script>
+    var initial_price = '{{ currency.currencyValueMoment.priceEur|round(4, 'floor') }}';
+    $(document).ready(function() {
+      $('input[name="trading_order_next_step[orderMethod]"]:radio').change(function() {
+          if(this.value == 1){
+            $('#trading_order_next_step_price').attr("readonly","readonly").val(initial_price);
+          }else{
+            $('#trading_order_next_step_price').val('').removeAttr("readonly");
+          }
+      });
+
+      $('input#trading_order_next_step_amount').change(function() {
+          var amout = this.value;
+          var price = initial_price;
+          if($('input#trading_order_next_step_orderMethod_2').is(":checked")){
+            price = $('#trading_order_next_step_price').val();
+          }
+          var newValue = amout * price;
+          $('#trading_order_next_step_total').removeAttr("readonly").val(newValue).attr("readonly","readonly");
+      })
+
+      $('input#trading_order_next_step_price').change(function() {
+          var amout = $('#trading_order_next_step_amount').val();
+          var price = this.value;
+          var newValue = amout * price;
+          $('#trading_order_next_step_total').removeAttr("readonly").val(newValue).attr("readonly","readonly");
+      })
+
+    });
+  </script>
 {% endblock %}

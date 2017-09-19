@@ -74,11 +74,10 @@ class TradingOrder
     private $orderAction;
 
     /**
-     * @Assert\NotNull()
      * @ORM\OneToOne(targetEntity="OrderStatus")
      * @ORM\JoinColumn(name="order_status_id", referencedColumnName="id", nullable=false)
      */
-    private $OrderStatus;
+    private $orderStatus;
 
     /**
      * @Assert\NotNull()
@@ -226,7 +225,7 @@ class TradingOrder
      */
     public function setOrderStatus(\AppBundle\Entity\OrderStatus $orderStatus)
     {
-        $this->OrderStatus = $orderStatus;
+        $this->orderStatus = $orderStatus;
 
         return $this;
     }
@@ -238,7 +237,7 @@ class TradingOrder
      */
     public function getOrderStatus()
     {
-        return $this->OrderStatus;
+        return $this->orderStatus;
     }
 
     /**

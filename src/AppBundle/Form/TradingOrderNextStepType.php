@@ -42,6 +42,10 @@ class TradingOrderNextStepType extends AbstractType
             'choice_label' => 'name',
             'expanded' => true
           ))
+          ->add('currency', EntityType::class, array(
+            'class' => 'AppBundle:Currency',
+            'choice_label' => 'name',
+          ))
         ;
     }
 

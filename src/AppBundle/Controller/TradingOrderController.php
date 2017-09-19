@@ -48,13 +48,36 @@ class TradingOrderController extends Controller
           $tradeOrder->setOrderAction($orderAction);
           $tradeOrder->setOrderMethod($orderMethod);
 
-          $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array('user' => $this->getUser()));
+          $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array(
+            'user' => $this->getUser(),
+            'action' => $this->generateUrl('trade_order_new_final_step'),
+            'method' => 'POST',
+          ));
 
           return $this->render(':TradingOrder:new-next-step.html.twig', array(
             'form'=> $form->createView(), 'currency' => $currency
           ));
         }
+    }
+
+    /**
+     * @Route("/user/trade/order/new/final-step", name="trade_order_new_final_step")
+     * @Method({"POST"})
+     */
+    public function newFinalStepAction(Request $request)
+    {
+      $tradeOrder = new TradingOrder;
+
+      $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array('user' => $this->getUser()));
+      $form->handleRequest($request);
+
+      var_dump($form->isValid());die();
+      if ($form->isSubmitted() && $form->isValid()){
+        die('création du nouvel ordre');
+      }
 
     }
+
+
 
 }
