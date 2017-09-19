@@ -40,8 +40,16 @@ class TradingOrderController extends Controller
         $form = $this->createForm(TradingOrderFirstStepType::class, $tradeOrder);
         $form->handleRequest($request);
         if ($form->isSubmitted()){
+          $em = $this->getDoctrine()->getManager();
+          $orderAction = $em->getRepository('AppBundle:OrderAction')->find(1);
+          $orderMethod = $em->getRepository('AppBundle:OrderMethod')->find(1);
           $currency = $tradeOrder->getCurrency();
+
+          $tradeOrder->setOrderAction($orderAction);
+          $tradeOrder->setOrderMethod($orderMethod);
+
           $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array('user' => $this->getUser()));
+
           return $this->render(':TradingOrder:new-next-step.html.twig', array(
             'form'=> $form->createView(), 'currency' => $currency
           ));

@@ -19,8 +19,14 @@ class TradingOrderNextStepType extends AbstractType
     {
         $this->user = $options['user'];
         $builder
-          ->add('nbCurrency',TextType::class)
+          ->add('orderMethod', EntityType::class, array(
+            'class' => 'AppBundle:OrderMethod',
+            'choice_label' => 'name',
+            'expanded' => true
+          ))
           ->add('amount',TextType::class)
+          ->add('price',TextType::class)
+          ->add('total',TextType::class)
           ->add('tradingWallet', EntityType::class, array(
             'class' => 'AppBundle:TradingWallet',
             'choice_label' => 'name',
@@ -34,6 +40,7 @@ class TradingOrderNextStepType extends AbstractType
           ->add('orderAction', EntityType::class, array(
             'class' => 'AppBundle:OrderAction',
             'choice_label' => 'name',
+            'expanded' => true
           ))
         ;
     }

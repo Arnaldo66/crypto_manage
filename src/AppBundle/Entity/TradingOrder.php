@@ -46,6 +46,13 @@ class TradingOrder
 
 
     /**
+     * @var float
+     * @Assert\NotBlank()
+     * @ORM\Column(name="total", type="float")
+     */
+    private $total;
+
+    /**
      * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="TradingWallet", inversedBy="tradingOrders")
      * @ORM\JoinColumn(name="trading_wallet_id", referencedColumnName="id", nullable=false)
@@ -280,5 +287,29 @@ class TradingOrder
     public function getOrderMethod()
     {
         return $this->orderMethod;
+    }
+
+    /**
+     * Set total
+     *
+     * @param float $total
+     *
+     * @return TradingOrder
+     */
+    public function setTotal($total)
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+
+    /**
+     * Get total
+     *
+     * @return float
+     */
+    public function getTotal()
+    {
+        return $this->total;
     }
 }
