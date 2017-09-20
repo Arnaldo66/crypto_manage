@@ -19,5 +19,9 @@
       <div>
           <input type="submit" value="{{ 'registration.submit'|trans }}" class="btn btn-lg btn-success btn-block"/>
       </div>
+
+      <div class="pull-right user-register-login">
+        <span>Déja inscrit ? <a href="{{ path('fos_user_security_login') }}">Connectez-vous</a></span>
+      </div>
     </fieldset>
 {{ form_end(form) }}

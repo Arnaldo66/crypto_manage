@@ -1,3 +1,11 @@
 div.connexion-bloc{
   padding:15px;
 }
+
+div.user-register-login{
+  padding:10px;
+}
+
+div.user-register-login span{
+  font-style: italic;
+}

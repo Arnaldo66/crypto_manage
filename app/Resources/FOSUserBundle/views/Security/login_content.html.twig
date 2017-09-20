@@ -18,11 +18,16 @@
       </div>
 
       <div class="checkbox">
+
           <label for="remember_me">
             <input type="checkbox" id="remember_me" name="_remember_me" value="on" />{{ 'security.login.remember_me'|trans }}
           </label>
       </div>
 
       <input type="submit" id="_submit" class="btn btn-lg btn-success btn-block" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+
+      <div class="pull-right user-register-login">
+        <span>Pas encore inscrit ? <a href="{{ path('fos_user_registration_register') }}">Inscription</a></span>
+      </div>
     </fieldset>
 </form>
