@@ -71,13 +71,53 @@ class TradingOrderController extends Controller
       $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array('user' => $this->getUser()));
       $form->handleRequest($request);
 
-      var_dump($form->isValid());die();
       if ($form->isSubmitted() && $form->isValid()){
-        die('création du nouvel ordre');
+        if($this->canFinaliseOrder($tradeOrder)['success']){
+          $this->finaliseOrder($tradeOrder);
+        }
       }
-
+      return $this->render(':TradingOrder:new-next-step.html.twig', array(
+        'form'=> $form->createView(), 'currency' => $tradeOrder->getCurrency()
+      ));
     }
 
+    /**
+     * check creation
+     */
+     private function canFinaliseOrder($tradeOrder){
+       //TODO: symfony workflow state machine
+       //TODO: only buy for the moment
 
+       if($tradeOrder->getOrderAction()->getId() == $this->container->getParameter('order_buy')){
+         // achat: total >= montant euro wallet ?
+         if($tradeOrder->getTradingWallet()->getEuroWallet()->getAmount() < $tradeOrder->getTotal()){
+           return Array("success"=>false, "message"=>"Vous n'avez pas les fonds nécessaires");
+         }
+       }else{
+         //pending
+       }
 
+       return Array("success"=>true, "message"=>"OK");
+     }
+
+     /**
+      * finalise new order
+      */
+      public function finaliseOrder($tradeOrder){
+        $em = $this->getDoctrine()->getManager();
+        $tradeOrder->setOrderStatus($this->getStatus($tradeOrder));
+        var_dump($status->getId());die();
+      }
+
+      /**
+       * get good status
+       */
+       private function getStatus($tradeOrder, $em){
+         if($tradeOrder->getOrderMethod()->getId() == $this->container->getParameter('order_market')){
+           $status = $this->container->getParameter('order_status_ok');
+         }else{
+           $status = $this->container->getParameter('order_status_pending');
+         }
+         return $em->getRepository("AppBundle:OrderStatus")->find($status);
+       }
 }
