@@ -8,6 +8,7 @@ imports:
 parameters:
     locale: fr
     order_buy: 1
+    order_sell: 2
     order_market: 1
     order_status_ok: 1
     order_status_pending: 2

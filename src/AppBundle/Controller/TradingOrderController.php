@@ -88,25 +88,64 @@ class TradingOrderController extends Controller
      private function canFinaliseOrder($tradeOrder){
        //TODO: symfony workflow state machine
        //TODO: check real currency and not amout if he change with js && change total with this value
+       //TODO: total pending buy && sell
+       $em = $this->getDoctrine()->getManager();
        if($tradeOrder->getOrderAction()->getId() == $this->container->getParameter('order_buy')){
-         // achat: total >= montant euro wallet ?
-         if($tradeOrder->getTradingWallet()->getEuroWallet()->getAmount() < $tradeOrder->getTotal()){
+         // achat: total >= montant euro wallet && order pending ?
+         $totalOrderPending = $this->getTotalWAlletPending($tradeOrder->getTradingWallet(),$em);
+         $totalWallet = $tradeOrder->getTradingWallet()->getEuroWallet()->getAmount() - $totalOrderPending;
+         if($totalWallet < $tradeOrder->getTotal()){
            return Array("success"=>false, "message"=>"Vous n'avez pas les fonds nécessaires");
          }
        }else{
          // vente: exists wallet && amount >= trader order amount
-         $em = $this->getDoctrine()->getManager();
          $wallet = $em->getRepository("AppBundle:CurrencyWallet")->findOneBy(array(
            'tradingWallet' => $tradeOrder->getTradingWallet(),
            'currency' => $tradeOrder->getCurrency()
          ));
-         if($wallet === NULL || $wallet->getAmount() < $tradeOrder->getAmount()){
+         $amoutWallet = $wallet->getAmount() - $this->getAmountCurrencyWalletPending($tradeOrder,$em);
+         if($wallet === NULL || $amoutWallet < $tradeOrder->getAmount()){
            return Array("success"=>false, "message"=>"Vous n'avez pas les fonds nécessaires");
          }
        }
 
        return Array("success"=>true, "message"=>"OK");
      }
+
+
+     /**
+      * get total amoutn all order pending for this wallet
+      **/
+      private function getTotalWAlletPending($tradingWallet,$em){
+        $total = 0;
+        $orders = $em->getRepository('AppBundle:TradingOrder')->findBy(array(
+          'tradingWallet' => $tradingWallet,
+          'orderStatus' => $this->container->getParameter('order_status_pending'),
+          'orderAction' => $this->container->getParameter('order_buy')
+        ));
+        foreach ($orders as $order) {
+          $total += $order->getTotal();
+        }
+
+        return $total;
+      }
+
+      /**
+       *
+       */
+       private function getAmountCurrencyWalletPending($tradeOrder,$em){
+         $amount = 0;
+         $orders = $em->getRepository('AppBundle:TradingOrder')->findBy(array(
+           'tradingWallet' => $tradeOrder->getTradingWallet(),
+           'orderStatus' => $this->container->getParameter('order_status_pending'),
+           'orderAction' => $this->container->getParameter('order_sell'),
+           'currency' => $tradeOrder->getCurrency()
+         ));
+         foreach ($orders as $order) {
+           $amount += $order->getAmount();
+         }
+         return $amount;
+       }
 
      /**
       * finalise new order
