@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\TradingOrderFirstStepType;
 use AppBundle\Form\TradingOrderNextStepType;
 use AppBundle\Entity\TradingOrder;
+use AppBundle\Entity\CurrencyWallet;
 
 class TradingOrderController extends Controller
 {
@@ -87,6 +88,7 @@ class TradingOrderController extends Controller
      private function canFinaliseOrder($tradeOrder){
        //TODO: symfony workflow state machine
        //TODO: only buy for the moment
+       //TODO: check real currency and not amout if he change with js
 
        if($tradeOrder->getOrderAction()->getId() == $this->container->getParameter('order_buy')){
          // achat: total >= montant euro wallet ?
@@ -105,8 +107,15 @@ class TradingOrderController extends Controller
       */
       public function finaliseOrder($tradeOrder){
         $em = $this->getDoctrine()->getManager();
-        $tradeOrder->setOrderStatus($this->getStatus($tradeOrder));
-        var_dump($status->getId());die();
+        $tradeOrder->setOrderStatus($this->getStatus($tradeOrder,$em));
+        $tradeOrder->setTotal($this->calculateTotal($tradeOrder));
+        $wallet = $this->incrementeCurrencyWallet($tradeOrder,$em);
+        $this->decrementeEuroWallet($tradeOrder, $total);
+
+        $em->persist($tradeOrder);
+        $em->persist($wallet);
+
+        $em->flush();
       }
 
       /**
@@ -120,4 +129,44 @@ class TradingOrderController extends Controller
          }
          return $em->getRepository("AppBundle:OrderStatus")->find($status);
        }
+
+       /**
+        * calculate total
+        */
+        private function calculateTotal($tradeOrder){
+          //TODO: puts usd value && euro value in currency entity
+          $priceEur = $tradeOrder->getCurrency()->getCurrencyValueMoment()->getPriceEur();
+          return $priceEur * $tradeOrder->getAmount();
+        }
+
+        /**
+         * incrémente wallet
+         */
+         private function incrementeCurrencyWallet($tradeOrder,$em){
+           //check if exists ? create : update
+           $wallet = $em->getRepository("AppBundle:CurrencyWallet")->findOneBy(array(
+             'tradingWallet' => $tradeOrder->getTradingWallet(),
+             'currency' => $tradeOrder->getCurrency()
+           ));
+           if($wallet === NULL){
+             $wallet = new CurrencyWallet();
+             $wallet->setCurrency($tradeOrder->getCurrency());
+             $wallet->setTradingWallet($tradeOrder->getTradingWallet());
+             $wallet->setAmount($tradeOrder->getAmount());
+           }else{
+             $wallet->setAmount($tradeOrder->getAmout() + $wallet->getAmount());
+           }
+
+           return $wallet;
+         }
+
+         /**
+          * decremente euro wallet
+          */
+          private function decrementeEuroWallet($tradeOrder){
+            $euroWallet = $tradeOrder->getTradingWallet()->getEuroWallet();
+            $euroWallet->setAmount($euroWallet->getAmount() - $total);
+          }
+
+
 }
