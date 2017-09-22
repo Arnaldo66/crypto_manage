@@ -74,6 +74,7 @@ class TradingOrderController extends Controller
 
       if ($form->isSubmitted() && $form->isValid()){
         if($this->canFinaliseOrder($tradeOrder)['success']){
+          //TODO: if pending do something else
           $this->finaliseOrder($tradeOrder);
         }
       }
@@ -88,7 +89,6 @@ class TradingOrderController extends Controller
      private function canFinaliseOrder($tradeOrder){
        //TODO: symfony workflow state machine
        //TODO: check real currency and not amout if he change with js && change total with this value
-       //TODO: total pending buy && sell
        $em = $this->getDoctrine()->getManager();
        if($tradeOrder->getOrderAction()->getId() == $this->container->getParameter('order_buy')){
          // achat: total >= montant euro wallet && order pending ?
