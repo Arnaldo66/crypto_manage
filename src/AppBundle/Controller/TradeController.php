@@ -32,10 +32,22 @@ class TradeController extends Controller
     * @ParamConverter("tradingWallet", class="AppBundle:TradingWallet")
     */
     public function showAction(TradingWallet $tradingWallet){
+      $totalCurrencies = $this->getTotalCurrencyWalletValue($tradingWallet);
       return $this->render(':Trade:show.html.twig', array(
-          'tradingWallet' => $tradingWallet
+          'tradingWallet' => $tradingWallet, 'totalCurrencies' => $totalCurrencies
       ));
     }
+
+    /**
+     * get total currency euro value
+     */
+     private function getTotalCurrencyWalletValue($tradingWallet){
+       $total = 0;
+       foreach ($tradingWallet->getCurrencyWallets() as $wallet) {
+         $total += $wallet->getAmount() * $wallet->getCurrency()->getCurrencyValueMoment()->getPriceEur();
+       }
+       return $total;
+     }
 
     /**
      * @Route("/user/trade/new", name="trade_new")

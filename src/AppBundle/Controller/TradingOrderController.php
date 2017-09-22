@@ -189,7 +189,7 @@ class TradingOrderController extends Controller
              'tradingWallet' => $tradeOrder->getTradingWallet(),
              'currency' => $tradeOrder->getCurrency()
            ));
-           $wallet->setAmount($tradeOrder->getAmount() - $wallet->getAmount());
+           $wallet->setAmount($wallet->getAmount() - $tradeOrder->getAmount());
 
            return $wallet;
          }

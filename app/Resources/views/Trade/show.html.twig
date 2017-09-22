@@ -18,10 +18,11 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="well">
-          <p>Montant total: </p>
-          <p>Montant en euro: </p>
-          <p>Montant en crypto-monnaie: </p>
-          <p>Date création: </p>
+          <p>Montant total: {{ tradingWallet.euroWallet.amount + totalCurrencies }}</p>
+          <p>Montant en euro: {{ tradingWallet.euroWallet.amount }}</p>
+          <p>Montant en crypto-monnaie: {{ totalCurrencies }}</p>
+          <p>Date création: {{ tradingWallet.createdAt|date('d/m/Y') }}</p>
+          <p>Publique: {% if tradingWallet.public %}Oui{% else %}Non{% endif %}</p>
       </div>
     </div>
   </div>
@@ -40,16 +41,22 @@
                             <th>Date</th>
                             <th>Type</th>
                             <th>Montant</th>
+                            <th>Prix unitaire</th>
+                            <th>Prix total</th>
                             <th>Status</th>
                           </tr>
                       </thead>
                       <tbody>
-                            <tr class="odd gradeX">
-                              <td>25/04/02</td>
-                              <td>Achat</td>
-                              <td>12</td>
-                              <td>Finalisé</td>
-                            </tr>
+                            {% for tradingOrder in tradingWallet.tradingOrders %}
+                              <tr class="odd gradeX">
+                                <td>{{ tradingOrder.createdAt|date('d/m/Y') }}</td>
+                                <td>{{ tradingOrder.orderAction.name }}</td>
+                                <td>{{ tradingOrder.amount }}</td>
+                                <td>{{ tradingOrder.price }}</td>
+                                <td>{{ tradingOrder.total }}</td>
+                                <td>{{ tradingOrder.orderStatus.name }}</td>
+                              </tr>
+                            {% endfor %}
                       </tbody>
                   </table>
               </div>
@@ -79,13 +86,15 @@
                         </tr>
                     </thead>
                       <tbody>
+                          {% for currencyWallet in tradingWallet.currencyWallets %}
                             <tr class="odd gradeX">
-                              <td>Mettre image</td>
-                              <td>Bitcoin</td>
-                              <td>2999€</td>
-                              <td>0.125</td>
-                              <td>500€</td>
+                              <td><img  src="{{ asset('images/currency-logo/32/' ~ currencyWallet.currency.image) }}" ></td>
+                              <td>{{ currencyWallet.currency.name }}</td>
+                              <td>{{ currencyWallet.currency.currencyValueMoment.priceEur }}</td>
+                              <td>{{ currencyWallet.amount }}</td>
+                              <td>{{ currencyWallet.currency.currencyValueMoment.priceEur * currencyWallet.amount }}</td>
                             </tr>
+                          {% endfor %}
                       </tbody>
                   </table>
               </div>
