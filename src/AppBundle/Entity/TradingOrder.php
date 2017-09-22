@@ -68,20 +68,20 @@ class TradingOrder
 
     /**
      * @Assert\NotNull()
-     * @ORM\OneToOne(targetEntity="OrderAction")
+     * @ORM\ManyToOne(targetEntity="OrderAction")
      * @ORM\JoinColumn(name="order_action_id", referencedColumnName="id", nullable=false)
      */
     private $orderAction;
 
     /**
-     * @ORM\OneToOne(targetEntity="OrderStatus")
+     * @ORM\ManyToOne(targetEntity="OrderStatus")
      * @ORM\JoinColumn(name="order_status_id", referencedColumnName="id", nullable=false)
      */
     private $orderStatus;
 
     /**
      * @Assert\NotNull()
-     * @ORM\OneToOne(targetEntity="OrderMethod")
+     * @ORM\ManyToOne(targetEntity="OrderMethod")
      * @ORM\JoinColumn(name="order_method_id", referencedColumnName="id", nullable=false)
      */
     private $orderMethod;
@@ -193,6 +193,54 @@ class TradingOrder
     }
 
     /**
+     * Set price
+     *
+     * @param float $price
+     *
+     * @return TradingOrder
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return float
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Set total
+     *
+     * @param float $total
+     *
+     * @return TradingOrder
+     */
+    public function setTotal($total)
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+
+    /**
+     * Get total
+     *
+     * @return float
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    /**
      * Set orderAction
      *
      * @param \AppBundle\Entity\OrderAction $orderAction
@@ -241,30 +289,6 @@ class TradingOrder
     }
 
     /**
-     * Set price
-     *
-     * @param float $price
-     *
-     * @return TradingOrder
-     */
-    public function setPrice($price)
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * Get price
-     *
-     * @return float
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
      * Set orderMethod
      *
      * @param \AppBundle\Entity\OrderMethod $orderMethod
@@ -286,29 +310,5 @@ class TradingOrder
     public function getOrderMethod()
     {
         return $this->orderMethod;
-    }
-
-    /**
-     * Set total
-     *
-     * @param float $total
-     *
-     * @return TradingOrder
-     */
-    public function setTotal($total)
-    {
-        $this->total = $total;
-
-        return $this;
-    }
-
-    /**
-     * Get total
-     *
-     * @return float
-     */
-    public function getTotal()
-    {
-        return $this->total;
     }
 }

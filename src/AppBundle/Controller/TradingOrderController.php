@@ -87,16 +87,22 @@ class TradingOrderController extends Controller
      */
      private function canFinaliseOrder($tradeOrder){
        //TODO: symfony workflow state machine
-       //TODO: only buy for the moment
-       //TODO: check real currency and not amout if he change with js
-
+       //TODO: check real currency and not amout if he change with js && change total with this value
        if($tradeOrder->getOrderAction()->getId() == $this->container->getParameter('order_buy')){
          // achat: total >= montant euro wallet ?
          if($tradeOrder->getTradingWallet()->getEuroWallet()->getAmount() < $tradeOrder->getTotal()){
            return Array("success"=>false, "message"=>"Vous n'avez pas les fonds nécessaires");
          }
        }else{
-         //pending
+         // vente: exists wallet && amount >= trader order amount
+         $em = $this->getDoctrine()->getManager();
+         $wallet = $em->getRepository("AppBundle:CurrencyWallet")->findOneBy(array(
+           'tradingWallet' => $tradeOrder->getTradingWallet(),
+           'currency' => $tradeOrder->getCurrency()
+         ));
+         if($wallet === NULL || $wallet->getAmount() < $tradeOrder->getAmount()){
+           return Array("success"=>false, "message"=>"Vous n'avez pas les fonds nécessaires");
+         }
        }
 
        return Array("success"=>true, "message"=>"OK");
@@ -108,9 +114,16 @@ class TradingOrderController extends Controller
       public function finaliseOrder($tradeOrder){
         $em = $this->getDoctrine()->getManager();
         $tradeOrder->setOrderStatus($this->getStatus($tradeOrder,$em));
-        $tradeOrder->setTotal($this->calculateTotal($tradeOrder));
-        $wallet = $this->incrementeCurrencyWallet($tradeOrder,$em);
-        $this->decrementeEuroWallet($tradeOrder, $total);
+        $total = $this->calculateTotal($tradeOrder);
+        $tradeOrder->setTotal($total);
+        if($tradeOrder->getOrderAction()->getId() == $this->container->getParameter('order_buy')){
+          $wallet = $this->incrementeCurrencyWallet($tradeOrder,$em);
+          $this->decrementeEuroWallet($tradeOrder, $total);
+        }else{
+          $wallet = $this->decrementeCurrencyWallet($tradeOrder,$em);
+          $this->incrementeEuroWallet($tradeOrder, $total);
+        }
+
 
         $em->persist($tradeOrder);
         $em->persist($wallet);
@@ -154,7 +167,7 @@ class TradingOrderController extends Controller
              $wallet->setTradingWallet($tradeOrder->getTradingWallet());
              $wallet->setAmount($tradeOrder->getAmount());
            }else{
-             $wallet->setAmount($tradeOrder->getAmout() + $wallet->getAmount());
+             $wallet->setAmount($tradeOrder->getAmount() + $wallet->getAmount());
            }
 
            return $wallet;
@@ -163,10 +176,30 @@ class TradingOrderController extends Controller
          /**
           * decremente euro wallet
           */
-          private function decrementeEuroWallet($tradeOrder){
+          private function decrementeEuroWallet($tradeOrder, $total){
             $euroWallet = $tradeOrder->getTradingWallet()->getEuroWallet();
             $euroWallet->setAmount($euroWallet->getAmount() - $total);
           }
 
+        /**
+         * decremente wallet
+         */
+         private function decrementeCurrencyWallet($tradeOrder,$em){
+           $wallet = $em->getRepository("AppBundle:CurrencyWallet")->findOneBy(array(
+             'tradingWallet' => $tradeOrder->getTradingWallet(),
+             'currency' => $tradeOrder->getCurrency()
+           ));
+           $wallet->setAmount($tradeOrder->getAmount() - $wallet->getAmount());
+
+           return $wallet;
+         }
+
+         /**
+          * incremente euro wallet
+          */
+          private function incrementeEuroWallet($tradeOrder, $total){
+            $euroWallet = $tradeOrder->getTradingWallet()->getEuroWallet();
+            $euroWallet->setAmount($euroWallet->getAmount() + $total);
+          }
 
 }
