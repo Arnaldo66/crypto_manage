@@ -27,6 +27,19 @@ class TradeOrderTest extends WebTestCase
         ));
         $this->client->submit($form);
         $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
+
+        //TODO do another function to submit form in next test
+        $buttonCrawlerNode = $crawler->selectButton('btn-finalise-order');
+        var_dump($buttonCrawlerNode);
+        // $form = $buttonCrawlerNode->form(array(
+        //     'trading_order_next_step[orderAction]'  => '1',
+        //     'trading_order_next_step[orderMethod]'  => '1',
+        //     'trading_order_next_step[tradingWallet]' => '1',
+        //     'trading_order_next_step[amount]' => '1',
+        //     'trading_order_next_step[total]' => '3000',
+        //     'trading_order_next_step[price]' => '3000',
+        // ));
+        //$this->client->submit($form);
     }
 
 }
