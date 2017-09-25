@@ -76,6 +76,9 @@ class TradingOrderController extends Controller
         if($this->canFinaliseOrder($tradeOrder)['success']){
           //TODO: if pending do something else
           $this->finaliseOrder($tradeOrder);
+
+          $this->addFlash('success-message','L\'ordre a bien été enregistré');
+          return $this->redirectToRoute('trade_show', array('id'=>$tradeOrder->getTradingWallet()->getId()));
         }
       }
       return $this->render(':TradingOrder:new-next-step.html.twig', array(
