@@ -23,7 +23,7 @@
                       <tbody>
                           {% for currencyValue in currencyMomentValues %}
                             <tr class="odd gradeX">
-                              <td>{% if currencyValue.currency.image is not null %}<img height="32" width"32" src="{{ asset('images/currency-logo/32/' ~ currencyValue.currency.image ) }}">{% endif %}</td>
+                              <td>{% if currencyValue.currency.image is not null %}<img src="{{ asset('images/currency-logo/32/' ~ currencyValue.currency.image ) }}">{% endif %}</td>
                               <td><a href="{{ path('currency_show', {'slug': currencyValue.currency.slug }) }}">{{ currencyValue.currency.name }}</a></td>
                               <td>{{ currencyValue.currency.symbol }}</td>
                               <td>{{ currencyValue.priceEur|round(2, 'floor')}}</td>
@@ -49,13 +49,11 @@
             </div>
             <div class="panel-body">
                 <p>
-                  <ul>
-                    <li>BTC:</li>
-                    <li>ETH:</li>
-                    <li>LTC:</li>
-                    <li>XMR:</li>
-                    <li>REP:</li>
-                    <li>XPR:</li>
+                  <ul class="donation">
+                    <li><img height="20" width="20" src="{{ asset('images/currency-logo/32/bitcoin.png' ) }}">&nbsp;BTC: 12jzXUWTi6D4yjjUwSzPQUZRECYtXDDznD</li>
+                    <li><img height="20" width="20" src="{{ asset('images/currency-logo/32/ethereum.png' ) }}">&nbsp;ETH: 0x1ECd2fCe910Cb7b1030B8C8588b4D4B62bEf4953</li>
+                    <li><img height="20" width="20" src="{{ asset('images/currency-logo/32/litecoin.png' ) }}">&nbsp;LTC: LZ6WTZopzC7jFVo7VU69DoYePckCvVN3tD</li>
+                    <li><img height="20" width="20" src="{{ asset('images/currency-logo/32/verge.png' ) }}">&nbsp;XVG: DC2mgAudncwYzLFaZkpaYVy6TdE6XvYLRe</li>
                   </ul>
                 </p>
             </div>
