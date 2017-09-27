@@ -24,7 +24,8 @@ class ContactController extends Controller
           $em = $this->getDoctrine()->getManager();
           $em->persist($contact);
           $em->flush();
-          //TODO: add test and sending message
+
+          $this->sendContactEmail($contact);
           $this->addFlash('success-message','Votre message a bien été envoyé');
           return $this->redirectToRoute('contact');
         }
@@ -33,4 +34,18 @@ class ContactController extends Controller
         ));
     }
 
+    /**
+     * send contact email
+     */
+     private function sendContactEmail($contact){
+       $mailer = $this->get('mailer');
+       $message = (new \Swift_Message('Hello Email'))
+        ->setFrom($contact->getEmail())
+        ->setTo('a.parseval@gmail.com')
+        ->setBody(
+            $contact->getMessage(),
+            'text/html'
+        );
+        $mailer->send($message);
+     }
 }
