@@ -4,14 +4,13 @@ namespace AppBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class ContactControllerTest extends WebTestCase
+class AboutControllerTest extends WebTestCase
 {
-
-    public function testNew()
+    public function testIndex()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/contact');
+        $crawler = $client->request('GET', '/about');
         $this->assertEquals(200,$client->getResponse()->getStatusCode());
     }
 
