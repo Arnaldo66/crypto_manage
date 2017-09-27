@@ -49,24 +49,21 @@ class CurrencyValueMoment
     /**
      * @var float
      *
-     * @Assert\NotBlank()
-     * @ORM\Column(name="market_cap_usd", type="float")
+     * @ORM\Column(name="market_cap_usd", type="float", nullable=true)
      */
     private $marketCapUsd;
 
     /**
      * @var float
      *
-     * @Assert\NotBlank()
-     * @ORM\Column(name="available_supply", type="float")
+     * @ORM\Column(name="available_supply", type="float", nullable=true)
      */
     private $availableSupply;
 
     /**
      * @var float
      *
-     * @Assert\NotBlank()
-     * @ORM\Column(name="total_supply", type="float")
+     * @ORM\Column(name="total_supply", type="float", nullable=true)
      */
     private $totalSupply;
 

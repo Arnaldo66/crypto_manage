@@ -27,9 +27,8 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-      //TODO: error on ,no limit: have to investigate
       $client = new \GuzzleHttp\Client();
-      $res = $client->request('GET', 'https://api.coinmarketcap.com/v1/ticker/?convert=EUR&limit=200');
+      $res = $client->request('GET', 'https://api.coinmarketcap.com/v1/ticker/?convert=EUR');
       $em = $this->getContainer()->get('doctrine')->getManager();
 
       //insert old value in table currencyValueDay
@@ -89,23 +88,25 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
           $em->persist($currency);
         }
 
-        $currencyValueMoment = new CurrencyValueMoment;
+        $currencyValueMoment = $em->getRepository('AppBundle:CurrencyValueMoment')->findOneBy(array('currency'=>$currency));
+        if($currencyValueMoment === NULL){
+          $currencyValueMoment = new CurrencyValueMoment;
 
-        $currencyValueMoment->setCurrency($currency);
-        $currencyValueMoment->setRank($value->rank);
-        $currencyValueMoment->setPriceUsd($value->price_usd);
-        $currencyValueMoment->setPriceBtc($value->price_btc);
-        $currencyValueMoment->setMarketCapUsd($value->market_cap_usd);
-        $currencyValueMoment->setAvailableSupply($value->available_supply);
-        $currencyValueMoment->setTotalSupply($value->total_supply);
-        $currencyValueMoment->setPercentChange1h($value->percent_change_1h);
-        $currencyValueMoment->setPercentChange24h($value->percent_change_24h);
-        $currencyValueMoment->setPercentChange7d($value->percent_change_7d);
-        $currencyValueMoment->setLastUpdated($value->last_updated);
-        $currencyValueMoment->setPriceEur($value->price_eur);
-        $currencyValueMoment->setMarketCapEur($value->percent_change_24h);
-
-        $em->persist($currencyValueMoment);
+          $currencyValueMoment->setCurrency($currency);
+          $currencyValueMoment->setRank($value->rank);
+          $currencyValueMoment->setPriceUsd($value->price_usd);
+          $currencyValueMoment->setPriceBtc($value->price_btc);
+          $currencyValueMoment->setMarketCapUsd($value->market_cap_usd);
+          $currencyValueMoment->setAvailableSupply($value->available_supply);
+          $currencyValueMoment->setTotalSupply($value->total_supply);
+          $currencyValueMoment->setPercentChange1h($value->percent_change_1h);
+          $currencyValueMoment->setPercentChange24h($value->percent_change_24h);
+          $currencyValueMoment->setPercentChange7d($value->percent_change_7d);
+          $currencyValueMoment->setLastUpdated($value->last_updated);
+          $currencyValueMoment->setPriceEur($value->price_eur);
+          $currencyValueMoment->setMarketCapEur($value->percent_change_24h);
+          $em->persist($currencyValueMoment);
+        }
         $em->flush();
     }
 
