@@ -9,3 +9,7 @@ div.user-register-login{
 div.user-register-login span{
   font-style: italic;
 }
+
+ul.donation{
+  list-style: none;
+}

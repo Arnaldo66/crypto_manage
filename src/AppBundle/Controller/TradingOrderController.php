@@ -11,6 +11,7 @@ use AppBundle\Form\TradingOrderFirstStepType;
 use AppBundle\Form\TradingOrderNextStepType;
 use AppBundle\Entity\TradingOrder;
 use AppBundle\Entity\CurrencyWallet;
+use AppBundle\Service\ManageTradeOrder;
 
 class TradingOrderController extends Controller
 {
@@ -63,7 +64,7 @@ class TradingOrderController extends Controller
      * @Route("/user/trade/order/new/final-step", name="trade_order_new_final_step")
      * @Method({"POST"})
      */
-    public function newFinalStepAction(Request $request)
+    public function newFinalStepAction(Request $request, ManageTradeOrder $manageTradeOrder)
     {
 
       die('youhou');
@@ -74,8 +75,10 @@ class TradingOrderController extends Controller
 
       if ($form->isSubmitted() && $form->isValid()){
         if($this->canFinaliseOrder($tradeOrder)['success']){
-          //TODO: if pending do something else
           $this->finaliseOrder($tradeOrder);
+
+          $this->addFlash('success-message','L\'ordre a bien été enregistré');
+          return $this->redirectToRoute('trade_show', array('id'=>$tradeOrder->getTradingWallet()->getId()));
         }
       }
       return $this->render(':TradingOrder:new-next-step.html.twig', array(
@@ -155,17 +158,20 @@ class TradingOrderController extends Controller
         $tradeOrder->setOrderStatus($this->getStatus($tradeOrder,$em));
         $total = $this->calculateTotal($tradeOrder);
         $tradeOrder->setTotal($total);
-        if($tradeOrder->getOrderAction()->getId() == $this->container->getParameter('order_buy')){
-          $wallet = $this->incrementeCurrencyWallet($tradeOrder,$em);
-          $this->decrementeEuroWallet($tradeOrder, $total);
-        }else{
-          $wallet = $this->decrementeCurrencyWallet($tradeOrder,$em);
-          $this->incrementeEuroWallet($tradeOrder, $total);
+
+        //In order market we  really change value, in limit juste create order with pending status
+        if($tradeOrder->getOrderMethod()->getId() == $this->container->getParameter('order_market')){
+          if($tradeOrder->getOrderAction()->getId() == $this->container->getParameter('order_buy')){
+            $wallet = $this->incrementeCurrencyWallet($tradeOrder,$em);
+            $this->decrementeEuroWallet($tradeOrder, $total);
+          }else{
+            $wallet = $this->decrementeCurrencyWallet($tradeOrder,$em);
+            $this->incrementeEuroWallet($tradeOrder, $total);
+          }
+          $em->persist($wallet);
         }
-
-
         $em->persist($tradeOrder);
-        $em->persist($wallet);
+
 
         $em->flush();
       }

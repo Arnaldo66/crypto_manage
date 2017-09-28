@@ -4,7 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bienvenue sur crypto-currency.com</title>
+    {% block title %}
+      <title>Bienvenue sur e-golden-boy.com</title>
+    {% endblock title %}
+    {% block meta %}
+      <meta name="description" content="E golden boy affiche le cours en temps réel du bitcoin et des autres crypto-monnaies. Notre outil vous permet de faire de la simulation de trading et de mettre en place des alertes de hausse ou de baisse du cours." />
+    {% endblock meta %}
     {% block stylesheets %}
         {% stylesheets '../app/Resources/public/css/*' filter='cssrewrite' %}
             <link rel="stylesheet" href="{{ asset_url }}" />
@@ -19,8 +24,6 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-
   </head>
   <body>
     <div id="wrapper">
@@ -31,7 +34,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     {% block title_wrapper %}
-                      <h1 class="page-header">Dashboard</h1>
+                      <h1 class="page-header">Tableau de bord</h1>
                     {% endblock title_wrapper %}
                 </div>
             </div>
