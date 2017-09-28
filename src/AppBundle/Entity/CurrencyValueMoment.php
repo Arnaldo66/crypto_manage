@@ -90,7 +90,6 @@ class CurrencyValueMoment
 
     /**
      * @var int
-     *
      * @Assert\NotBlank()
      * @ORM\Column(name="last_updated", type="integer")
      */

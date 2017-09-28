@@ -46,7 +46,6 @@ class TradingOrderController extends Controller
           $orderAction = $em->getRepository('AppBundle:OrderAction')->find(1);
           $orderMethod = $em->getRepository('AppBundle:OrderMethod')->find(1);
           $currency = $tradeOrder->getCurrency();
-
           $tradeOrder->setOrderAction($orderAction);
           $tradeOrder->setOrderMethod($orderMethod);
 
@@ -55,7 +54,6 @@ class TradingOrderController extends Controller
             'action' => $this->generateUrl('trade_order_new_final_step'),
             'method' => 'POST',
           ));
-
           return $this->render(':TradingOrder:new-next-step.html.twig', array(
             'form'=> $form->createView(), 'currency' => $currency
           ));
@@ -68,6 +66,8 @@ class TradingOrderController extends Controller
      */
     public function newFinalStepAction(Request $request, ManageTradeOrder $manageTradeOrder)
     {
+
+      die('youhou');
       $tradeOrder = new TradingOrder;
 
       $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array('user' => $this->getUser()));
