@@ -10,5 +10,15 @@
 {% endblock title_wrapper %}
 
 {% block body %}
-<p>Module en cours de développement</p>
+  <div class="row">
+    <div class="col-lg-6">
+      {{ form_start(form) }}
+
+        <div class="form-group">
+          <label>Choix de la device</label>
+          {{ form_widget(form.currency,{'attr':{'class':'form-control'}}) }}
+        </div>
+      {{ form_end(form) }}
+    </div>
+  </div>
 {% endblock %}
