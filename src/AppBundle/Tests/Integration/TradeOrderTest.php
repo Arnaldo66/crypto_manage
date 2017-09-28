@@ -17,28 +17,17 @@ class TradeOrderTest extends WebTestCase
       ));
     }
 
-    public function testCreateOrder(){
-        $crawler = $this->client->request('GET', '/user/trade/order/new');
-        $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
+    public function testCreateWallet()
+    {
+        $crawler = $this->client->request('GET', '/user/trade/new');
+        $buttonCrawlerNode = $crawler->selectButton('btn-create-trading');
 
-        $buttonCrawlerNode = $crawler->selectButton('btn-create-order');
         $form = $buttonCrawlerNode->form(array(
-            'trading_order_first_step[currency]'  => '1',
+            'trading_wallet[name]'  => 'Name',
         ));
-        $crawler = $this->client->submit($form);
-        $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
+        $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isRedirect('/user/trade/wallets'));
 
-        $buttonCrawlerNode = $crawler->selectButton('btn-finalise-order');
-        $form = $buttonCrawlerNode->form(array(
-            'trading_order_next_step[orderAction]'  => '1',
-            'trading_order_next_step[orderMethod]'  => '1',
-            'trading_order_next_step[tradingWallet]' => '1',
-            'trading_order_next_step[amount]' => '1',
-            'trading_order_next_step[total]' => '3000',
-            'trading_order_next_step[price]' => '3000',
-        ));
-        $crawler = $this->client->submit($form);
-        $this->assertTrue($this->client->getResponse()->isRedirect('/user/trade/wallets/1'));
         $crawler = $this->client->followRedirect();
         $this->assertCount(1, $crawler->filter('div.alert-success'));
     }
