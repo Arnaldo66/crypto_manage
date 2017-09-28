@@ -4,7 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bienvenue sur crypto-currency.com</title>
+    {% block title %}
+      <title>Bienvenue sur e-golden-boy.com</title>
+    {% endblock title %}
+    {% block meta %}
+    {% endblock meta %}
     {% block stylesheets %}
         {% stylesheets '../app/Resources/public/css/*' filter='cssrewrite' %}
             <link rel="stylesheet" href="{{ asset_url }}" />
