@@ -25,21 +25,22 @@ class TradeOrderTest extends WebTestCase
         $form = $buttonCrawlerNode->form(array(
             'trading_order_first_step[currency]'  => '1',
         ));
-        $this->client->submit($form);
+        $crawler = $this->client->submit($form);
         $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
 
-        //TODO do another function to submit form in next test
         $buttonCrawlerNode = $crawler->selectButton('btn-finalise-order');
-        var_dump($buttonCrawlerNode);
-        // $form = $buttonCrawlerNode->form(array(
-        //     'trading_order_next_step[orderAction]'  => '1',
-        //     'trading_order_next_step[orderMethod]'  => '1',
-        //     'trading_order_next_step[tradingWallet]' => '1',
-        //     'trading_order_next_step[amount]' => '1',
-        //     'trading_order_next_step[total]' => '3000',
-        //     'trading_order_next_step[price]' => '3000',
-        // ));
-        //$this->client->submit($form);
+        $form = $buttonCrawlerNode->form(array(
+            'trading_order_next_step[orderAction]'  => '1',
+            'trading_order_next_step[orderMethod]'  => '1',
+            'trading_order_next_step[tradingWallet]' => '1',
+            'trading_order_next_step[amount]' => '1',
+            'trading_order_next_step[total]' => '3000',
+            'trading_order_next_step[price]' => '3000',
+        ));
+        $crawler = $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isRedirect('/user/trade/wallets/1'));
+        $crawler = $this->client->followRedirect();
+        $this->assertCount(1, $crawler->filter('div.alert-success'));
     }
 
 }

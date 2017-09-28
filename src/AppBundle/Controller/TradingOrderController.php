@@ -66,8 +66,6 @@ class TradingOrderController extends Controller
      */
     public function newFinalStepAction(Request $request, ManageTradeOrder $manageTradeOrder)
     {
-
-      die('youhou');
       $tradeOrder = new TradingOrder;
 
       $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array('user' => $this->getUser()));
