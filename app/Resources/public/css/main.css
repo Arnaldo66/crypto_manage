@@ -13,3 +13,11 @@ div.user-register-login span{
 ul.donation{
   list-style: none;
 }
+
+div#currency-panel-information{
+  padding:15px;
+}
+
+div#currency-panel-information span{
+  font-size: 17px;
+}
