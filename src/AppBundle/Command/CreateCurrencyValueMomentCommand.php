@@ -44,6 +44,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
           foreach ($body as $key => $value) {
             $this->createCurrencyValueMoment($em,$value);
           }
+          $em->flush();
           $output_message = 'OK';
       }
 
@@ -76,38 +77,37 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
 
     //Create new Currency if not exist. Base on currency name
     private function createCurrencyValueMoment($em,$value){
-        $currency = $em->getRepository('AppBundle:Currency')->findOneByName($value->name);
+        $currency = $em->getRepository('AppBundle:Currency')->findOneByUniqueName($value->id);
 
         //create currency if not exists
         if($currency === NULL){
           $currency = new Currency;
           $currency->setName($value->name);
+          $currency->setUniqueName($value->id);
           $currency->setSymbol($value->symbol);
           $currency->setImage($this->createImage($value));
-
+          $currency->setPriceUsd($value->price_usd);
+          $currency->setPriceEur($value->price_eur);
           $em->persist($currency);
         }
 
-        $currencyValueMoment = $em->getRepository('AppBundle:CurrencyValueMoment')->findOneBy(array('currency'=>$currency));
-        if($currencyValueMoment === NULL){
-          $currencyValueMoment = new CurrencyValueMoment;
 
-          $currencyValueMoment->setCurrency($currency);
-          $currencyValueMoment->setRank($value->rank);
-          $currencyValueMoment->setPriceUsd($value->price_usd);
-          $currencyValueMoment->setPriceBtc($value->price_btc);
-          $currencyValueMoment->setMarketCapUsd($value->market_cap_usd);
-          $currencyValueMoment->setAvailableSupply($value->available_supply);
-          $currencyValueMoment->setTotalSupply($value->total_supply);
-          $currencyValueMoment->setPercentChange1h($value->percent_change_1h);
-          $currencyValueMoment->setPercentChange24h($value->percent_change_24h);
-          $currencyValueMoment->setPercentChange7d($value->percent_change_7d);
-          $currencyValueMoment->setLastUpdated($value->last_updated);
-          $currencyValueMoment->setPriceEur($value->price_eur);
-          $currencyValueMoment->setMarketCapEur($value->percent_change_24h);
-          $em->persist($currencyValueMoment);
-        }
-        $em->flush();
+        $currencyValueMoment = new CurrencyValueMoment;
+        $currencyValueMoment->setCurrency($currency);
+        $currencyValueMoment->setRank($value->rank);
+        $currencyValueMoment->setPriceUsd($value->price_usd);
+        $currencyValueMoment->setPriceBtc($value->price_btc);
+        $currencyValueMoment->setMarketCapUsd($value->market_cap_usd);
+        $currencyValueMoment->setAvailableSupply($value->available_supply);
+        $currencyValueMoment->setTotalSupply($value->total_supply);
+        $currencyValueMoment->setPercentChange1h($value->percent_change_1h);
+        $currencyValueMoment->setPercentChange24h($value->percent_change_24h);
+        $currencyValueMoment->setPercentChange7d($value->percent_change_7d);
+        $currencyValueMoment->setLastUpdated($value->last_updated);
+        $currencyValueMoment->setPriceEur($value->price_eur);
+        $currencyValueMoment->setMarketCapEur($value->percent_change_24h);
+        $em->persist($currencyValueMoment);
+
     }
 
 
@@ -116,7 +116,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
       $size = array('32','64');
       $folder = $this->getContainer()->get('kernel')->getRootDir().'/../web/images/currency-logo';
       $this->createLogoFolder($folder, $size);
-      $filename = strtolower($value->name.'.png');
+      $filename = $value->id.'.png';
 
       if($this->getContainer()->get('kernel')->getEnvironment() !== 'test'){
         foreach ($size as $value) {

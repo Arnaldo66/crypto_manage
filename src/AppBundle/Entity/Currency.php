@@ -12,7 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="currency")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CurrencyRepository")
- * @UniqueEntity("name")
+ * @UniqueEntity("uniqueName")
  */
 class Currency
 {
@@ -29,7 +29,7 @@ class Currency
      * @var string
      * @Assert\NotBlank()
      * @Assert\Length(max = 255)
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
@@ -47,6 +47,30 @@ class Currency
      */
     private $symbol;
 
+    /**
+     * @var string
+     * @Assert\NotBlank()
+     * @Assert\Length(max = 255)
+     * @ORM\Column(name="unique_name", type="string", length=255, unique=true)
+     */
+    private $uniqueName;
+
+
+    /**
+     * @var float
+     *
+     * @Assert\NotBlank()
+     * @ORM\Column(name="price_usd", type="float")
+     */
+    private $priceUsd;
+
+    /**
+     * @var float
+     *
+     * @Assert\NotBlank()
+     * @ORM\Column(name="price_eur", type="float")
+     */
+    private $priceEur;
 
     /**
      * @var datetime
@@ -340,5 +364,77 @@ class Currency
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Set uniqueName
+     *
+     * @param string $uniqueName
+     *
+     * @return Currency
+     */
+    public function setUniqueName($uniqueName)
+    {
+        $this->uniqueName = $uniqueName;
+
+        return $this;
+    }
+
+    /**
+     * Get uniqueName
+     *
+     * @return string
+     */
+    public function getUniqueName()
+    {
+        return $this->uniqueName;
+    }
+
+    /**
+     * Set priceUsd
+     *
+     * @param float $priceUsd
+     *
+     * @return Currency
+     */
+    public function setPriceUsd($priceUsd)
+    {
+        $this->priceUsd = $priceUsd;
+
+        return $this;
+    }
+
+    /**
+     * Get priceUsd
+     *
+     * @return float
+     */
+    public function getPriceUsd()
+    {
+        return $this->priceUsd;
+    }
+
+    /**
+     * Set priceEur
+     *
+     * @param float $priceEur
+     *
+     * @return Currency
+     */
+    public function setPriceEur($priceEur)
+    {
+        $this->priceEur = $priceEur;
+
+        return $this;
+    }
+
+    /**
+     * Get priceEur
+     *
+     * @return float
+     */
+    public function getPriceEur()
+    {
+        return $this->priceEur;
     }
 }

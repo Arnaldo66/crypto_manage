@@ -27,6 +27,9 @@ class CurrencyTest extends KernelTestCase
       $currency = new Currency;
       $currency->setName('Bitcoin');
       $currency->setSymbol('BIT');
+      $currency->setUniqueName('bitcoin');
+      $currency->setPriceUsd('4000');
+      $currency->setPriceEur('3500');
       $currency->setCreatedAt(new \DateTime());
       $currency->setUpdatedAt(new \DateTime());
 
@@ -42,6 +45,9 @@ class CurrencyTest extends KernelTestCase
       $currency = new Currency;
       $currency->setName(str_repeat("a", 256));
       $currency->setSymbol('BIT');
+      $currency->setUniqueName('test');
+      $currency->setPriceUsd('4000');
+      $currency->setPriceEur('3500');
       $currency->setCreatedAt(new \DateTime());
       $currency->setUpdatedAt(new \DateTime());
 
@@ -57,6 +63,9 @@ class CurrencyTest extends KernelTestCase
       $currency = new Currency;
       $currency->setName('thisnameneverexists');
       $currency->setSymbol(str_repeat("a", 31));
+      $currency->setUniqueName('test');
+      $currency->setPriceUsd('4000');
+      $currency->setPriceEur('3500');
       $currency->setCreatedAt(new \DateTime());
       $currency->setUpdatedAt(new \DateTime());
 
@@ -72,6 +81,9 @@ class CurrencyTest extends KernelTestCase
       $currency = new Currency;
       $currency->setName(NULL);
       $currency->setSymbol('BIT');
+      $currency->setUniqueName('test');
+      $currency->setPriceUsd('4000');
+      $currency->setPriceEur('3500');
 
       $violationList = $this->validator->validate($currency);
       $this->assertEquals($violationList->count(), 1);
@@ -85,6 +97,9 @@ class CurrencyTest extends KernelTestCase
       $currency = new Currency;
       $currency->setName('thisnameneverexists');
       $currency->setSymbol('bitbitbit');
+      $currency->setUniqueName('test');
+      $currency->setPriceUsd('4000');
+      $currency->setPriceEur('3500');
 
       $violationList = $this->validator->validate($currency);
       $this->assertEquals($violationList->count(), 0);
