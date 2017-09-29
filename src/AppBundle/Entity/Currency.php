@@ -73,6 +73,14 @@ class Currency
     private $priceEur;
 
     /**
+     * @var int
+     *
+     * @Assert\NotBlank()
+     * @ORM\Column(name="rank", type="integer")
+     */
+    private $rank;
+
+    /**
      * @var datetime
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
@@ -436,5 +444,29 @@ class Currency
     public function getPriceEur()
     {
         return $this->priceEur;
+    }
+
+    /**
+     * Set rank
+     *
+     * @param integer $rank
+     *
+     * @return Currency
+     */
+    public function setRank($rank)
+    {
+        $this->rank = $rank;
+
+        return $this;
+    }
+
+    /**
+     * Get rank
+     *
+     * @return integer
+     */
+    public function getRank()
+    {
+        return $this->rank;
     }
 }
