@@ -469,4 +469,11 @@ class Currency
     {
         return $this->rank;
     }
+
+    /**
+     * show currency name and value for converter
+     */
+     public function getNameValue(){
+       return $this->getName().': '.round($this->getPriceEur(),3);
+     }
 }
