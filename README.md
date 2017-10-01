@@ -16,6 +16,8 @@ TODO:
   - Best page currency with graph
   - Add and amelioration test performances
   - cron for order method "limit"
+  - Test view (title, description)
+  - multilanguage - french - english - spanish
 
   Idea:
   - for cache (redis, memcached ..) puts moment value in cache for front. Reload it by cron
