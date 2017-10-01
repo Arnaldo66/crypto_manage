@@ -8,25 +8,15 @@ What you need:
   - mysql
   - sqlite3
 
-A list of what I need in a first time:
-  - Create specific database for insert value of different crypto currency
-  - Create cron for get api information from the site: https://coinmarketcap.com/api/
-  - Create a crawler for get a largest history a any crypto
-  - In a basic front page show the 50 best currency at the moment
-
-In a second time create a back office for manage information about any currency:
-  - link to buy, history ...
-
-After that:
-  - Create a complete user system
-  - Create a configurable alert system (mail,sms) for inform user when a specific currency up/down
+TODO:
+  - About page
+  - First step page
+  - alert functionnality
+  - back office admin (users, currency, contact send)
+  - Best page currency with graph
+  - Add and amelioration test performances
+  - cron for order method "limit"
 
   Idea:
-  - best up down avg in hours, days, week, year, all
-  - best down " " " "
   - for cache (redis, memcached ..) puts moment value in cache for front. Reload it by cron
-  - Do a game trading free with false money
-  - Create home page, array of currency. Login and register link to.
-  - Create page. Contact && about.
   - Create a widget with 10 interesting crypto. This widget is parametrable by user on his account
-  - Do admin for create/update some value
