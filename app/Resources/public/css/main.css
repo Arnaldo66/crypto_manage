@@ -21,3 +21,15 @@ div#currency-panel-information{
 div#currency-panel-information span{
   font-size: 17px;
 }
+
+div#menu-side-bar{
+  margin-top:101px!important;
+}
+
+div#header-title{
+  padding: 25px 25px!important;
+}
+
+div#footer{
+  padding:15px;
+}
