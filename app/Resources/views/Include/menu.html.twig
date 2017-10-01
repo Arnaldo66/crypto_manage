@@ -16,10 +16,15 @@
                     <a href="{{ path('converter')}}"><i class="fa fa-exchange fa-fw"></i> Convertisseur</a>
                 </li>
                 <li>
-                    <a href="{{ path('trade_new') }}"><i class="fa fa-euro fa-fw"></i> Simulation de trading</a>
-                </li>
-                <li>
-                    <a href="{{ path('trade_index') }}"><i class="fa fa-folder-open fa-fw"></i> Mes portefeuilles</a>
+                    <a href="#"><i class="fa fa-euro fa-fw"></i> Simulation de trading<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li>
+                            <a href="{{ path('trade_new') }}"> Nouveau</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('trade_index') }}"> Mes portefeuilles</a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="{{ path('alert') }}"><i class="fa fa-exclamation-circle fa-fw"></i> Mes alertes</a>
