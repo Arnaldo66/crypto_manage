@@ -12,10 +12,12 @@
 
         <div class="form-group">
           <label>Libellé du portefeuille</label>
+          {{ form_errors(form.name) }}
           {{ form_widget(form.name,{'attr':{'class':'form-control'}}) }}
         </div>
 
         <div class="form-group">
+          {{ form_errors(form.public) }}
           <div class="radio">
             <label>
               {{ form_widget(form.public[0],{'attr':{'autocomplete':'off'}}) }}
