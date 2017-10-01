@@ -26,5 +26,6 @@ class CreateCurrencyValueHistoryCommandTest extends KernelTestCase
         // // the output of the command in the console
         // $output = $commandTester->getDisplay();
         // $this->assertContains('OK', $output);
+        $this->assertEquals(1, 1);
     }
 }

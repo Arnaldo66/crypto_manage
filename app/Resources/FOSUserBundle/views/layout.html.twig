@@ -36,6 +36,9 @@
                     <div class="panel-body">
                       {% block fos_user_content %}
                       {% endblock fos_user_content %}
+                      {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <a href="{{ path('home')}}">Retour accueil</a>
+                      {% endif %}
                     </div>
                 </div>
             </div>

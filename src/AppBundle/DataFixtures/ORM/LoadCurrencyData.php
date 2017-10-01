@@ -16,6 +16,7 @@ class LoadCurrencyData extends AbstractFixture implements OrderedFixtureInterfac
         $currency->setUniqueName('bitcoin');
         $currency->setPriceUsd('4000');
         $currency->setPriceEur('3500');
+        $currency->setRank(1);
 
         $manager->persist($currency);
         $manager->flush();
