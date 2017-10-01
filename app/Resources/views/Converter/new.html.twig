@@ -15,20 +15,20 @@
 
 {% block body %}
   <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-12">
       {{ form_start(form) }}
 
-        <div class="form-group col-lg-2">
+        <div class="form-group col-lg-3">
           <label>Nombre de device</label>
           {{ form_widget(form.amount,{'attr':{'class':'form-control'}}) }}
         </div>
 
-        <div class="form-group col-lg-2">
+        <div class="form-group col-lg-3">
           <label>Choix de la device</label>
           {{ form_widget(form.currency,{'attr':{'class':'form-control js-select-currency'}}) }}
         </div>
 
-        <div class="form-group col-lg-2">
+        <div class="form-group col-lg-3">
           <label>Résultat en euro</label>
           {{ form_widget(form.result,{'attr':{'class':'form-control'}}) }}
         </div>
