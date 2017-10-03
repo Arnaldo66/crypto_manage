@@ -21,7 +21,8 @@ class CronCheckLimitActionCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('OK');
+      $em = $this->getContainer()->get('doctrine')->getManager();
     }
 
 }
+ 
