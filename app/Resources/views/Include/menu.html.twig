@@ -10,30 +10,30 @@
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
                 <li>
-                    <a href="{{ path('home')}}"><i class="fa fa-dashboard fa-fw"></i> Accueil</a>
+                    <a href="{{ path('home')}}"><i class="fa fa-dashboard fa-fw"></i> {{ 'Home'|trans }}</a>
                 </li>
                 <li>
-                    <a href="{{ path('converter')}}"><i class="fa fa-exchange fa-fw"></i> Convertisseur</a>
+                    <a href="{{ path('converter')}}"><i class="fa fa-exchange fa-fw"></i> {{ 'Converter'|trans }}</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-euro fa-fw"></i> Simulation de trading<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-euro fa-fw"></i> {{ 'Trading simulation'|trans }}<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         <li>
-                            <a href="{{ path('trade_new') }}"> Nouveau</a>
+                            <a href="{{ path('trade_new') }}"> {{ 'New'|trans }}</a>
                         </li>
                         <li>
-                            <a href="{{ path('trade_index') }}"> Mes portefeuilles</a>
+                            <a href="{{ path('trade_index') }}"> {{ 'My wallets'|trans }}</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="{{ path('alert') }}"><i class="fa fa-exclamation-circle fa-fw"></i> Mes alertes</a>
+                    <a href="{{ path('alert') }}"><i class="fa fa-exclamation-circle fa-fw"></i> {{ 'My Alerts'|trans }}</a>
                 </li>
                 <li>
-                    <a href="{{ path('contact') }}"><i class="fa fa-envelope-o fa-fw"></i> Contact</a>
+                    <a href="{{ path('contact') }}"><i class="fa fa-envelope-o fa-fw"></i> {{ 'Contact'|trans }}</a>
                 </li>
                 <li>
-                    <a href="{{ path('about') }}"><i class="fa fa-info-circle  fa-fw"></i> A propos</a>
+                    <a href="{{ path('about') }}"><i class="fa fa-info-circle  fa-fw"></i> {{ 'About'|trans }}</a>
                 </li>
             </ul>
         </div>
