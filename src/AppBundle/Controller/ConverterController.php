@@ -6,18 +6,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use AppBundle\Form\ConverterType;
+use AppBundle\Form\ConverterInverseType;
 
 class ConverterController extends Controller
 {
     /**
      * @Route("/convertisseur", name="converter")
      */
-    public function newAction()
+    public function indexAction()
     {
-        //TODO: limiter aux 100 meilleur device par rank
         $form = $this->createForm(ConverterType::class);
-        return $this->render(':Converter:new.html.twig', array(
-          'form' => $form->createView()
+        $form_inverse = $this->createForm(ConverterInverseType::class);
+        return $this->render(':Converter:index.html.twig', array(
+          'form' => $form->createView(), 'form_inverse' => $form_inverse->createView()
         ));
     }
 

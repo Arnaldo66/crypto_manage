@@ -1,0 +1,112 @@
+{% extends "::base.html.twig" %}
+
+{% block local_stylesheets %}
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
+{% block title %}
+  <title>Convertisseur - e-goldenboy.com</title>
+{% endblock title %}
+{% block meta %}
+  <meta name="description" content="Permet de convertir un montant en crypto-monnaie type bitcoin en euro. Le convertisseur de bitcoin et altcoin fonctionne également en sens inverse: Euro vers bitcoin, altcoin" />
+{% endblock meta %}
+
+{% block title_wrapper %}
+  <h1 class="page-header">Convertisseur de crypto-monnaies</h1>
+{% endblock title_wrapper %}
+
+{% block body %}
+<div class="row">
+  <div class="col-lg-8">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Nombre de crypto >>> Euro
+      </div>
+      <div class="panel-body">
+        {{ form_start(form) }}
+          <div class="form-group col-lg-3">
+            <label>Nombre de devises</label>
+            {{ form_widget(form.amount,{'attr':{'class':'form-control','autocomplete':'off'}}) }}
+          </div>
+
+          <div class="form-group col-lg-3">
+            <label>Choix de la device</label>
+            {{ form_widget(form.currency,{'attr':{'class':'form-control js-select-currency','autocomplete':'off'}}) }}
+          </div>
+
+          <div class="form-group col-lg-3">
+            <label>Résultat en euro</label>
+            {{ form_widget(form.result,{'attr':{'class':'form-control','autocomplete':'off'}}) }}
+          </div>
+        {{ form_end(form) }}
+      </div>
+      <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-8">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Euro >>> Nombre de crypto-monnaie (bitcoin, ethereum, ripple ...)
+      </div>
+      <div class="panel-body">
+        {{ form_start(form_inverse) }}
+          <div class="form-group col-lg-3">
+            <label>Montant en euro</label>
+            {{ form_widget(form_inverse.amount,{'attr':{'class':'form-control','autocomplete':'off'}}) }}
+          </div>
+
+          <div class="form-group col-lg-3">
+            <label>Choix de la device</label>
+            {{ form_widget(form_inverse.currency,{'attr':{'class':'form-control js-select-currency','autocomplete':'off'}}) }}
+          </div>
+
+          <div class="form-group col-lg-3">
+            <label>Nombre de devises</label>
+            {{ form_widget(form_inverse.result,{'attr':{'class':'form-control','autocomplete':'off'}}) }}
+          </div>
+        {{ form_end(form_inverse) }}
+      </div>
+      <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
+  </div>
+</div>
+{% endblock %}
+
+
+{% block local_javascripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+  <script>
+  $(document).ready(function() {
+      $('.js-select-currency').select2();
+
+      $('#converter_amount').change(function(e){
+        var amount = $('#converter_amount').val();
+        if(isNaN(amount))
+          return;
+
+        var currency = $('#converter_currency :selected').text().split(':')[1].replace(/\s/g,'');
+        if(isNaN(currency))
+          return;
+
+        $('#converter_result').val(Math.ceil((amount * currency) * 100) / 100);
+      })
+
+      $('#converter_inverse_amount').change(function(e){
+        var amount = $('#converter_inverse_amount').val();
+        if(isNaN(amount))
+          return;
+
+        var currency = $('#converter_inverse_currency :selected').text().split(':')[1].replace(/\s/g,'');
+        if(isNaN(currency))
+          return;
+
+        $('#converter_inverse_result').val(Math.ceil((amount / currency) * 100000) / 100000);
+      })
+  });
+  </script>
+{% endblock %}
