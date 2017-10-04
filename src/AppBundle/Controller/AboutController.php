@@ -12,9 +12,7 @@ class AboutController extends Controller
      */
     public function indexAction()
     {
-        return $this->render(':About:index.html.twig', array(
-            // ...
-        ));
+        return $this->render(':About:index.html.twig');
     }
 
     /**
@@ -22,8 +20,14 @@ class AboutController extends Controller
      */
     public function regleAction()
     {
-        return $this->render(':About:regle.html.twig', array(
-            // ...
-        ));
+        return $this->render(':About:regle.html.twig');
+    }
+
+    /**
+     * @Route("/qui-sommes-nous", name="who_i_am")
+     */
+    public function whoIAmAction()
+    {
+        return $this->render(':About:whoiam.html.twig');
     }
 }

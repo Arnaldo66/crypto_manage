@@ -33,3 +33,16 @@ div#header-title{
 div#footer{
   padding:15px;
 }
+
+div#footer span{
+  border-bottom: 1px solid #BD1F25;
+}
+
+div#footer div.footer-link{
+  text-align:left;
+  padding-left:180px;
+}
+
+div#footer ul{
+  list-style: none;
+}
