@@ -16,4 +16,14 @@ class AboutController extends Controller
             // ...
         ));
     }
+
+    /**
+     * @Route("/regle-du-jeu", name="rules")
+     */
+    public function regleAction()
+    {
+        return $this->render(':About:regle.html.twig', array(
+            // ...
+        ));
+    }
 }
