@@ -1,19 +1,62 @@
 {% extends "::base.html.twig" %}
 
 {% block title %}
-  <title>Qui sommes-nous? - e-goldenboy.com</title>
+  <title>A propos - e-goldenboy.com</title>
 {% endblock title %}
+{% block meta %}
+  <meta name="description" content="A propos d'e-goldenboy.com, explication du fonctionnement de la plateforme d'information et de simulation de trading de bitcoin et altcoin." />
+{% endblock meta %}
 
 
 {% block title_wrapper %}
-  <h1 class="page-header">Qui sommes nous</h1>
+  <h1 class="page-header">A propos</h1>
 {% endblock title_wrapper %}
 
 {% block body %}
-<p>
-  Rédiger un paragraphe expliquant:
-  - le projet (possibilité, chose a venir)
-  - Le mode de financement
-  - Que faisons nous avec les données ...
-<p>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          Règlement
+        </div>
+        <div class="panel-body">
+          <p>
+            e-goldenboy.com est une plateforme d'information et de simulation boursière pour le monde des crypto-monnaie.<br/>
+            Le site est totalement gratuit et vos données ne sont pas exploités.
+          </p>
+          <p>
+            Le site se compose de différents modules:
+            <ul>
+              <li>
+                Information: Le site dispose d'un module renseignant sur le cours en temps réel du bitcoin et des altoins. <br/>
+                Le données sont issues de <a href="https://coinmarketcap.com/" target="_blank">coinmarketcap.com</a>. <br/>
+                Nous affichons volontairement que les 100 premières crypto-monnaies selon leur capitalisation boursière.
+              </li>
+              <br/>
+              <li>
+                Convertisseur: Un module vous permet de convertir un nombre de crypto-monnaie en montant eu euro au cours en temps réel.
+              </li>
+              <br/>
+              <li>
+                Alertes: Le site propose un système d'alerte afin d'être prévenu lorsque le cours d'une crypto monnaie atteint le seuil (haut ou bas) que vous lui aurez fixé.</br>
+                Par exemple, je veux être averti quand le bitcoin sera descendu à 1000€ (faut bien rêver hein !), dans ce cas, créer l'alerte et si le bitcoin atteint un jour votre seuil
+                vous recevrez un email vous en informant.</br>
+                Pour accéder à ce module il faut vous créer un compte.
+              </li>
+              <br/>
+              <li>
+                Simulation de trading: Notre plateforme vous offre la possibilité de vous entrainer à trader bitcoins et altcoins.</br>
+                Les cours de ces monnaies suivent le cours en temps réel. Ce jeu est totalement gratuit, l'argent que vous gagnerez ou que vous perdrez est évidement totalement fictif.</br>
+                Pour commencer le jeu, créer vous un compte.
+                Une fois connecté, créer un nouveau portefeuille, vous avez la possibilité de créer différents portefeuilles de trading afin de tester
+                différentes approches (ex: trading journalier, long terme, placement à risque ...). Le protefeuille peut être public, si vous voulez pouvoir exposer actions
+                aux autres utilisateur, ou privé si vous voulez que personne ne puisse voir comment vous tradez.</br>
+                Lors de la création de votre portefeuille, il sera crédité de 15000 euro virtuel. Vous pouvez alors commencer à investir.</br>
+                Pour plus d'information rendez vous à la page <a href="">TODO:Règles du jeu</a>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
