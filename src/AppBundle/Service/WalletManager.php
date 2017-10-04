@@ -105,7 +105,7 @@ class WalletManager
   * get good status
   */
   private function getStatus($tradeOrder, $em){
-    if($tradeOrder->getOrderMethod()->getId() == $this->container->getParameter('order_market')){
+    if($tradeOrder->getOrderMethod()->getId() == $this->container->getParameter('order_market') || $tradeOrder->getOrderStatus() !== NULL){
       $status = $this->container->getParameter('order_status_ok');
     }else{
       $status = $this->container->getParameter('order_status_pending');

@@ -6,6 +6,7 @@ parameters:
 services:
     AppBundle\Service\WalletManager:
         arguments: ['%service.container%']
+        public: true
     # default configuration for services in *this* file
     _defaults:
         # automatically injects dependencies in your services

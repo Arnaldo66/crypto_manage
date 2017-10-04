@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use AppBundle\Service\WalletManager;
 
 class CronCheckLimitActionCommand extends ContainerAwareCommand
 {
@@ -22,7 +23,15 @@ class CronCheckLimitActionCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
       $em = $this->getContainer()->get('doctrine')->getManager();
-    }
+      $walletManager = $this->getContainer()->get(WalletManager::class);
+      $orderStatus = $this->getContainer()->getParameter('order_status_pending');
 
+      $tradeOrders = $em->getRepository('AppBundle:TradingOrder')->findBy(array('orderStatus'=>$orderStatus));
+      foreach($tradeOrders as $tradeOrder){
+        if($tradeOrder->getPrice() >= $tradeOrder->getCurrency()->getPriceEur()){
+          $walletManager->finaliseOrder($tradeOrder,$em);
+        }
+      }
+      $output->writeln('OK');
+    }
 }
- 

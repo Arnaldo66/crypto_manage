@@ -12,8 +12,8 @@ parameters:
     order_market: 1
     order_limit: 1
     order_status_ok: 1
-    order_status_pending: 3
-    order_status_abort: 2
+    order_status_pending: 2
+    order_status_abort: 3
 
 framework:
     #esi: ~
