@@ -109,16 +109,23 @@
 {% block local_javascripts %}
   <script>
   $(document).ready(function() {
+      var url = "https://cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"
       $('#dataTables-orders').DataTable({
           responsive: true,
           "ordering": false,
           "lengthMenu": [ 5, 10, 15, 50, 75, 100 ],
-          "pageLength": 5
+          "pageLength": 5,
+          "language":{
+            "url": url
+          }
       });
 
       $('#dataTables-wallets').DataTable({
           responsive: true,
           "ordering": false,
+          "language":{
+            "url": url
+          }
       });
   });
   </script>
