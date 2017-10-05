@@ -1,0 +1,56 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}
+  <title>Premiers pas - e-goldenboy.com</title>
+{% endblock title %}
+{% block meta %}
+  <meta name="description" content="Explication complète de la simulation de bitcoin altcoin sur e-goldenboy.com" />
+{% endblock meta %}
+
+
+{% block title_wrapper %}
+  <h1 class="page-header">Premiers pas</h1>
+{% endblock title_wrapper %}
+
+{% block body %}
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          Explication détaillé du module de simulation de trading
+        </div>
+        <div class="panel-body">
+          <p>
+            Notre plateforme vous offre la possibilité de vous entrainer à trader bitcoins et altcoins.</br>
+            Les cours de ces monnaies suivent le cours en temps réel. Ce jeu est totalement gratuit,
+            l'argent que vous gagnerez ou que vous perdrez est évidement totalement fictif.</br></br>
+
+            Créer un compte:</br>
+            Pour commencer le jeu, <a href="{{ path('fos_user_registration_register') }}">créer un compte</a>
+            ou <a href="{{ path('fos_user_security_login')}}">connectez vous</a></br></br>
+
+            Créer un portefeuille:</br>
+            Une fois connecté, rendez vous sur cette page pour créer un <a href="{{ path('trade_new') }}">nouveau portefeuille.</a></br>
+            Vous avez la possibilité de créer différents portefeuilles de trading afin de tester
+            différentes approches ou techniques de trading (ex: trading journalier, long terme, placement à risque ...)</br>
+            Le portefeuille peut être public, si vous voulez pouvoir exposer actions
+            aux autres utilisateurs, ou privé si vous voulez que personne ne puisse voir comment vous tradez.</br>
+            Une fois que nous aurons suffisament de données pertinentes, nous pourrons alors afficher mle détails des portefeuilles publiques
+            afin d'analyser les actions des utilisateurs, et ainsi d'apprendre mutuellement les uns des autres.</br>
+            Par défaut, lors de la création de votre portefeuille, 15000 euro virtuel seront crédité sur le compte en euro du portefeuille en question.</br>
+            Vous pouvez alors commencer à trader.</br></br>
+
+            Créer des ordres d'achat ou de vente:</br>
+
+          </p>
+
+
+          TODO: explication détaillé.
+          Lien vers coinbase avec mon affiliation
+          Lien vers kraken
+          Lien vers liteBit partner programm
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

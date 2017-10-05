@@ -16,11 +16,11 @@ class AboutController extends Controller
     }
 
     /**
-     * @Route("/regle-du-jeu", name="rules")
+     * @Route("/regle-du-jeu", name="first_step")
      */
-    public function regleAction()
+    public function firstStepAction()
     {
-        return $this->render(':About:regle.html.twig');
+        return $this->render(':About:first-step.html.twig');
     }
 
     /**
