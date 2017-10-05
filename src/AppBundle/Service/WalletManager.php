@@ -18,6 +18,24 @@ class WalletManager
   }
 
   /**
+   * récupère le total de toutes les currency wallet
+   **/
+   public function getTotalCurrencyWalletValue($tradingWallet){
+     $wallets = $tradingWallet->getCurrencyWallets();
+     $total = 0;
+
+     if($wallets->count() === 0){
+       return $total;
+     }
+
+     foreach ($tradingWallet->getCurrencyWallets() as $wallet) {
+       $total += $wallet->getAmount() * $wallet->getCurrency()->getPriceEur();
+     }
+     return round($total, 2);
+   }
+
+
+  /**
   * check creation
   */
   public function canFinaliseOrder($tradeOrder,$em){

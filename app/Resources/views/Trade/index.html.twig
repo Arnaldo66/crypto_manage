@@ -22,10 +22,14 @@
                           </tr>
                       </thead>
                       <tbody>
+                          {% set totalWallet = 0 %}
                           {% for wallet in wallets %}
+                            {% for currencyWallet in wallet.currencyWallets %}
+                              {% set totalWallet = totalWallet + (currencyWallet.amount * currencyWallet.currency.priceEur) %}
+                            {% endfor %}
                             <tr class="odd gradeX">
                               <td><a href="{{ path('trade_show',{id:wallet.id}) }}">{{ wallet.name }}</a></td>
-                              <td>{{ wallet.euroWallet.amount }}</td>
+                              <td>{{ (wallet.euroWallet.amount + totalWallet)|round(2) }}</td>
                             </tr>
                           {% endfor %}
                       </tbody>

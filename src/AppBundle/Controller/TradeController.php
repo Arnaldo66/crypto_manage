@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Form\TradingWalletType;
 use AppBundle\Entity\TradingWallet;
 use AppBundle\Entity\EuroWallet;
+use AppBundle\Service\WalletManager;
 
 class TradeController extends Controller
 {
@@ -31,23 +32,12 @@ class TradeController extends Controller
     * @Route("/user/trade/wallets/{id}", name="trade_show")
     * @ParamConverter("tradingWallet", class="AppBundle:TradingWallet")
     */
-    public function showAction(TradingWallet $tradingWallet){
-      $totalCurrencies = $this->getTotalCurrencyWalletValue($tradingWallet);
+    public function showAction(TradingWallet $tradingWallet, WalletManager $walletManager){
+      $totalCurrencies = $walletManager->getTotalCurrencyWalletValue($tradingWallet);
       return $this->render(':Trade:show.html.twig', array(
           'tradingWallet' => $tradingWallet, 'totalCurrencies' => $totalCurrencies
       ));
     }
-
-    /**
-     * get total currency euro value
-     */
-     private function getTotalCurrencyWalletValue($tradingWallet){
-       $total = 0;
-       foreach ($tradingWallet->getCurrencyWallets() as $wallet) {
-         $total += $wallet->getAmount() * $wallet->getCurrency()->getCurrencyValueMoment()->getPriceEur();
-       }
-       return $total;
-     }
 
     /**
      * @Route("/user/trade/new", name="trade_new")
