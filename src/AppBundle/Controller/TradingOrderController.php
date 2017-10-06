@@ -15,7 +15,7 @@ use AppBundle\Service\WalletManager;
 class TradingOrderController extends Controller
 {
     /**
-     * @Route("/user/trade/order/new", name="trade_order_new")
+     * @Route("/u/trade/order/new", name="trade_order_new")
      */
     public function newAction()
     {
@@ -32,7 +32,7 @@ class TradingOrderController extends Controller
     }
 
     /**
-     * @Route("/user/trade/order/new/next-step", name="trade_order_new_next_step")
+     * @Route("/u/trade/order/new/next-step", name="trade_order_new_next_step")
      * @Method({"POST"})
      */
     public function newNextStepAction(Request $request)
@@ -60,7 +60,7 @@ class TradingOrderController extends Controller
     }
 
     /**
-     * @Route("/user/trade/order/new/final-step", name="trade_order_new_final_step")
+     * @Route("/u/trade/order/new/final-step", name="trade_order_new_final_step")
      * @Method({"POST"})
      */
     public function newFinalStepAction(Request $request, WalletManager $walletManager)

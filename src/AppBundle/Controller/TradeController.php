@@ -17,7 +17,7 @@ class TradeController extends Controller
 
 
   /**
-   * @Route("/user/trade/wallets", name="trade_index")
+   * @Route("/u/trade/wallets", name="trade_index")
    */
    public function indexAction(){
      $em = $this->getDoctrine()->getManager();
@@ -29,7 +29,7 @@ class TradeController extends Controller
    }
 
    /**
-    * @Route("/user/trade/wallets/{id}", name="trade_show")
+    * @Route("/u/trade/wallets/{id}", name="trade_show")
     * @ParamConverter("tradingWallet", class="AppBundle:TradingWallet")
     */
     public function showAction(TradingWallet $tradingWallet, WalletManager $walletManager){
@@ -40,7 +40,7 @@ class TradeController extends Controller
     }
 
     /**
-     * @Route("/user/trade/new", name="trade_new")
+     * @Route("/u/trade/new", name="trade_new")
      */
     public function newAction(Request $request)
     {

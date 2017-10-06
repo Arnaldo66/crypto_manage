@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class AlertController extends Controller
 {
     /**
-     * @Route("/user/alerts", name="alert")
+     * @Route("/u/alerts", name="alert")
      */
     public function indexAction()
     {
@@ -18,7 +18,7 @@ class AlertController extends Controller
     }
 
     /**
-     * @Route("/user/alert/new", name="alert_new")
+     * @Route("/u/alert/new", name="alert_new")
      */
     public function newAction()
     {
@@ -28,7 +28,7 @@ class AlertController extends Controller
     }
 
     /**
-     * @Route("/user/alert/delete", name="alert_delete")
+     * @Route("/u/alert/delete", name="alert_delete")
      */
     public function deleteAction()
     {
