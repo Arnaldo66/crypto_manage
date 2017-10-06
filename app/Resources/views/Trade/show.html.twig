@@ -52,8 +52,8 @@
                                 <td>{{ tradingOrder.createdAt|date('d/m/Y') }}</td>
                                 <td>{{ tradingOrder.orderAction.name }}</td>
                                 <td>{{ tradingOrder.amount }}</td>
-                                <td>{{ tradingOrder.price }}</td>
-                                <td>{{ tradingOrder.total }}</td>
+                                <td>{{ tradingOrder.price|round(2) }}</td>
+                                <td>{{ tradingOrder.total|round(2) }}</td>
                                 <td>{{ tradingOrder.orderStatus.name }}</td>
                               </tr>
                             {% endfor %}
@@ -90,9 +90,9 @@
                             <tr class="odd gradeX">
                               <td><img  src="{{ asset('images/currency-logo/32/' ~ currencyWallet.currency.image) }}" ></td>
                               <td>{{ currencyWallet.currency.name }}</td>
-                              <td>{{ currencyWallet.currency.currencyValueMoment.priceEur }}</td>
+                              <td>{{ currencyWallet.currency.currencyValueMoment.priceEur|round(2) }}</td>
                               <td>{{ currencyWallet.amount }}</td>
-                              <td>{{ currencyWallet.currency.currencyValueMoment.priceEur * currencyWallet.amount }}</td>
+                              <td>{{ (currencyWallet.currency.currencyValueMoment.priceEur * currencyWallet.amount)|round(2) }}</td>
                             </tr>
                           {% endfor %}
                       </tbody>

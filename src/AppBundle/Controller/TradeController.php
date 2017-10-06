@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use AppBundle\Form\TradingWalletType;
 use AppBundle\Entity\TradingWallet;
@@ -33,6 +34,9 @@ class TradeController extends Controller
     * @ParamConverter("tradingWallet", class="AppBundle:TradingWallet")
     */
     public function showAction(TradingWallet $tradingWallet, WalletManager $walletManager){
+      if($this->getUser()->getId() !== $tradingWallet->getUser()->getId()){
+        throw new AccessDeniedException('Access denied: It\'s not your wallet');
+      }
       $totalCurrencies = $walletManager->getTotalCurrencyWalletValue($tradingWallet);
       return $this->render(':Trade:show.html.twig', array(
           'tradingWallet' => $tradingWallet, 'totalCurrencies' => $totalCurrencies
