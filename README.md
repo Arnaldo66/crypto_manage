@@ -19,6 +19,6 @@ TODO:
   - Test view (title, description)
   - multilanguage - french - english - spanish (Voir comment faire au mieux SEO ?)
   - Create a widget with 10 interesting crypto. This widget is parametrable by user on his account
-
+  - vérifier qu'on est bien le titulaire du wallet pour y accéder
   Idea:
   - for cache (redis, memcached ..) puts moment value in cache for front. Reload it by cron
