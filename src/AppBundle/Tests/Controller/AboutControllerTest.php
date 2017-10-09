@@ -10,7 +10,23 @@ class AboutControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/about');
+        $crawler = $client->request('GET', '/a-propos');
+        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+    }
+
+    public function testFirstStep()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/premiers-pas');
+        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+    }
+
+    public function testwhoIAm()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/qui-sommes-nous');
         $this->assertEquals(200,$client->getResponse()->getStatusCode());
     }
 

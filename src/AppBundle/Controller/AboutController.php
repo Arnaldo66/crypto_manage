@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class AboutController extends Controller
 {
     /**
-     * @Route("/about", name="about")
+     * @Route("/a-propos", name="about")
      */
     public function indexAction()
     {
@@ -16,7 +16,7 @@ class AboutController extends Controller
     }
 
     /**
-     * @Route("/regle-du-jeu", name="first_step")
+     * @Route("/premiers-pas", name="first_step")
      */
     public function firstStepAction()
     {
