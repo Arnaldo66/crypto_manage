@@ -21,7 +21,7 @@ class TradingOrderControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $this->client->request('GET', '/user/trade/order/new');
+        $crawler = $this->client->request('GET', '/u/trade/order/new');
         $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
     }
 

@@ -18,13 +18,13 @@ class TradeControllerTest extends WebTestCase
     }
 
     public function testIndex(){
-      $crawler = $this->client->request('GET', '/user/trade/wallets');
+      $crawler = $this->client->request('GET', '/u/trade/wallets');
       $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
     }
 
     public function testNew()
     {
-        $crawler = $this->client->request('GET', '/user/trade/new');
+        $crawler = $this->client->request('GET', '/u/trade/new');
         $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
     }
 
@@ -33,7 +33,7 @@ class TradeControllerTest extends WebTestCase
      */
     public function testShow()
     {
-        $crawler = $this->client->request('GET', '/user/trade/wallets/1');
+        $crawler = $this->client->request('GET', '/u/trade/wallets/1');
         $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
     }
 }

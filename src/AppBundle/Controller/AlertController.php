@@ -18,7 +18,7 @@ class AlertController extends Controller
     }
 
     /**
-     * @Route("/u/alert/new", name="alert_new")
+     * @Route("/u/alerts/new", name="alert_new")
      */
     public function newAction()
     {
@@ -28,7 +28,7 @@ class AlertController extends Controller
     }
 
     /**
-     * @Route("/u/alert/delete", name="alert_delete")
+     * @Route("/u/alerts/delete", name="alert_delete")
      */
     public function deleteAction()
     {

@@ -19,19 +19,19 @@ class AlertControllerTest extends WebTestCase
 
     public function testIndex()
     {
-        $crawler = $this->client->request('GET', '/user/alerts');
+        $crawler = $this->client->request('GET', '/u/alerts');
         $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
     }
 
     public function testNew()
     {
-        $crawler = $this->client->request('GET', '/user/alert/new');
+        $crawler = $this->client->request('GET', '/u/alerts/new');
         $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
     }
 
     public function testDelete()
     {
-        $crawler = $this->client->request('GET', '/user/alert/delete');
+        $crawler = $this->client->request('GET', '/u/alerts/delete');
         $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
     }
 

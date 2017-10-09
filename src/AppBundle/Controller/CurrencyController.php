@@ -10,7 +10,7 @@ use AppBundle\Entity\Currency;
 class CurrencyController extends Controller
 {
     /**
-     * @Route("/currencies/{slug}", name="currency_show")
+     * @Route("/crypto-monnaies/{slug}", name="currency_show")
      * @ParamConverter("currency", class="AppBundle:Currency")
      */
     public function showAction(Currency $currency)

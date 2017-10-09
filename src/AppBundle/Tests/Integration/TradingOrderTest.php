@@ -18,7 +18,7 @@ class TradingOrderTest extends WebTestCase
     }
 
     public function testCreateOrder(){
-        $crawler = $this->client->request('GET', '/user/trade/order/new');
+        $crawler = $this->client->request('GET', '/u/trade/order/new');
         $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
 
         $buttonCrawlerNode = $crawler->selectButton('btn-create-order');
@@ -38,7 +38,7 @@ class TradingOrderTest extends WebTestCase
             'trading_order_next_step[price]' => '3000',
         ));
         $crawler = $this->client->submit($form);
-        $this->assertTrue($this->client->getResponse()->isRedirect('/user/trade/wallets/1'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/u/trade/wallets/1'));
         $crawler = $this->client->followRedirect();
         $this->assertCount(1, $crawler->filter('div.alert-success'));
     }

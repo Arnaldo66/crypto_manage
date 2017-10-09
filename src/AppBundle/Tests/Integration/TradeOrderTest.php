@@ -19,14 +19,14 @@ class TradeOrderTest extends WebTestCase
 
     public function testCreateWallet()
     {
-        $crawler = $this->client->request('GET', '/user/trade/new');
+        $crawler = $this->client->request('GET', '/u/trade/new');
         $buttonCrawlerNode = $crawler->selectButton('btn-create-trading');
 
         $form = $buttonCrawlerNode->form(array(
             'trading_wallet[name]'  => 'Name',
         ));
         $this->client->submit($form);
-        $this->assertTrue($this->client->getResponse()->isRedirect('/user/trade/wallets'));
+        $this->assertTrue($this->client->getResponse()->isRedirect('/u/trade/wallets'));
 
         $crawler = $this->client->followRedirect();
         $this->assertCount(1, $crawler->filter('div.alert-success'));

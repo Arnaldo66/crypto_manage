@@ -10,7 +10,7 @@ class CurrencyControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/currencies/bitcoin');
+        $crawler = $client->request('GET', '/crypto-monnaies/bitcoin');
         $this->assertEquals(200,$client->getResponse()->getStatusCode());
     }
 
