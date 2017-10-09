@@ -39,7 +39,7 @@ class ContactController extends Controller
      */
      private function sendContactEmail($contact){
        $mailer = $this->get('mailer');
-       $message = (new \Swift_Message('Hello Email'))
+       $message = (new \Swift_Message('Contact form email'))
         ->setFrom($contact->getEmail())
         ->setTo('admin@e-goldenboy.com')
         ->setBody(
