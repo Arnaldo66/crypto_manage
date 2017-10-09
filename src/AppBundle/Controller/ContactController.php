@@ -41,7 +41,7 @@ class ContactController extends Controller
        $mailer = $this->get('mailer');
        $message = (new \Swift_Message('Hello Email'))
         ->setFrom($contact->getEmail())
-        ->setTo('a.parseval@gmail.com')
+        ->setTo('admin@e-goldenboy.com')
         ->setBody(
             $contact->getMessage(),
             'text/html'
