@@ -12,8 +12,6 @@ class CurrencyValueMomentTest extends KernelTestCase
     const NB_FIELD_NOT_NULL = 6;
 
     public function setUp(){
-      exec('php bin/console doctrine:fixtures:load -e test --no-interaction --purge-with-truncate');
-
       self::bootKernel();
       $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
       $this->validator = static::$kernel->getContainer()->get('validator');
