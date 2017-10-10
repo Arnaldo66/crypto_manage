@@ -90,6 +90,9 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
           $currency->setPriceEur($value->price_eur);
           $currency->setRank($value->rank);
           $em->persist($currency);
+        }else{
+          $currency->setPriceUsd($value->price_usd);
+          $currency->setPriceEur($value->price_eur);
         }
 
 
