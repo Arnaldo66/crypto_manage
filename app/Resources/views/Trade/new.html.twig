@@ -18,6 +18,11 @@
         </div>
 
         <div class="form-group">
+          <label>Montant du portefeuille</label>
+          {{ form_widget(form.amount,{'attr':{'class':'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
           {% if form_errors(form.public) %}
             <span class="error">{{ form_errors(form.public) }}</span>
           {% endif %}

@@ -16,6 +16,16 @@ class TradingWalletType extends AbstractType
     {
         $builder
             ->add('name',TextType::class)
+            ->add('amount', ChoiceType::class, array(
+              'mapped' => false,
+              'choices'  => array(
+                '100 €' => 1,
+                '1000 €' => 2,
+                '5000 €' => 3,
+                '10000 €' => 4,
+                '15000 €' => 5,
+              )
+            ))
             ->add('public', ChoiceType::class, array(
               'expanded' => true,
               'choices'  => array(

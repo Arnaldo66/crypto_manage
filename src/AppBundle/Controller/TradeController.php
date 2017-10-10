@@ -52,11 +52,11 @@ class TradeController extends Controller
         $tradingWallet = new TradingWallet();
         $tradingWallet->setPublic(true);
         $tradingWallet->setUser($this->getUser());
-        $tradingWallet->setEuroWallet($this->createEuroWallet($em,$tradingWallet));
 
         $form = $this->createForm(TradingWalletType::class, $tradingWallet);
-
         $form->handleRequest($request);
+        $tradingWallet->setEuroWallet($this->createEuroWallet($em,$tradingWallet,$form["amount"]->getData()));
+
         if ($form->isSubmitted() && $form->isValid()) {
           $em->persist($tradingWallet);
           $em->flush();
@@ -73,12 +73,30 @@ class TradeController extends Controller
     /**
      * Create a new euro wallet by default
      */
-     private function createEuroWallet($em,$tradingWallet){
+     private function createEuroWallet($em,$tradingWallet,$amount){
+       $value = $this->getValueFromAmount($amount);
        $euroWallet = new EuroWallet;
-       $euroWallet->setAmount(15000.00);
+       $euroWallet->setAmount($value);
        $euroWallet->setTradingWallet($tradingWallet);
        $em->persist($euroWallet);
        return $euroWallet;
+     }
+
+     /**
+      * Get value from choice amount
+      */
+     private function getValueFromAmount($amount){
+       if($amount == 1){
+         return 100.00;
+       }elseif($amount == 2){
+         return 1000.00;
+       }elseif ($amount == 3) {
+         return 5000.00;
+       }elseif ($amount == 4) {
+         return 10000.00;
+       }else {
+         return 15000.00;
+       }
      }
 
 }
