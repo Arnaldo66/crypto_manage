@@ -31,4 +31,16 @@ class TradeOrderTest extends WebTestCase
         $this->assertCount(1, $crawler->filter('div.alert-success'));
     }
 
+    public function testWithEmptyName()
+    {
+        $crawler = $this->client->request('GET', '/u/trade/new');
+        $buttonCrawlerNode = $crawler->selectButton('btn-create-trading');
+
+        $form = $buttonCrawlerNode->form(array(
+            'trading_wallet[name]'  => '',
+        ));
+        $crawler = $this->client->submit($form);
+        $this->assertFalse($this->client->getResponse()->isRedirect('/u/trade/wallets'));
+        $this->assertCount(1, $crawler->filter('span.error'));
+    }
 }

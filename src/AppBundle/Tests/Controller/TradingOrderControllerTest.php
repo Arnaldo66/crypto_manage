@@ -15,11 +15,15 @@ class TradingOrderControllerTest extends WebTestCase
           'PHP_AUTH_PW'   => 'password',
       ));
     }
+    public function testNewWithout()
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/u/trade/order/new');
+        $this->assertEquals(302,$client->getResponse()->getStatusCode());
+    }
 
     public function testNew()
     {
-        $client = static::createClient();
-
         $crawler = $this->client->request('GET', '/u/trade/order/new');
         $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
     }

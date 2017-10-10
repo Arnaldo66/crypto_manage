@@ -6,18 +6,21 @@
 
 {% block body %}
   <div class="row">
-    {{ form_errors(form) }}
     <div class="col-lg-6">
       {{ form_start(form) }}
 
         <div class="form-group">
           <label>Libellé du portefeuille</label>
-          {{ form_errors(form.name) }}
+          {% if form_errors(form.name) %}
+            <span class="error">{{ form_errors(form.name) }}</span>
+          {% endif %}
           {{ form_widget(form.name,{'attr':{'class':'form-control'}}) }}
         </div>
 
         <div class="form-group">
-          {{ form_errors(form.public) }}
+          {% if form_errors(form.public) %}
+            <span class="error">{{ form_errors(form.public) }}</span>
+          {% endif %}
           <div class="radio">
             <label>
               {{ form_widget(form.public[0],{'attr':{'autocomplete':'off'}}) }}
