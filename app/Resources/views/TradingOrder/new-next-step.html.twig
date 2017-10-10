@@ -3,7 +3,7 @@
 {% block title_wrapper %}
   <h1 class="page-header">Nouvel ordre:</h1>
   <p>
-    Valeur actuelle du {{ currency.name}}: {{ currency.currencyValueMoment.priceEur|round(4, 'floor') }}
+    Valeur actuelle du {{ currency.name}}: {{ currency.priceEur|round(5, 'floor') }}
   </p>
 {% endblock title_wrapper %}
 
@@ -11,6 +11,9 @@
   {{ form_start(form) }}
     <div class="row">
       <div class="col-lg-6">
+        {% if form_errors(form.orderAction) %}
+          <span class="error">{{ form_errors(form.orderAction) }}</span>
+        {% endif %}
         <div class="form-group">
           <label>Action:</label>
           <label class="radio-inline">
@@ -21,6 +24,9 @@
           </label>
         </div>
 
+        {% if form_errors(form.orderMethod) %}
+          <span class="error">{{ form_errors(form.orderMethod) }}</span>
+        {% endif %}
         <div class="form-group">
           <label>Méthode:</label>
           <label class="radio-inline">
@@ -36,16 +42,25 @@
           {{ form_widget(form.tradingWallet,{'attr':{'class':'form-control', 'autocomplete':'off'}}) }}
         </div>
 
+        {% if form_errors(form.amount) %}
+          <span class="error">{{ form_errors(form.amount) }}</span>
+        {% endif %}
         <div class="form-group input-group">
             {{ form_widget(form.amount,{'attr':{'class':'form-control', 'placeholder': 'Montant', 'autocomplete':'off'}}) }}
             <span class="input-group-addon">{{ currency.symbol }}</span>
         </div>
 
+        {% if form_errors(form.price) %}
+          <span class="error">{{ form_errors(form.price) }}</span>
+        {% endif %}
         <div class="form-group input-group">
             {{ form_widget(form.price,{'attr':{'class':'form-control', 'placeholder': 'Prix', 'autocomplete':'off', 'value': currency.currencyValueMoment.priceEur|round(4, 'floor'), 'readonly': 'readonly' }}) }}
             <span class="input-group-addon">€</span>
         </div>
 
+        {% if form_errors(form.total) %}
+          <span class="error">{{ form_errors(form.total) }}</span>
+        {% endif %}
         <div class="form-group input-group">
             {{ form_widget(form.total,{'attr':{'class':'form-control', 'placeholder': 'Total', 'autocomplete':'off', 'readonly': 'readonly'}}) }}
             <span class="input-group-addon">€</span>
@@ -65,7 +80,7 @@
 
 {% block local_javascripts %}
   <script>
-    var initial_price = '{{ currency.currencyValueMoment.priceEur|round(4, 'floor') }}';
+    var initial_price = '{{ currency.priceEur|round(5, 'floor') }}';
     $(document).ready(function() {
       $('input[name="trading_order_next_step[orderMethod]"]:radio').change(function() {
           if(this.value == 1){
