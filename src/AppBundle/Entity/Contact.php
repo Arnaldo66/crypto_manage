@@ -35,6 +35,7 @@ class Contact
      * @var string
      * @Assert\NotBlank()
      * @Assert\Length(max = 255)
+     * @Assert\Email()
      * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;

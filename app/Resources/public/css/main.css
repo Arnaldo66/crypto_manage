@@ -43,3 +43,11 @@ div#footer span{
 div#footer ul{
   list-style: none;
 }
+
+span.error{
+  color: #BD1F25;
+}
+
+span.error ul{
+  list-style: none;
+}

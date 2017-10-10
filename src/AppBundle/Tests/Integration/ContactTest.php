@@ -22,8 +22,9 @@ class ContactTest extends WebTestCase
      * validate that is false redirect
      */
      public function validateFalseRedirect($form){
-         $this->client->submit($form);
+         $crawler = $this->client->submit($form);
          $this->assertFalse($this->client->getResponse()->isRedirect('/contact'));
+         $this->assertCount(1, $crawler->filter('span.error'));
      }
 
 
