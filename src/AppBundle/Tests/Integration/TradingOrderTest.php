@@ -18,7 +18,6 @@ class TradingOrderTest extends WebTestCase
 
     public function testCreateOrder(){
         $crawler = $this->client->request('GET', '/u/trade/order/new');
-        $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
 
         $buttonCrawlerNode = $crawler->selectButton('btn-create-order');
         $form = $buttonCrawlerNode->form(array(

@@ -40,11 +40,17 @@ class TradingOrderController extends Controller
         $tradeOrder = new TradingOrder;
         $form = $this->createForm(TradingOrderFirstStepType::class, $tradeOrder);
         $form->handleRequest($request);
+
+        $currency = $tradeOrder->getCurrency();
+        if($currency === NULL){
+          $this->addFlash('error-message','Veuillez renseigner une crypto-monnaie');
+          return $this->redirectToRoute('trade_order_new');
+        }
+
         if ($form->isSubmitted()){
           $em = $this->getDoctrine()->getManager();
           $orderAction = $em->getRepository('AppBundle:OrderAction')->find(1);
           $orderMethod = $em->getRepository('AppBundle:OrderMethod')->find(1);
-          $currency = $tradeOrder->getCurrency();
           $tradeOrder->setOrderAction($orderAction);
           $tradeOrder->setOrderMethod($orderMethod);
 
