@@ -6,81 +6,78 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ContactTest extends WebTestCase
 {
+    private $client;
+    private $buttonCrawler;
+
+    /**
+     * @before
+     */
+    public function setUpVariable(){
+      $this->client = static::createClient();
+      $crawler = $this->client->request('GET', '/contact');
+      $this->buttonCrawler = $crawler->selectButton('btn-create-contact');
+    }
+
+    /**
+     * validate that is false redirect
+     */
+     public function validateFalseRedirect($form){
+         $this->client->submit($form);
+         $this->assertFalse($this->client->getResponse()->isRedirect('/contact'));
+     }
+
+
     public function testContact()
     {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/contact');
-        $buttonCrawlerNode = $crawler->selectButton('btn-create-contact');
-
-        $form = $buttonCrawlerNode->form(array(
+        $form = $this->buttonCrawler->form(array(
             'contact[name]'  => 'Name',
             'contact[email]'  => 'email@yopmail.com',
             'contact[message]'  => 'Message',
         ));
-        $client->submit($form);
-        $this->assertTrue($client->getResponse()->isRedirect('/contact'));
-        $crawler = $client->followRedirect();
+        $this->client->submit($form);
+        $this->assertTrue($this->client->getResponse()->isRedirect('/contact'));
+        $crawler = $this->client->followRedirect();
         $this->assertCount(1, $crawler->filter('div.alert-success'));
     }
 
     public function testwithEmptyName()
     {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/contact');
-        $buttonCrawlerNode = $crawler->selectButton('btn-create-contact');
-
-        $form = $buttonCrawlerNode->form(array(
+        $form = $this->buttonCrawler->form(array(
             'contact[name]'  => '',
             'contact[email]'  => 'email@yopmail.com',
             'contact[message]'  => 'Message',
         ));
-        $client->submit($form);
-        $this->assertFalse($client->getResponse()->isRedirect('/contact'));
+        $this->validateFalseRedirect($form);
     }
 
     public function testwithEmptyEmail()
     {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/contact');
-        $buttonCrawlerNode = $crawler->selectButton('btn-create-contact');
-
-        $form = $buttonCrawlerNode->form(array(
+        $form = $this->buttonCrawler->form(array(
             'contact[name]'  => 'Name',
             'contact[email]'  => '',
             'contact[message]'  => 'Message',
         ));
-        $client->submit($form);
-        $this->assertFalse($client->getResponse()->isRedirect('/contact'));
+        $this->validateFalseRedirect($form);
     }
 
     public function testwithWrongEmail()
     {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/contact');
-        $buttonCrawlerNode = $crawler->selectButton('btn-create-contact');
-
-        $form = $buttonCrawlerNode->form(array(
+        $form = $this->buttonCrawler->form(array(
             'contact[name]'  => 'Name',
             'contact[email]'  => 'thisemailisnotcorrect',
             'contact[message]'  => 'Message',
         ));
-        $client->submit($form);
-        $this->assertFalse($client->getResponse()->isRedirect('/contact'));
+        $this->validateFalseRedirect($form);
     }
 
     public function testwithEmptyMessage()
     {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/contact');
-        $buttonCrawlerNode = $crawler->selectButton('btn-create-contact');
-
-        $form = $buttonCrawlerNode->form(array(
+        $form = $this->buttonCrawler->form(array(
             'contact[name]'  => 'Name',
             'contact[email]'  => 'email@yopmail.com',
             'contact[message]'  => '',
         ));
-        $client->submit($form);
-        $this->assertFalse($client->getResponse()->isRedirect('/contact'));
+        $this->validateFalseRedirect($form);
     }
 
 }
