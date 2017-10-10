@@ -22,8 +22,8 @@
                           </tr>
                       </thead>
                       <tbody>
-                          {% set totalWallet = 0 %}
                           {% for wallet in wallets %}
+                            {% set totalWallet = 0 %}
                             {% for currencyWallet in wallet.currencyWallets %}
                               {% set totalWallet = totalWallet + (currencyWallet.amount * currencyWallet.currency.priceEur) %}
                             {% endfor %}
