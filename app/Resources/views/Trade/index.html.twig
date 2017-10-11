@@ -18,7 +18,8 @@
                       <thead>
                           <tr>
                             <th>Nom</th>
-                            <th>Montant</th>
+                            <th>Investissement initial</th>
+                            <th>Montant actuel</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -29,6 +30,7 @@
                             {% endfor %}
                             <tr class="odd gradeX">
                               <td><a href="{{ path('trade_show',{id:wallet.id}) }}">{{ wallet.name }}</a></td>
+                              <td>{{ wallet.initialAmount }}</td>
                               <td>{{ (wallet.euroWallet.amount + totalWallet)|round(2) }}</td>
                             </tr>
                           {% endfor %}

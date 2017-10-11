@@ -75,9 +75,12 @@ class TradeController extends Controller
      */
      private function createEuroWallet($em,$tradingWallet,$amount){
        $value = $this->getValueFromAmount($amount);
+       $tradingWallet->setInitialAmount($value);
+
        $euroWallet = new EuroWallet;
        $euroWallet->setAmount($value);
        $euroWallet->setTradingWallet($tradingWallet);
+
        $em->persist($euroWallet);
        return $euroWallet;
      }

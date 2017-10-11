@@ -32,6 +32,12 @@ class TradingWallet
     private $name;
 
     /**
+     * @var int
+     * @ORM\Column(name="initial_amount", type="string", length=255, nullable=true)
+     */
+    private $initialAmount;
+
+    /**
      * @var boolean
      * @Assert\NotBlank()
      * @ORM\Column(name="public", type="boolean")
@@ -275,5 +281,29 @@ class TradingWallet
     public function getPublic()
     {
         return $this->public;
+    }
+
+    /**
+     * Set initialAmount
+     *
+     * @param string $initialAmount
+     *
+     * @return TradingWallet
+     */
+    public function setInitialAmount($initialAmount)
+    {
+        $this->initialAmount = $initialAmount;
+
+        return $this;
+    }
+
+    /**
+     * Get initialAmount
+     *
+     * @return string
+     */
+    public function getInitialAmount()
+    {
+        return $this->initialAmount;
     }
 }
