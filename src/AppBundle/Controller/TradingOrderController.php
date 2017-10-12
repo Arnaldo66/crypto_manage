@@ -79,11 +79,14 @@ class TradingOrderController extends Controller
 
       if ($form->isSubmitted() && $form->isValid()){
         $em = $this->getDoctrine()->getManager();
-        if($walletManager->canFinaliseOrder($tradeOrder,$em)['success']){
+        $canFinalise = $walletManager->canFinaliseOrder($tradeOrder,$em);
+        if($canFinalise['success']){
           $walletManager->finaliseOrder($tradeOrder,$em);
 
           $this->addFlash('success-message','L\'ordre a bien été enregistré');
           return $this->redirectToRoute('trade_show', array('id'=>$tradeOrder->getTradingWallet()->getId()));
+        }else{
+          $this->addFlash('error-message',$canFinalise['message']);
         }
       }
       return $this->render(':TradingOrder:new-next-step.html.twig', array(
