@@ -7,7 +7,9 @@ What you need:
   - phpunit
   - mysql
   - sqlite3
-
+BUG
+  - return no message when not enough money
+  - Bug order when limit is NaN
 TODO:
   - About page
   - First step page
