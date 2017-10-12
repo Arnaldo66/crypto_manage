@@ -13,11 +13,11 @@ use AppBundle\Entity\TradingOrder;
 class TradingOrderNextStepType extends AbstractType
 {
 
-    private $user;
+    private $wallet;
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $this->user = $options['user'];
+        $this->wallet = $options['wallet'];
         $builder
           ->add('orderMethod', EntityType::class, array(
             'class' => 'AppBundle:OrderMethod',
@@ -29,12 +29,12 @@ class TradingOrderNextStepType extends AbstractType
           ->add('total',TextType::class)
           ->add('tradingWallet', EntityType::class, array(
             'class' => 'AppBundle:TradingWallet',
+            'attr' => array('readonly' => true),
             'choice_label' => 'name',
             'query_builder' => function (EntityRepository $er) {
-              return $er->createQueryBuilder('u')
-                  ->where('u.user = :current_user')
-                  ->setParameter('current_user', $this->user)
-                  ->orderBy('u.name', 'ASC');
+              return $er->createQueryBuilder('w')
+                  ->where('w.id = :current_wallet')
+                  ->setParameter('current_wallet', $this->wallet);
             }
           ))
           ->add('orderAction', EntityType::class, array(
@@ -53,7 +53,7 @@ class TradingOrderNextStepType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => TradingOrder::class,
-            'user' => null
+            'wallet' => null
         ));
     }
 }

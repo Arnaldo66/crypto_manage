@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 use AppBundle\Form\TradingOrderFirstStepType;
 use AppBundle\Form\TradingOrderNextStepType;
@@ -55,7 +56,7 @@ class TradingOrderController extends Controller
           $tradeOrder->setOrderMethod($orderMethod);
 
           $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array(
-            'user' => $this->getUser(),
+            'wallet' => $this->getPrivateWallet(),
             'action' => $this->generateUrl('trade_order_new_final_step'),
             'method' => 'POST',
           ));
@@ -73,7 +74,7 @@ class TradingOrderController extends Controller
     {
       $tradeOrder = new TradingOrder;
 
-      $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array('user' => $this->getUser()));
+      $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array('wallet' => $this->getPrivateWallet()));
       $form->handleRequest($request);
 
       if ($form->isSubmitted() && $form->isValid()){
@@ -89,4 +90,20 @@ class TradingOrderController extends Controller
         'form'=> $form->createView(), 'currency' => $tradeOrder->getCurrency()
       ));
     }
+
+    /**
+     * get wallet in session
+     */
+     private function getPrivateWallet(){
+       //TODO: find how to allow session and test phpunit
+       $em = $this->getDoctrine()->getManager();
+       if($this->container->getParameter("kernel.environment") !== 'test'){
+         $session = $this->get('session');
+         $id = $session->get('current_wallet_id');
+       }else{
+         $id = 1;
+       }
+
+       return $em->getRepository('AppBundle:TradingWallet')->find($id);
+     }
 }

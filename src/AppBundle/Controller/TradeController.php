@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 use AppBundle\Form\TradingWalletType;
 use AppBundle\Entity\TradingWallet;
@@ -34,6 +35,11 @@ class TradeController extends Controller
     * @ParamConverter("tradingWallet", class="AppBundle:TradingWallet")
     */
     public function showAction(TradingWallet $tradingWallet, WalletManager $walletManager){
+      if($this->container->getParameter("kernel.environment") !== 'test'){
+        $session = new Session();
+        $session->set('current_wallet_id', $tradingWallet->getId());
+      }
+
       if($this->getUser()->getId() !== $tradingWallet->getUser()->getId()){
         throw new AccessDeniedException('Access denied: It\'s not your wallet');
       }
