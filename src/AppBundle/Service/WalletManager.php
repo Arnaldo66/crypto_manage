@@ -136,7 +136,7 @@ class WalletManager
   */
   private function calculateTotal($tradeOrder){
     //TODO: puts usd value && euro value in currency entity
-    $priceEur = $tradeOrder->getCurrency()->getCurrencyValueMoment()->getPriceEur();
+    $priceEur = $tradeOrder->getCurrency()->getPriceEur();
     return $priceEur * $tradeOrder->getAmount();
   }
 

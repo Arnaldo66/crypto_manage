@@ -26,6 +26,7 @@ class TradingOrder
     /**
      * @var float
      * @Assert\NotBlank()
+     * @Assert\Regex(pattern="/\d/")
      * @ORM\Column(name="price", type="float")
      */
     private $price;
@@ -40,6 +41,7 @@ class TradingOrder
     /**
      * @var float
      * @Assert\NotBlank()
+     * @Assert\Regex(pattern="/\d/")
      * @ORM\Column(name="amount", type="float")
      */
     private $amount;
@@ -48,6 +50,7 @@ class TradingOrder
     /**
      * @var float
      * @Assert\NotBlank()
+     * @Assert\Regex(pattern="/\d/")
      * @ORM\Column(name="total", type="float")
      */
     private $total;
