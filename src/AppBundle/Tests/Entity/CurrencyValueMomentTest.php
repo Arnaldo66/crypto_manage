@@ -9,7 +9,7 @@ class CurrencyValueMomentTest extends KernelTestCase
 {
     private $em;
     private $validator;
-    const NB_FIELD_NOT_NULL = 6;
+    const NB_FIELD_NOT_NULL = 4;
 
     public function setUp(){
       self::bootKernel();

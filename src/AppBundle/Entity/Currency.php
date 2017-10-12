@@ -59,16 +59,14 @@ class Currency
     /**
      * @var float
      *
-     * @Assert\NotBlank()
-     * @ORM\Column(name="price_usd", type="float")
+     * @ORM\Column(name="price_usd", type="float", nullable=true)
      */
     private $priceUsd;
 
     /**
      * @var float
      *
-     * @Assert\NotBlank()
-     * @ORM\Column(name="price_eur", type="float")
+     * @ORM\Column(name="price_eur", type="float", nullable=true)
      */
     private $priceEur;
 
