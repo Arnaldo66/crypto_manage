@@ -89,10 +89,10 @@
                           {% for currencyWallet in tradingWallet.currencyWallets %}
                             <tr class="odd gradeX">
                               <td><img  src="{{ asset('images/currency-logo/32/' ~ currencyWallet.currency.image) }}" ></td>
-                              <td>{{ currencyWallet.currency.name }}</td>
-                              <td>{{ currencyWallet.currency.currencyValueMoment.priceEur|round(2) }}</td>
+                              <td><a href="{{ path('currency_show',{'slug': currencyWallet.currency.slug}) }}">{{ currencyWallet.currency.name }}</a></td>
+                              <td>{{ currencyWallet.currency.priceEur|round(2) }}</td>
                               <td>{{ currencyWallet.amount }}</td>
-                              <td>{{ (currencyWallet.currency.currencyValueMoment.priceEur * currencyWallet.amount)|round(2) }}</td>
+                              <td>{{ (currencyWallet.currency.priceEur * currencyWallet.amount)|round(2) }}</td>
                             </tr>
                           {% endfor %}
                       </tbody>

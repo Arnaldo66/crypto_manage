@@ -22,11 +22,11 @@ class AboutControllerTest extends WebTestCase
         $this->assertEquals(200,$client->getResponse()->getStatusCode());
     }
 
-    public function testwhoIAm()
+    public function testWhereBuy()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/qui-sommes-nous');
+        $crawler = $client->request('GET', '/ou-acheter-des-bitcoins');
         $this->assertEquals(200,$client->getResponse()->getStatusCode());
     }
 

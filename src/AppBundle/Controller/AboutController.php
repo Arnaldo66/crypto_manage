@@ -24,10 +24,10 @@ class AboutController extends Controller
     }
 
     /**
-     * @Route("/qui-sommes-nous", name="who_i_am")
+     * @Route("/ou-acheter-des-bitcoins", name="where_buy")
      */
-    public function whoIAmAction()
+    public function whereBuyAction()
     {
-        return $this->render(':About:whoiam.html.twig');
+        return $this->render(':About:where-buy.html.twig');
     }
 }
