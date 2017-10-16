@@ -26,13 +26,8 @@
                               <td>{% if currencyValue.currency.image is not null %}<img src="{{ asset('images/currency-logo/32/' ~ currencyValue.currency.image ) }}">{% endif %}</td>
                               <td><a href="{{ path('currency_show', {'slug': currencyValue.currency.slug }) }}">{{ currencyValue.currency.name }}</a></td>
                               <td>{{ currencyValue.currency.symbol }}</td>
-                              {% if currencyValue.priceUsd|round(2, 'floor') == 0 %}
-                                <td>{{ currencyValue.priceEur|round(5, 'floor') }}</td>
-                                <td>{{ currencyValue.priceUsd|round(5, 'floor') }}</td>
-                              {% else %}
-                                <td>{{ currencyValue.priceEur|round(2, 'floor') }}</td>
-                                <td>{{ currencyValue.priceUsd|round(2, 'floor') }}</td>
-                              {% endif %}
+                              <td>{{ currencyValue.priceEur|price }}</td>
+                              <td>{{ currencyValue.priceUsd|price }}</td>
                               <td>{{ currencyValue.rank }}</td>
                             </tr>
                           {% endfor %}
