@@ -25,7 +25,6 @@
       </div>
     </div>
   </div>
-  {% set moment_info = currency.CurrencyValueMoment %}
   <div class="row">
       <div class="panel-body">
           <div class="table-responsive">
@@ -43,13 +42,13 @@
                   </thead>
                   <tbody>
                       <tr>
-                          <td>{{ moment_info.rank }}</td>
+                          <td>{{ currency.currencyValueMoment.rank }}</td>
                           <td>{{ currency.symbol }}</td>
-                          <td>{{ moment_info.priceUsd }}</td>
-                          <td>{{ moment_info.priceEur }}</td>
-                          <td>{{ moment_info.percentChange1h }}</td>
-                          <td>{{ moment_info.percentChange24h }}</td>
-                          <td>{{ moment_info.percentChange7d }}</td>
+                          <td>{{ currency.priceUsd|price }}</td>
+                          <td>{{ currency.priceEur|price }}</td>
+                          <td>{{ currency.currencyValueMoment.percentChange1h }}</td>
+                          <td>{{ currency.currencyValueMoment.percentChange24h }}</td>
+                          <td>{{ currency.currencyValueMoment.percentChange7d }}</td>
                       </tr>
                   </tbody>
               </table>

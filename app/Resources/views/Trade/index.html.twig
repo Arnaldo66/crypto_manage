@@ -31,7 +31,7 @@
                             <tr class="odd gradeX">
                               <td><a href="{{ path('trade_show',{id:wallet.id}) }}">{{ wallet.name }}</a></td>
                               <td>{{ wallet.initialAmount }}</td>
-                              <td>{{ (wallet.euroWallet.amount + totalWallet)|round(2) }}</td>
+                              <td>{{ (wallet.euroWallet.amount + totalWallet)|price }}</td>
                             </tr>
                           {% endfor %}
                       </tbody>

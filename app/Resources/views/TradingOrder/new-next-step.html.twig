@@ -3,7 +3,7 @@
 {% block title_wrapper %}
   <h1 class="page-header">Nouvel ordre:</h1>
   <p>
-    Valeur actuelle du {{ currency.name}}: {{ currency.priceEur|round(5, 'floor') }}
+    Valeur actuelle du {{ currency.name}}: {{ currency.priceEur|price }}
   </p>
 {% endblock title_wrapper %}
 
@@ -54,7 +54,7 @@
           <span class="error">{{ form_errors(form.price) }}</span>
         {% endif %}
         <div class="form-group input-group">
-            {{ form_widget(form.price,{'attr':{'class':'form-control', 'placeholder': 'Prix', 'autocomplete':'off', 'value': currency.currencyValueMoment.priceEur|round(4, 'floor'), 'readonly': 'readonly' }}) }}
+            {{ form_widget(form.price,{'attr':{'class':'form-control', 'placeholder': 'Prix', 'autocomplete':'off', 'value': currency.priceEur|price, 'readonly': 'readonly' }}) }}
             <span class="input-group-addon">€</span>
         </div>
 
@@ -80,7 +80,7 @@
 
 {% block local_javascripts %}
   <script>
-    var initial_price = '{{ currency.priceEur|round(5, 'floor') }}';
+    var initial_price = '{{ currency.priceEur|price }}';
     $(document).ready(function() {
       $('input[name="trading_order_next_step[orderMethod]"]:radio').change(function() {
           if(this.value == 1){

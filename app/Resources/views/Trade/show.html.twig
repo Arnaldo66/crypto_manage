@@ -18,8 +18,8 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="well">
-          <p>Montant total: {{ (tradingWallet.euroWallet.amount + totalCurrencies)|round(2) }}</p>
-          <p>Montant du portefeuille en euro: {{ tradingWallet.euroWallet.amount|round(2) }}</p>
+          <p>Montant total: {{ (tradingWallet.euroWallet.amount + totalCurrencies)|price }}</p>
+          <p>Montant du portefeuille en euro: {{ tradingWallet.euroWallet.amount|price }}</p>
           <p>Montant total des portefeuilles en crypto-monnaie: {{ totalCurrencies }}</p>
           <p>Date création: {{ tradingWallet.createdAt|date('d/m/Y') }}</p>
           <p>Publique: {% if tradingWallet.public %}Oui{% else %}Non{% endif %}</p>
@@ -52,8 +52,8 @@
                                 <td>{{ tradingOrder.createdAt|date('d/m/Y') }}</td>
                                 <td>{{ tradingOrder.orderAction.name }}</td>
                                 <td>{{ tradingOrder.amount }}</td>
-                                <td>{{ tradingOrder.price|round(2) }}</td>
-                                <td>{{ tradingOrder.total|round(2) }}</td>
+                                <td>{{ tradingOrder.price|price }}</td>
+                                <td>{{ tradingOrder.total|price }}</td>
                                 <td>{{ tradingOrder.orderStatus.name }}</td>
                               </tr>
                             {% endfor %}
@@ -90,9 +90,9 @@
                             <tr class="odd gradeX">
                               <td><img  src="{{ asset('images/currency-logo/32/' ~ currencyWallet.currency.image) }}" ></td>
                               <td><a href="{{ path('currency_show',{'slug': currencyWallet.currency.slug}) }}">{{ currencyWallet.currency.name }}</a></td>
-                              <td>{{ currencyWallet.currency.priceEur|round(2) }}</td>
+                              <td>{{ currencyWallet.currency.priceEur|price }}</td>
                               <td>{{ currencyWallet.amount }}</td>
-                              <td>{{ (currencyWallet.currency.priceEur * currencyWallet.amount)|round(2) }}</td>
+                              <td>{{ (currencyWallet.currency.priceEur * currencyWallet.amount)|price }}</td>
                             </tr>
                           {% endfor %}
                       </tbody>
