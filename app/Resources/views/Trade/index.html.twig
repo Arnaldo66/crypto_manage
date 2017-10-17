@@ -20,6 +20,7 @@
                             <th>Nom</th>
                             <th>Investissement initial</th>
                             <th>Montant actuel</th>
+                            <!---<th>Supprimer</th>--->
                           </tr>
                       </thead>
                       <tbody>
@@ -32,6 +33,7 @@
                               <td><a href="{{ path('trade_show',{id:wallet.id}) }}">{{ wallet.name }}</a></td>
                               <td>{{ wallet.initialAmount }}</td>
                               <td>{{ (wallet.euroWallet.amount + totalWallet)|price }}</td>
+                              <!---<td><p class="fa fa-times-circle delete-row" style="cursor:pointer;" id="delete-row-{#{ wallet.id }#}" ></p></td>--->
                             </tr>
                           {% endfor %}
                       </tbody>
@@ -47,12 +49,26 @@
 
 {% block local_javascripts %}
   <script>
+  //TODO: implente delete with confirmation (modal) form post delete
+  function deleteTest(){
+    $.ajax({
+      url: Routing.generate('trade_delete', { id: 5 }),
+      type: 'DELETE',
+      success: function(result) {
+        alert('ok');
+      }
+    });
+  }
   $(document).ready(function() {
       $('#dataTables-wallets').DataTable({
           responsive: true,
           "language":{
             "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"
           }
+      });
+
+      $('p.delete-row').click(function(e){
+        var id = $(e.currentTarget).attr('id').split('-')[2];
       });
   });
   </script>

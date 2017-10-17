@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use AppBundle\Form\TradingWalletType;
 use AppBundle\Entity\TradingWallet;
@@ -16,8 +18,7 @@ use AppBundle\Service\WalletManager;
 
 class TradeController extends Controller
 {
-
-
+  //TODO: change trade to wallet.
   /**
    * @Route("/u/trade/wallets", name="trade_index")
    */
@@ -108,4 +109,21 @@ class TradeController extends Controller
        }
      }
 
+     /**
+      * get ajax to remove wallet
+      * @Route("/u/trade/delete/{id}", name="trade_delete", options = { "expose" = true })
+      * @Method({"DELETE"})
+      * @ParamConverter("tradingWallet", class="AppBundle:TradingWallet")
+      */
+      public function deleteAction(TradingWallet $tradingWallet){
+        if($this->getUser()->getId() !== $tradingWallet->getUser()->getId()){
+          throw new AccessDeniedException('Access denied: It\'s not your wallet');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($tradingWallet);
+        $em->flush();
+
+        return new JsonResponse(array('success' => true));
+      }
 }

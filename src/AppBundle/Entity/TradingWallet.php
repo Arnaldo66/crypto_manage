@@ -59,17 +59,17 @@ class TradingWallet
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity="EuroWallet", mappedBy="tradingWallet")
+     * @ORM\OneToOne(targetEntity="EuroWallet", mappedBy="tradingWallet", cascade={"remove"})
      */
     private $euroWallet;
 
     /**
-     * @ORM\OneToMany(targetEntity="CurrencyWallet", mappedBy="tradingWallet")
+     * @ORM\OneToMany(targetEntity="CurrencyWallet", mappedBy="tradingWallet", cascade={"remove"})
      */
     private $currencyWallets;
 
     /**
-     * @ORM\OneToMany(targetEntity="TradingOrder", mappedBy="tradingWallet")
+     * @ORM\OneToMany(targetEntity="TradingOrder", mappedBy="tradingWallet", cascade={"remove"})
      */
     private $tradingOrders;
 
