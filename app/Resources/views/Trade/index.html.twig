@@ -35,7 +35,7 @@
                               <td><a href="{{ path('trade_show',{id:wallet.id}) }}">{{ wallet.name }}</a></td>
                               <td>{{ wallet.initialAmount }}</td>
                               <td>{{ (wallet.euroWallet.amount + totalWallet)|price }}</td>
-                              <td>{{ wallet.createdAt|date("m/d/Y")  }}</td>
+                              <td>{{ wallet.createdAt|date("d/m/Y")  }}</td>
                               <td>{{ (wallet.euroWallet.amount + totalWallet - wallet.initialAmount)|price }}</td>
                               <td><p class="fa fa-times-circle" style="cursor:pointer;" data-toggle="modal" data-target="#removeWallet" data-id="{{ wallet.id }}"></p></td>
                             </tr>
