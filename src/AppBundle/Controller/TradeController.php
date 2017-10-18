@@ -36,6 +36,7 @@ class TradeController extends Controller
     * @ParamConverter("tradingWallet", class="AppBundle:TradingWallet")
     */
     public function showAction(TradingWallet $tradingWallet, WalletManager $walletManager){
+      //TODO: have to remove that
       if($this->container->getParameter("kernel.environment") !== 'test'){
         $session = new Session();
         $session->set('current_wallet_id', $tradingWallet->getId());
@@ -112,7 +113,7 @@ class TradeController extends Controller
      /**
       * get ajax to remove wallet
       * @Route("/u/trade/delete/{id}", name="trade_delete", options = { "expose" = true })
-      * @Method({"DELETE"})
+      * @Method({"DELETE", "POST"})
       * @ParamConverter("tradingWallet", class="AppBundle:TradingWallet")
       */
       public function deleteAction(TradingWallet $tradingWallet){
@@ -124,6 +125,7 @@ class TradeController extends Controller
         $em->remove($tradingWallet);
         $em->flush();
 
-        return new JsonResponse(array('success' => true));
+        $this->addFlash('success-message','Votre portefeuille a bien été supprimé !');
+        return $this->redirectToRoute('trade_index');
       }
 }

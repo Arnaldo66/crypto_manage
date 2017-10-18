@@ -20,7 +20,9 @@
                             <th>Nom</th>
                             <th>Investissement initial</th>
                             <th>Montant actuel</th>
-                            <!---<th>Supprimer</th>--->
+                            <th>Date création</th>
+                            <th>Balance</th>
+                            <th>Supprimer</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -33,7 +35,9 @@
                               <td><a href="{{ path('trade_show',{id:wallet.id}) }}">{{ wallet.name }}</a></td>
                               <td>{{ wallet.initialAmount }}</td>
                               <td>{{ (wallet.euroWallet.amount + totalWallet)|price }}</td>
-                              <!---<td><p class="fa fa-times-circle delete-row" style="cursor:pointer;" id="delete-row-{#{ wallet.id }#}" ></p></td>--->
+                              <td>{{ wallet.createdAt|date("m/d/Y")  }}</td>
+                              <td>{{ (wallet.euroWallet.amount + totalWallet - wallet.initialAmount)|price }}</td>
+                              <td><p class="fa fa-times-circle" style="cursor:pointer;" data-toggle="modal" data-target="#removeWallet" data-id="{{ wallet.id }}"></p></td>
                             </tr>
                           {% endfor %}
                       </tbody>
@@ -45,31 +49,49 @@
       </div>
       <!-- /.col-lg-12 -->
   </div>
+
+  <div class="modal fade" id="removeWallet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Suppression de wallet</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="" method="POST">
+          <div class="modal-body">
+            Etes-vous sûr de vouloir supprimer votre portefeuille ?<br/>
+            La suppression est définitive
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+            <button type="submit" class="btn btn-primary">Confirmer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
 {% endblock %}
 
 {% block local_javascripts %}
   <script>
-  //TODO: implente delete with confirmation (modal) form post delete
-  function deleteTest(){
-    $.ajax({
-      url: Routing.generate('trade_delete', { id: 5 }),
-      type: 'DELETE',
-      success: function(result) {
-        alert('ok');
-      }
-    });
-  }
-  $(document).ready(function() {
-      $('#dataTables-wallets').DataTable({
-          responsive: true,
-          "language":{
-            "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"
-          }
-      });
+    $(document).ready(function() {
+        $('#removeWallet').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget);
+          var id = button.data('id');
+          $(this).find('form').attr('action', Routing.generate('trade_delete', { id: id }));
+        })
 
-      $('p.delete-row').click(function(e){
-        var id = $(e.currentTarget).attr('id').split('-')[2];
-      });
-  });
+
+        $('#dataTables-wallets').DataTable({
+            responsive: true,
+            "language":{
+              "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"
+            }
+        });
+    });
   </script>
 {% endblock %}
