@@ -28,7 +28,9 @@ class CronGetHistoricalDataCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
       $this->em = $this->getContainer()->get('doctrine')->getManager();
-      $currencies = $this->em->getRepository('AppBundle:Currency')->findBy(array('history'=> NULL),array(), 2);
+      $currencies = $this->em->getRepository('AppBundle:Currency')->findBy(
+        array('history'=> NULL),array(), 2
+      );
       foreach ($currencies as $key => $value) {
         $this->value = $value;
         $this->createHistory($value);
@@ -42,7 +44,7 @@ class CronGetHistoricalDataCommand extends ContainerAwareCommand
         $crawler->filter('div#historical-data tr')->each(function ($node,$k) {
             if($k != 0){
               $data = $this->formatStrucToEM($node);
-              // insert value
+              // insert value, update currency
               var_dump($array_tr);die();
             }
         });
@@ -85,7 +87,8 @@ class CronGetHistoricalDataCommand extends ContainerAwareCommand
     }
 
     private function createDateTime($month, $day, $year){
-      $date = \DateTime::createFromFormat('j-M-Y H:i:s', str_replace(',','',$day).'-'.$month.'-'.$year.' 00:00:00');
-      return $date;
+      return \DateTime::createFromFormat(
+        'j-M-Y H:i:s', str_replace(',','',$day).'-'.$month.'-'.$year.' 00:00:00'
+      );
     }
 }
