@@ -42,6 +42,7 @@ class CronGetHistoricalDataCommand extends ContainerAwareCommand
         $crawler->filter('div#historical-data tr')->each(function ($node,$k) {
             if($k != 0){
               $data = $this->formatStrucToEM($node);
+              // insert value
               var_dump($array_tr);die();
             }
         });
@@ -53,19 +54,25 @@ class CronGetHistoricalDataCommand extends ContainerAwareCommand
       $data['day'] = $this->createDateTime($data[0],$data[1],$data[2]);
       $data['currency'] = $this->value;
       if(!$this->canProcess($data)){
-        die('ii');
-      }else{
-        die('no');
+        return false;
       }
+      $data['day'] = '';
+      $data['hightUsd'] = '';
+      $data['lowUsd'] = '';
+      $data['hightEur'] = '';
+      $data['lowEur'] = '';
+      $data['averageUsd'] = '';
+      $data['averageEur'] = '';
+
+      return $data;
     }
 
     private function canProcess($data){
-      //TODO: have to be excatl date and no dateTime
       $entity = $this->em->getRepository('AppBundle:CurrencyValueHistory')->findOneBy(
-        array('day'=>'2017-01-01', 'currency'=>$data['currency'])
+        array('day'=>$data['day'], 'currency'=>$data['currency'])
       );
 
-      var_dump($entity === NULL);die();
+      return $entity === NULL;
     }
 
     private function getDataFromNode($node){
@@ -78,9 +85,7 @@ class CronGetHistoricalDataCommand extends ContainerAwareCommand
     }
 
     private function createDateTime($month, $day, $year){
-      $date = \DateTime::createFromFormat('j-M-Y', str_replace(',','',$day).'-'.$month.'-'.$year);
-      $string_date = $date->format('Y-m-d');
-      return $string_date;
+      $date = \DateTime::createFromFormat('j-M-Y H:i:s', str_replace(',','',$day).'-'.$month.'-'.$year.' 00:00:00');
+      return $date;
     }
-
 }
