@@ -116,6 +116,11 @@ class Currency
     private $currencyHistoryValues;
 
 
+    /**
+     * @var boolean
+     * @ORM\Column(name="history", type="boolean", nullable=true)
+     */
+    private $history;
 
     /**
      * Constructor
@@ -474,4 +479,28 @@ class Currency
      public function getNameValue(){
        return $this->getName().': '.round($this->getPriceEur(),3);
      }
+
+    /**
+     * Set history
+     *
+     * @param boolean $history
+     *
+     * @return Currency
+     */
+    public function setHistory($history)
+    {
+        $this->history = $history;
+
+        return $this;
+    }
+
+    /**
+     * Get history
+     *
+     * @return boolean
+     */
+    public function getHistory()
+    {
+        return $this->history;
+    }
 }

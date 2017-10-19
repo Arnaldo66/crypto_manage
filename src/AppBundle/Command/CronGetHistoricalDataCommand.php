@@ -11,6 +11,11 @@ use Goutte\Client;
 
 class CronGetHistoricalDataCommand extends ContainerAwareCommand
 {
+    private $em;
+    private $value;
+
+    //TODO: get all 3 minutes, currency history <> true
+    // max 2 by cron. Over after 3 day. then no limit but 1 by day
     protected function configure()
     {
         $this
@@ -22,22 +27,60 @@ class CronGetHistoricalDataCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-      $client = new Client();
-      $crawler = $client->request('GET', 'https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20130928&end=20171018');
+      $this->em = $this->getContainer()->get('doctrine')->getManager();
+      $currencies = $this->em->getRepository('AppBundle:Currency')->findBy(array('history'=> NULL),array(), 2);
+      foreach ($currencies as $key => $value) {
+        $this->value = $value;
+        $this->createHistory($value);
+      }
+    }
 
-      $crawler->filter('div#historical-data tr')->each(function ($node,$k) {
-          if($k != 0){
-            $cleanValue = preg_replace('!\s+!', ' ', $node->text());
-            $array_tr = explode(' ',$cleanValue);
-            $date = $this->createDateTime($array_tr[0],$array_tr[1],$array_tr[2]);
-            var_dump($array_tr);die();
-          }
-      });
+    private function createHistory($value){
+        $client = new Client();
+        $crawler = $client->request('GET', $this->getUrl($value->getSlug()));
+
+        $crawler->filter('div#historical-data tr')->each(function ($node,$k) {
+            if($k != 0){
+              $data = $this->formatStrucToEM($node);
+              var_dump($array_tr);die();
+            }
+        });
+    }
+
+    private function formatStrucToEM($node){
+      $data = array();
+      $data = $this->getDataFromNode($node);
+      $data['day'] = $this->createDateTime($data[0],$data[1],$data[2]);
+      $data['currency'] = $this->value;
+      if(!$this->canProcess($data)){
+        die('ii');
+      }else{
+        die('no');
+      }
+    }
+
+    private function canProcess($data){
+      //TODO: have to be excatl date and no dateTime
+      $entity = $this->em->getRepository('AppBundle:CurrencyValueHistory')->findOneBy(
+        array('day'=>'2017-01-01', 'currency'=>$data['currency'])
+      );
+
+      var_dump($entity === NULL);die();
+    }
+
+    private function getDataFromNode($node){
+      $cleanValue = preg_replace('!\s+!', ' ', $node->text());
+      return explode(' ',$cleanValue);
+    }
+
+    private function getUrl($slug){
+      return 'https://coinmarketcap.com/currencies/'.$slug.'/historical-data/?start=20110101&end='.date('Y').date('m').date('d');
     }
 
     private function createDateTime($month, $day, $year){
       $date = \DateTime::createFromFormat('j-M-Y', str_replace(',','',$day).'-'.$month.'-'.$year);
-      var_dump($date);die();
+      $string_date = $date->format('Y-m-d');
+      return $string_date;
     }
 
 }
