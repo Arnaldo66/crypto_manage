@@ -47,7 +47,7 @@ class CronGetHistoricalDataCommand extends ContainerAwareCommand
 
     private function createHistory($value){
         $client = new Client();
-        $crawler = $client->request('GET', $this->getUrl($value->getSlug()));
+        $crawler = $client->request('GET', $this->getUrl($value->getUniqueName()));
 
         $crawler->filter('div#historical-data tr')->each(function ($node,$k) {
             if($k != 0){
