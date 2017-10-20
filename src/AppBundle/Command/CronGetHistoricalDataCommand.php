@@ -9,10 +9,13 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Goutte\Client;
 
+use AppBundle\Entity\CurrencyValueHistory;
+
 class CronGetHistoricalDataCommand extends ContainerAwareCommand
 {
     private $em;
     private $value;
+    private $insert;
 
     //TODO: get all 3 minutes, currency history <> true
     // max 2 by cron. Over after 3 day. then no limit but 1 by day
@@ -32,9 +35,14 @@ class CronGetHistoricalDataCommand extends ContainerAwareCommand
         array('history'=> NULL),array(), 2
       );
       foreach ($currencies as $key => $value) {
+        $this->insert = 0;
         $this->value = $value;
         $this->createHistory($value);
+        if($this->insert > 0){
+          $value->setHistory(1);
+        }
       }
+      $this->em->flush();
     }
 
     private function createHistory($value){
@@ -44,28 +52,43 @@ class CronGetHistoricalDataCommand extends ContainerAwareCommand
         $crawler->filter('div#historical-data tr')->each(function ($node,$k) {
             if($k != 0){
               $data = $this->formatStrucToEM($node);
-              // insert value, update currency
-              var_dump($array_tr);die();
+              if($data !== false){
+                $this->insertHistoricalValue($data);
+              }
             }
         });
     }
 
+    private function insertHistoricalValue($data){
+        $entity = new CurrencyValueHistory;
+        $entity->setHightUsd($data['hightUsd']);
+        $entity->setLowUsd($data['lowUsd']);
+        $entity->setAverageUsd($data['averageUsd']);
+        $entity->setHightEur($data['hightEur']);
+        $entity->setLowEur($data['lowEur']);
+        $entity->setAverageEur($data['averageEur']);
+        $entity->setCurrency($data['currency']);
+        $entity->setDay($data['day']);
+
+        $this->em->persist($entity);
+        $this->insert++;
+    }
+
     private function formatStrucToEM($node){
       $data = array();
-      $data = $this->getDataFromNode($node);
-      $data['day'] = $this->createDateTime($data[0],$data[1],$data[2]);
+      $usd_convert = 0.84570;
+      $data_node = $this->getDataFromNode($node);
+      $data['day'] = $this->createDateTime($data_node[0],$data_node[1],$data_node[2]);
       $data['currency'] = $this->value;
       if(!$this->canProcess($data)){
         return false;
       }
-      $data['day'] = '';
-      $data['hightUsd'] = '';
-      $data['lowUsd'] = '';
-      $data['hightEur'] = '';
-      $data['lowEur'] = '';
-      $data['averageUsd'] = '';
-      $data['averageEur'] = '';
-
+      $data['hightUsd'] = $data_node[4];
+      $data['lowUsd'] = $data_node[5];
+      $data['hightEur'] = $data_node[4] * $usd_convert;
+      $data['lowEur'] = $data_node[5] * $usd_convert;
+      $data['averageUsd'] = (($data_node[4] + $data_node[5]) / 2);
+      $data['averageEur'] = (($data_node[4] + $data_node[5]) / 2) * $usd_convert;
       return $data;
     }
 
