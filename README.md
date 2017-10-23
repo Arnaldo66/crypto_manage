@@ -7,6 +7,7 @@ BUG
   - test if price is nul (btc && euro && dollars) .. dont take
   - if not null transform value from btc or euro or dollars
   - Responsive mobile not good.
+  - Ex: ripple: portefeuille euro négatif
 TODO:
   - About page
   - First step page
