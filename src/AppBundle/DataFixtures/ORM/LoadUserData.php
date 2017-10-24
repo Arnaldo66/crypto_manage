@@ -34,6 +34,16 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $userManager->updateUser($user, true);
 
         $this->addReference('user', $user);
+
+        // Create our user super admin
+        $admin = $userManager->createUser();
+        $admin->setUsername('superadmin');
+        $admin->setEmail('superadmin@domain.com');
+        $admin->setPlainPassword('password');
+        $admin->setEnabled(true);
+        $admin->setRoles(array('ROLE_SUPER_ADMIN'));
+        // Update the user
+        $userManager->updateUser($admin, true);
     }
 
     public function getOrder()
