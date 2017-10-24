@@ -4,7 +4,7 @@ namespace AppBundle\Tests\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class UserControllerTest extends WebTestCase
+class WalletControllerTest extends WebTestCase
 {
 
     private $client;
@@ -16,9 +16,10 @@ class UserControllerTest extends WebTestCase
       ));
     }
 
-    public function testUsers()
+    public function testWallets()
     {
-      $crawler = $this->client->request('GET', '/egbo/users');
-      $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
+        $crawler = $this->client->request('GET', '/egbo/wallets');
+        $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
     }
+
 }
