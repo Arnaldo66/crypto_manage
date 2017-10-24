@@ -41,7 +41,7 @@ class WalletManager
   public function canFinaliseOrder($tradeOrder,$em){
     if($tradeOrder->getOrderAction()->getId() == $this->container->getParameter('order_buy')){
       // achat: total >= montant euro wallet && order pending ?
-      $totalOrderPending = $this->getTotalWAlletPending($tradeOrder->getTradingWallet(),$em);
+      $totalOrderPending = $this->getTotalWalletPending($tradeOrder->getTradingWallet(),$em);
       $totalWallet = $tradeOrder->getTradingWallet()->getEuroWallet()->getAmount() - $totalOrderPending;
       if($totalWallet < $tradeOrder->getTotal()){
         return Array("success"=>false, "message"=>"Vous n'avez pas les fonds nécessaires");
@@ -64,7 +64,7 @@ class WalletManager
   /**
   * get total amoutn all order pending for this wallet
   **/
-  private function getTotalWAlletPending($tradingWallet,$em){
+  private function getTotalWalletPending($tradingWallet,$em){
     $total = 0;
     $orders = $em->getRepository('AppBundle:TradingOrder')->findBy(array(
       'tradingWallet' => $tradingWallet,
@@ -135,7 +135,6 @@ class WalletManager
   * calculate total
   */
   private function calculateTotal($tradeOrder){
-    //TODO: puts usd value && euro value in currency entity
     $priceEur = $tradeOrder->getCurrency()->getPriceEur();
     return $priceEur * $tradeOrder->getAmount();
   }

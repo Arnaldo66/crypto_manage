@@ -54,14 +54,16 @@ class TradingOrderController extends Controller
           $orderMethod = $em->getRepository('AppBundle:OrderMethod')->find(1);
           $tradeOrder->setOrderAction($orderAction);
           $tradeOrder->setOrderMethod($orderMethod);
+          $wallet = $this->getPrivateWallet();
 
           $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array(
-            'wallet' => $this->getPrivateWallet(),
+            'wallet' => $wallet,
             'action' => $this->generateUrl('trade_order_new_final_step'),
             'method' => 'POST',
           ));
           return $this->render(':TradingOrder:new-next-step.html.twig', array(
-            'form'=> $form->createView(), 'currency' => $currency
+            'form'=> $form->createView(), 'currency' => $currency,
+            'wallet' =>$wallet
           ));
         }
     }
