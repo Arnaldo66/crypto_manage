@@ -12,7 +12,13 @@ class UserController extends Controller
      */
     public function usersAction()
     {
-        return $this->render(':Admin\User:users.html.twig', array());
+        $users = $this->getDoctrine()->getManager()
+                  ->getRepository('AppBundle:User')
+                  ->findAll();
+
+        return $this->render(':Admin\User:users.html.twig', array(
+          'users' => $users
+        ));
     }
 
 }
