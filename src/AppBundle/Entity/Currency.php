@@ -122,6 +122,18 @@ class Currency
      */
     private $history;
 
+
+    /**
+     * @var datetime
+     * @ORM\Column(name="graph_year_date", type="datetime", nullable=true)
+     */
+    private $graphYearDate;
+
+    /**
+     * @ORM\Column(name="graph_year_data", type="text", nullable=true)
+     */
+    private $graphYearData;
+
     /**
      * Constructor
      */
@@ -502,5 +514,53 @@ class Currency
     public function getHistory()
     {
         return $this->history;
+    }
+
+    /**
+     * Set graphYearDate
+     *
+     * @param \DateTime $graphYearDate
+     *
+     * @return Currency
+     */
+    public function setGraphYearDate($graphYearDate)
+    {
+        $this->graphYearDate = $graphYearDate;
+
+        return $this;
+    }
+
+    /**
+     * Get graphYearDate
+     *
+     * @return \DateTime
+     */
+    public function getGraphYearDate()
+    {
+        return $this->graphYearDate;
+    }
+
+    /**
+     * Set graphYearData
+     *
+     * @param string $graphYearData
+     *
+     * @return Currency
+     */
+    public function setGraphYearData($graphYearData)
+    {
+        $this->graphYearData = $graphYearData;
+
+        return $this;
+    }
+
+    /**
+     * Get graphYearData
+     *
+     * @return string
+     */
+    public function getGraphYearData()
+    {
+        return $this->graphYearData;
     }
 }

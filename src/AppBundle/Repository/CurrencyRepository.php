@@ -17,7 +17,7 @@ class CurrencyRepository extends \Doctrine\ORM\EntityRepository
       $conn = $this->_em->getConnection();
       $conn->executeUpdate("SET sql_mode = '';");
       $query = ("
-              SELECT  TRUNCATE(AVG(average_eur),2) as ".$currency->getUniqueName().",
+              SELECT  TRUNCATE(AVG(average_eur),5) as ".$currency->getUniqueName().",
                       case when length(MONTH(day))=1
                         then CONCAT(YEAR(day), '-0', MONTH(day), '-01')
                         else CONCAT(YEAR(day), '-', MONTH(day), '-01')

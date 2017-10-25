@@ -15,16 +15,32 @@ class CurrencyController extends Controller
      */
     public function showAction(Currency $currency)
     {
-
-        $data = $this->formatDataGraph(
-                      $this->getDoctrine()->getManager()
-                      ->getRepository('AppBundle:Currency')
-                      ->getDataLastMonth($currency)
-                );
+        $data = $this->getGraphData($currency);
         return $this->render(':Currency:show.html.twig', array(
           'currency' => $currency, 'data' => $data
         ));
     }
+
+    /**
+     * get date for year graph
+     */
+     public function getGraphData($currency){
+       $date = new \DateTime();
+       $em = $this->getDoctrine()->getManager();
+       if($currency->getGraphYearDate() === NULL || $currency->getGraphYearDate() < $date){
+         $result = $this->formatDataGraph(
+                        $em->getRepository('AppBundle:Currency')
+                           ->getDataLastMonth($currency)
+                       );
+         $currency->setGraphYearDate($date->add(new \DateInterval('P1D')));
+         $currency->setGraphYearData($result);
+         $em->flush();
+       }else{
+         $result = $currency->getGraphYearData();
+       }
+       return $result;
+
+     }
 
     /**
      * format data for morris.js graph
