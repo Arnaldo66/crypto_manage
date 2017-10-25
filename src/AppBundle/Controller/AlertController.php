@@ -10,10 +10,13 @@ class AlertController extends Controller
     /**
      * @Route("/u/alerts", name="alert")
      */
-    public function indexAction()
+    public function alertsAction()
     {
-        return $this->render(':Alert:index.html.twig', array(
-            // ...
+        $alerts = $this->getDoctrine()->getManager()
+                  ->getRepository('AppBundle:Alert')
+                  ->findBy(array('user'=>$this->getUser()));
+        return $this->render(':Alert:alerts.html.twig', array(
+            'alerts' => $alerts
         ));
     }
 
@@ -22,6 +25,7 @@ class AlertController extends Controller
      */
     public function newAction()
     {
+        die('inew');
         return $this->render(':Alert:new.html.twig', array(
             // ...
         ));
