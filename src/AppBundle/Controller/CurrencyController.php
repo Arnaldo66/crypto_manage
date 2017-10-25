@@ -15,9 +15,22 @@ class CurrencyController extends Controller
      */
     public function showAction(Currency $currency)
     {
+
+        $data = $this->formatDataGraph(
+                      $this->getDoctrine()->getManager()
+                      ->getRepository('AppBundle:Currency')
+                      ->getDataLastMonth($currency->getUniqueName())
+                );
         return $this->render(':Currency:show.html.twig', array(
-          'currency' => $currency
+          'currency' => $currency, 'data' => $data
         ));
     }
+
+    /**
+     * format data for morris.js graph
+     */
+     private function formatDataGraph($data){
+       return json_encode($data);
+     }
 
 }

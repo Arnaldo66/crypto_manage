@@ -10,4 +10,20 @@ namespace AppBundle\Repository;
  */
 class CurrencyRepository extends \Doctrine\ORM\EntityRepository
 {
+  /**
+   * get data for graph by last 12 month
+   */
+   public function getDataLastMonth($name){
+      $conn = $this->_em->getConnection();
+      $conn->executeUpdate("SET sql_mode = '';");
+      $query = ("
+              SELECT AVG(average_eur) as ".$name.", CONCAT(YEAR(day), '-', MONTH(day), '-01') as period
+              FROM currency_value_history
+              WHERE day >= concat(YEAR(CURRENT_DATE)-1,'-', MONTH(CURRENT_DATE) ,'-01')
+              AND currency_id = 1
+              GROUP BY YEAR(day), MONTH(day)
+              ORDER BY day ASC
+       ");
+       return $conn->query($query)->fetchAll();
+   }
 }
