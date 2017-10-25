@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Alert
@@ -23,18 +24,31 @@ class Alert
 
     /**
      * @var float
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="price", type="float")
      */
     private $price;
 
     /**
      * @var bool
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="buy", type="boolean")
      */
     private $buy;
 
+    /**
+     * @Assert\NotNull()
+     * @ORM\ManyToOne(targetEntity="Currency")
+     * @ORM\JoinColumn(name="currency_id", referencedColumnName="id", nullable=false)
+     */
+    private $currency;
+
+    /**
+     * @Assert\NotNull()
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="alerts")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     */
+    private $user;
 
     /**
      * Get id
@@ -93,5 +107,52 @@ class Alert
     {
         return $this->buy;
     }
-}
 
+    /**
+     * Set currency
+     *
+     * @param \AppBundle\Entity\Currency $currency
+     *
+     * @return Alert
+     */
+    public function setCurrency(\AppBundle\Entity\Currency $currency)
+    {
+        $this->currency = $currency;
+
+        return $this;
+    }
+
+    /**
+     * Get currency
+     *
+     * @return \AppBundle\Entity\Currency
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Alert
+     */
+    public function setUser(\AppBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+}
