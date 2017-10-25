@@ -89,14 +89,13 @@
 {% block local_javascripts %}
 <script>
 $(function() {
-    var currency = '{{ currency.uniqueName }}';
     var json_data = {{ data|raw }};
     Morris.Area({
         element: 'morris-area-chart',
         data: json_data,
         xkey: 'period',
-        ykeys: [currency],
-        labels: [currency],
+        ykeys: ['valeur'],
+        labels: ['valeur'],
         pointSize: 1,
         hideHover: 'auto',
         resize: true

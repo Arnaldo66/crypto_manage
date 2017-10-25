@@ -16,8 +16,16 @@ class CurrencyRepository extends \Doctrine\ORM\EntityRepository
    public function getDataLastMonth($currency){
       $conn = $this->_em->getConnection();
       $conn->executeUpdate("SET sql_mode = '';");
+      /*
+
+                    union
+
+                    select average_eur as ".$currency->getUniqueName().", day as period
+                    FROM currency_value_history
+                    where day = DATE_ADD(current_date(), INTERVAL -1 DAY)
+                    AND currency_id = ".$currency->getId()."*/
       $query = ("
-              SELECT  TRUNCATE(AVG(average_eur),5) as ".$currency->getUniqueName().",
+              SELECT  TRUNCATE(AVG(average_eur),5) as valeur,
                       case when length(MONTH(day))=1
                         then CONCAT(YEAR(day), '-0', MONTH(day), '-01')
                         else CONCAT(YEAR(day), '-', MONTH(day), '-01')
