@@ -19,7 +19,7 @@ class CurrencyController extends Controller
         $data = $this->formatDataGraph(
                       $this->getDoctrine()->getManager()
                       ->getRepository('AppBundle:Currency')
-                      ->getDataLastMonth($currency->getUniqueName())
+                      ->getDataLastMonth($currency)
                 );
         return $this->render(':Currency:show.html.twig', array(
           'currency' => $currency, 'data' => $data
