@@ -30,18 +30,20 @@
                             <th>Symbole</th>
                             <th>Valeur euro</th>
                             <th>Valeur dollars</th>
+                            <th>Valeur en bitcoin</th>
                             <th>Rank</th>
                           </tr>
                       </thead>
                       <tbody>
-                          {% for currency in currencies %}
+                          {% for currencyValue in currencyMomentValues %}
                             <tr class="odd gradeX">
-                              <td>{% if currency.image is not null %}<img src="{{ asset('images/currency-logo/32/' ~ currency.image ) }}">{% endif %}</td>
-                              <td><a href="{{ path('currency_show', {'slug': currency.slug }) }}">{{ currency.name }}</a></td>
-                              <td>{{ currency.symbol }}</td>
-                              <td>{{ currency.priceEur|price }}</td>
-                              <td>{{ currency.priceUsd|price }}</td>
-                              <td>{{ currency.rank }}</td>
+                              <td>{% if currencyValue.currency.image is not null %}<img src="{{ asset('images/currency-logo/32/' ~ currencyValue.currency.image ) }}">{% endif %}</td>
+                              <td><a href="{{ path('currency_show', {'slug': currencyValue.currency.slug }) }}">{{ currencyValue.currency.name }}</a></td>
+                              <td>{{ currencyValue.currency.symbol }}</td>
+                              <td>{{ currencyValue.priceEur|price }}</td>
+                              <td>{{ currencyValue.priceUsd|price }}</td>
+                              <td>{{ currencyValue.priceBtc|price }}</td>
+                              <td>{{ currencyValue.rank }}</td>
                             </tr>
                           {% endfor %}
                       </tbody>

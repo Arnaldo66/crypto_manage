@@ -18,6 +18,7 @@
                             <th>Symbole</th>
                             <th>Valeur euro</th>
                             <th>Valeur dollars</th>
+                            <th>Valeur en bitcoin</th>
                             <th>Rank</th>
                           </tr>
                       </thead>
@@ -29,6 +30,7 @@
                               <td>{{ currencyValue.currency.symbol }}</td>
                               <td>{{ currencyValue.priceEur|price }}</td>
                               <td>{{ currencyValue.priceUsd|price }}</td>
+                              <td>{{ currencyValue.priceBtc|price }}</td>
                               <td>{{ currencyValue.rank }}</td>
                             </tr>
                           {% endfor %}
