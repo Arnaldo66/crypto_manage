@@ -20,6 +20,9 @@
 
         <div class="form-group">
           <label>Type:</label>
+          {% if form_errors(form.buy) %}
+            <span class="error">{{ form_errors(form.buy) }}</span>
+          {% endif %}
           <label class="radio-inline">
               {{ form_widget(form.buy[0],{'attr':{'autocomplete':'off'}}) }}Achat
           </label>

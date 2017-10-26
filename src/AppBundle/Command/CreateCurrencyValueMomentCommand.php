@@ -53,12 +53,37 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
       foreach ($alerts as $alert) {
         $priceEuro = $alert->getCurrency()->getPriceEur();
         if(( $priceEuro <= $alert->getPrice() && $alert->getBuy()) || ($priceEuro >= $alert->getPrice() && !$alert->getBuy())){
-          $alert->setDelete(1);
-          die('send mail');
+          $alert->setCanDelete(1);
+          $this->sendAlertEmail($alert);
+          $em->remove($alert);
         }
       }
+      //remove all can delete alert
       $em->flush();
       $output->writeln($output_message);
+    }
+
+    /**
+     * send email to user for alert
+     */
+    private function sendAlertEmail($alert){
+      $mailer = $this->getContainer()->get('mailer');
+      $type = "Achat";
+      if($alert->getBuy() == 0){
+        $type = "Vente";
+      }
+      $message = (new \Swift_Message('Une alerte a été soulevé'))
+       ->setFrom('admin@e-goldenboy.com')
+       ->setTo($alert->getUser()->getEmail())
+       ->setBody(
+           'Message: Une alerte a été soulevé<br/>
+           Type: '.$type.'<br/>
+           Crypto-monnaie: '.$alert->getCurrency()->getName().'<br/>
+           Seuil souhaité: '.$alert->getPrice().'<br/>
+           Valeur actuelle: '.$alert->getCurrency()->getPriceEur(),
+           'text/html'
+       );
+       $mailer->send($message);
     }
 
     //insert into CurrencyValueDay

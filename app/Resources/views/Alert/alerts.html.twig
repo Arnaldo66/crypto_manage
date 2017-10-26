@@ -35,7 +35,7 @@
                             <tr class="odd gradeX">
                               <td>{{ alert.id }}</td>
                               <td>{{ alert.price|price }}</td>
-                              <td>{{ alert.buy }}</td>
+                              <td>{% if alert.buy %}Achat{% else %}Vente{% endif %}</td>
                               <td>{{ alert.currency.name }}</td>
                             </tr>
                           {% endfor %}

@@ -31,7 +31,7 @@ class Alert
 
     /**
      * @var bool
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @ORM\Column(name="buy", type="boolean")
      */
     private $buy;
@@ -52,9 +52,9 @@ class Alert
 
     /**
      * @var bool
-     * @ORM\Column(name="delete", type="boolean", nullable=true)
+     * @ORM\Column(name="can_delete", type="boolean", nullable=true)
      */
-    private $delete;
+    private $canDelete;
 
     /**
      * Get id
@@ -163,26 +163,26 @@ class Alert
     }
 
     /**
-     * Set delete
+     * Set canDelete
      *
-     * @param boolean $delete
+     * @param boolean $canDelete
      *
      * @return Alert
      */
-    public function setDelete($delete)
+    public function setCanDelete($canDelete)
     {
-        $this->delete = $delete;
+        $this->canDelete = $canDelete;
 
         return $this;
     }
 
     /**
-     * Get delete
+     * Get canDelete
      *
      * @return boolean
      */
-    public function getDelete()
+    public function getCanDelete()
     {
-        return $this->delete;
+        return $this->canDelete;
     }
 }
