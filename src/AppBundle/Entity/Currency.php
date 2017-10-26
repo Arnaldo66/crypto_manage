@@ -71,6 +71,13 @@ class Currency
     private $priceEur;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="price_btc", type="float", nullable=true)
+     */
+    private $priceBtc;
+
+    /**
      * @var int
      *
      * @Assert\NotBlank()
@@ -562,5 +569,29 @@ class Currency
     public function getGraphYearData()
     {
         return $this->graphYearData;
+    }
+
+    /**
+     * Set priceBtc
+     *
+     * @param float $priceBtc
+     *
+     * @return Currency
+     */
+    public function setPriceBtc($priceBtc)
+    {
+        $this->priceBtc = $priceBtc;
+
+        return $this;
+    }
+
+    /**
+     * Get priceBtc
+     *
+     * @return float
+     */
+    public function getPriceBtc()
+    {
+        return $this->priceBtc;
     }
 }

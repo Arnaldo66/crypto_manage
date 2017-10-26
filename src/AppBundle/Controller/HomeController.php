@@ -14,11 +14,11 @@ class HomeController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $currencyMomentValues = $this->getDoctrine()
-          ->getRepository('AppBundle:CurrencyValueMoment')
-          ->findBy([],[],100);
+        $currencies = $this->getDoctrine()
+          ->getRepository('AppBundle:Currency')
+          ->findBy([],array('rank'=>'ASC'),100);
 
-        return $this->render(':Home:index.html.twig',array('currencyMomentValues'=>$currencyMomentValues));
+        return $this->render(':Home:index.html.twig',array('currencies'=>$currencies));
     }
 
 }

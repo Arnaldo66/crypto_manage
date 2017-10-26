@@ -14,11 +14,11 @@ class CurrencyController extends Controller
      * @Route("/toutes-les-crypto-monnaies", name="currencies")
      */
      public function currenciesAction(){
-       $currencyMomentValues = $this->getDoctrine()->getManager()
-                          ->getRepository('AppBundle:CurrencyValueMoment')
+       $currencies = $this->getDoctrine()->getManager()
+                          ->getRepository('AppBundle:Currency')
                           ->findAll();
       return $this->render(':Currency:currencies.html.twig', array(
-        'currencyMomentValues' => $currencyMomentValues
+        'currencies' => $currencies
       ));
      }
 

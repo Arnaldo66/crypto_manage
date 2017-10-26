@@ -128,6 +128,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
         }else{
           $currency->setPriceUsd($value->price_usd);
           $currency->setPriceEur($value->price_eur);
+          $currency->setPriceBtc($value->price_btc);
         }
 
 
