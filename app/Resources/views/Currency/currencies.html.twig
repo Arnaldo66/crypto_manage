@@ -1,12 +1,24 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+  <title>Liste de toutes les crypto-monnaies - e-goldenboy.com</title>
+{% endblock title %}
+
+{% block meta %}
+  <meta name="description" content="e-goldenboy.com liste toutes les crypto-monnaies existantes et affiche les cours en temps réel." />
+{% endblock meta %}
+
+
+{% block title_wrapper %}
+  <h1 class="page-header">Liste des crypto-monnaies</h1>
+{% endblock title_wrapper %}
+
 {% block body %}
   <div class="row">
       <div class="col-lg-12">
           <div class="panel panel-default">
               <div class="panel-heading">
-                  Liste des {{ currencyMomentValues|length }} premières crypto-monnaies classés par capitalisation boursière.
-                  <a href="{{ path('currencies') }}" class="pull-right italic" title="Voir toutes les cryto-monnaies">Tout voir</a>
+                  Liste des toutes les crypto-monnaies classées par capitalisation boursière.
               </div>
               <!-- /.panel-heading -->
               <div class="panel-body">
@@ -22,14 +34,14 @@
                           </tr>
                       </thead>
                       <tbody>
-                          {% for currencyValue in currencyMomentValues %}
+                          {% for currency in currencies %}
                             <tr class="odd gradeX">
-                              <td>{% if currencyValue.currency.image is not null %}<img src="{{ asset('images/currency-logo/32/' ~ currencyValue.currency.image ) }}">{% endif %}</td>
-                              <td><a href="{{ path('currency_show', {'slug': currencyValue.currency.slug }) }}">{{ currencyValue.currency.name }}</a></td>
-                              <td>{{ currencyValue.currency.symbol }}</td>
-                              <td>{{ currencyValue.priceEur|price }}</td>
-                              <td>{{ currencyValue.priceUsd|price }}</td>
-                              <td>{{ currencyValue.rank }}</td>
+                              <td>{% if currency.image is not null %}<img src="{{ asset('images/currency-logo/32/' ~ currency.image ) }}">{% endif %}</td>
+                              <td><a href="{{ path('currency_show', {'slug': currency.slug }) }}">{{ currency.name }}</a></td>
+                              <td>{{ currency.symbol }}</td>
+                              <td>{{ currency.priceEur|price }}</td>
+                              <td>{{ currency.priceUsd|price }}</td>
+                              <td>{{ currency.rank }}</td>
                             </tr>
                           {% endfor %}
                       </tbody>
@@ -50,6 +62,7 @@
   $(document).ready(function() {
       $('#dataTables-example').DataTable({
           responsive: true,
+          "pageLength": 50,
           "language":{
             "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"
           }

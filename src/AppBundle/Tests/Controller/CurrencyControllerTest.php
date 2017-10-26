@@ -15,4 +15,12 @@ class CurrencyControllerTest extends WebTestCase
         $this->assertEquals(1,1);
     }
 
+    public function testShowAll()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/toutes-les-crypto-monnaies');
+        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+    }
+
 }

@@ -9,6 +9,19 @@ use AppBundle\Entity\Currency;
 
 class CurrencyController extends Controller
 {
+
+    /**
+     * @Route("/toutes-les-crypto-monnaies", name="currencies")
+     */
+     public function currenciesAction(){
+       $currencies = $this->getDoctrine()->getManager()
+                          ->getRepository('AppBundle:Currency')
+                          ->findAll();
+      return $this->render(':Currency:currencies.html.twig', array(
+        'currencies' => $currencies
+      ));
+     }
+
     /**
      * @Route("/crypto-monnaies/{slug}", name="currency_show")
      * @ParamConverter("currency", class="AppBundle:Currency")
