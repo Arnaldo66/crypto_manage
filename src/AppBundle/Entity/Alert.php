@@ -51,6 +51,12 @@ class Alert
     private $user;
 
     /**
+     * @var bool
+     * @ORM\Column(name="delete", type="boolean", nullable=true)
+     */
+    private $delete;
+
+    /**
      * Get id
      *
      * @return int
@@ -154,5 +160,29 @@ class Alert
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set delete
+     *
+     * @param boolean $delete
+     *
+     * @return Alert
+     */
+    public function setDelete($delete)
+    {
+        $this->delete = $delete;
+
+        return $this;
+    }
+
+    /**
+     * Get delete
+     *
+     * @return boolean
+     */
+    public function getDelete()
+    {
+        return $this->delete;
     }
 }

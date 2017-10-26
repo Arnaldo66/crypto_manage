@@ -48,15 +48,16 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
           $output_message = 'OK';
       }
 
-      //TODO: create separate command and launch it by here check price alerts
+      //TODO: create separate command and launch it by here check price alerts ? or listener ? Observer ?
       $alerts = $em->getRepository('AppBundle:Alert')->findAll();
       foreach ($alerts as $alert) {
         $priceEuro = $alert->getCurrency()->getPriceEur();
         if(( $priceEuro <= $alert->getPrice() && $alert->getBuy()) || ($priceEuro >= $alert->getPrice() && !$alert->getBuy())){
+          $alert->setDelete(1);
           die('send mail');
         }
       }
-
+      $em->flush();
       $output->writeln($output_message);
     }
 
