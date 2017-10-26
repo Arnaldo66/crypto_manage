@@ -9,6 +9,10 @@ div.user-register-login{
   padding:10px;
 }
 
+div.new-alert{
+  margin-bottom:10px;
+}
+
 div.user-register-login span{
   font-style: italic;
 }

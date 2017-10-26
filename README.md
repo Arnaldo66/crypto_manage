@@ -9,6 +9,7 @@ BUG
   - Responsive mobile not good.
 TODO:
   - alert functionnality
+  - sitemap generator
   - Show in more value and possiblity in currency graph
   - back office admin (users, currency, contact send)
   - Add and amelioration test performances

@@ -24,10 +24,16 @@ class User extends BaseUser
      */
     private $tradingWallets;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Alert", mappedBy="user")
+     */
+    private $alerts;
+
     public function __construct()
     {
       parent::__construct();
       $this->tradingWallets = new \Doctrine\Common\Collections\ArrayCollection();
+      $this->alerts = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -62,5 +68,39 @@ class User extends BaseUser
     public function getTradingWallets()
     {
         return $this->tradingWallets;
+    }
+
+    /**
+     * Add alert
+     *
+     * @param \AppBundle\Entity\Alert $alert
+     *
+     * @return User
+     */
+    public function addAlert(\AppBundle\Entity\Alert $alert)
+    {
+        $this->alerts[] = $alert;
+
+        return $this;
+    }
+
+    /**
+     * Remove alert
+     *
+     * @param \AppBundle\Entity\Alert $alert
+     */
+    public function removeAlert(\AppBundle\Entity\Alert $alert)
+    {
+        $this->alerts->removeElement($alert);
+    }
+
+    /**
+     * Get alerts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAlerts()
+    {
+        return $this->alerts;
     }
 }
