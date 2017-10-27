@@ -16,25 +16,26 @@ class CurrencyRepository extends \Doctrine\ORM\EntityRepository
    public function getDataLastMonth($currency){
       $conn = $this->_em->getConnection();
       $conn->executeUpdate("SET sql_mode = '';");
-      /*
-
-                    union
-
-                    select average_eur as ".$currency->getUniqueName().", day as period
-                    FROM currency_value_history
-                    where day = DATE_ADD(current_date(), INTERVAL -1 DAY)
-                    AND currency_id = ".$currency->getId()."*/
       $query = ("
-              SELECT  TRUNCATE(AVG(average_eur),5) as valeur,
-                      case when length(MONTH(day))=1
-                        then CONCAT(YEAR(day), '-0', MONTH(day), '-01')
-                        else CONCAT(YEAR(day), '-', MONTH(day), '-01')
-                      end as period
-              FROM currency_value_history
-              WHERE day >= concat(YEAR(CURRENT_DATE)-1,'-', MONTH(CURRENT_DATE) ,'-01')
-              AND currency_id = ".$currency->getId()."
-              GROUP BY YEAR(day), MONTH(day)
-              ORDER BY day ASC
+              SELECT t.valeur, t.period
+              FROM(
+                SELECT  TRUNCATE(AVG(average_eur),5) as valeur,
+                        CASE WHEN LENGTH(MONTH(day))=1
+                          THEN CONCAT(YEAR(day), '-0', MONTH(day), '-01')
+                          ELSE CONCAT(YEAR(day), '-', MONTH(day), '-01')
+                        END as period
+                FROM currency_value_history
+                WHERE day >= concat(YEAR(CURRENT_DATE)-1,'-', MONTH(CURRENT_DATE) ,'-01')
+                AND currency_id = ".$currency->getId()."
+                GROUP BY YEAR(day), MONTH(day)
+
+                UNION
+                
+                SELECT price_eur as valeur, CURRENT_DATE as  period
+                FROM currency
+                WHERE id = ".$currency->getId()."
+              ) as t
+              ORDER BY t.period
        ");
        return $conn->query($query)->fetchAll();
    }
