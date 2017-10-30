@@ -17,8 +17,7 @@ class CronGetHistoricalDataCommand extends ContainerAwareCommand
     private $value;
     private $insert;
 
-    //TODO: get all 3 minutes, currency history <> true
-    // max 2 by cron. Over after 3 day. then no limit but 1 by day
+    //TODO: check why stop on prod and remove limit after fix
     protected function configure()
     {
         $this

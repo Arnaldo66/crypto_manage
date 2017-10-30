@@ -100,14 +100,9 @@ class TradingOrderController extends Controller
      * get wallet in session
      */
      private function getPrivateWallet(){
-       //TODO: find how to allow session and test phpunit
        $em = $this->getDoctrine()->getManager();
-       if($this->container->getParameter("kernel.environment") !== 'test'){
-         $session = $this->get('session');
-         $id = $session->get('current_wallet_id');
-       }else{
-         $id = 1;
-       }
+       $session = $this->get('session');
+       $id = $session->get('current_wallet_id');
 
        return $em->getRepository('AppBundle:TradingWallet')->find($id);
      }

@@ -36,11 +36,8 @@ class TradeController extends Controller
     * @ParamConverter("tradingWallet", class="AppBundle:TradingWallet")
     */
     public function showAction(TradingWallet $tradingWallet, WalletManager $walletManager){
-      //TODO: have to remove that
-      if($this->container->getParameter("kernel.environment") !== 'test'){
-        $session = new Session();
-        $session->set('current_wallet_id', $tradingWallet->getId());
-      }
+      $session = $this->get('session');
+      $session->set('current_wallet_id', $tradingWallet->getId());
 
       if($this->getUser()->getId() !== $tradingWallet->getUser()->getId()){
         throw new AccessDeniedException('Access denied: It\'s not your wallet');
