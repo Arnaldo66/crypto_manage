@@ -8,8 +8,6 @@ BUG
   - if not null transform value from btc or euro or dollars
   - Responsive mobile not good.
 TODO:
-  - Faire page 403, 404, 500
-  - sitemap generator
   - Show in more value and possiblity in currency graph
   - Add and amelioration test performances
   - Activate cron for order method "limit"
