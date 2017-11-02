@@ -1,4 +1,5 @@
 {
+    "description": "Alert, trading simulation && info about all crypt currencies",
     "name": "adeparseval/crypto_manage",
     "license": "proprietary",
     "type": "project",
