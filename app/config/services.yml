@@ -5,7 +5,7 @@ parameters:
 
 services:
     AppBundle\Service\WalletManager:
-        arguments: ['%service.container%']
+        arguments: ['%service.container%', '@doctrine.orm.entity_manager']
         public: true
     # default configuration for services in *this* file
     _defaults:
