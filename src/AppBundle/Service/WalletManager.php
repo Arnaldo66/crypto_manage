@@ -4,6 +4,7 @@ namespace AppBundle\Service;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use AppBundle\Entity\CurrencyWallet;
+use AppBundle\Entity\TradingWallet;
 
 class WalletManager
 {
@@ -20,7 +21,7 @@ class WalletManager
   /**
    * récupère le total de toutes les currency wallet
    **/
-   public function getTotalCurrencyWalletValue($tradingWallet){
+   public function getTotalCurrencyWalletValue(TradingWallet $tradingWallet){
      $wallets = $tradingWallet->getCurrencyWallets();
      $total = 0;
 
