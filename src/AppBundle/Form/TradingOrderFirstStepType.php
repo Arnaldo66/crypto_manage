@@ -11,11 +11,8 @@ use AppBundle\Entity\TradingOrder;
 class TradingOrderFirstStepType extends AbstractType
 {
 
-    private $user;
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $this->user = $options['user'];
         $builder
             ->add('currency', EntityType::class, array(
               'class' => 'AppBundle:Currency',
@@ -27,8 +24,7 @@ class TradingOrderFirstStepType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => TradingOrder::class,
-            'user' => null
+            'data_class' => TradingOrder::class
         ));
     }
 }

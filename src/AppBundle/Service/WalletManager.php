@@ -5,6 +5,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use AppBundle\Entity\CurrencyWallet;
 use AppBundle\Entity\TradingWallet;
+use AppBundle\Entity\TradingOrder;
 
 class WalletManager
 {
@@ -39,7 +40,7 @@ class WalletManager
   /**
   * check creation
   */
-  public function canFinaliseOrder($tradeOrder,$em){
+  public function canFinaliseOrder(TradingOrder $tradeOrder,$em){
     if($tradeOrder->getOrderAction()->getId() == $this->container->getParameter('order_buy')){
       // achat: total >= montant euro wallet && order pending ?
       $totalOrderPending = $this->getTotalWalletPending($tradeOrder->getTradingWallet(),$em);
@@ -65,7 +66,7 @@ class WalletManager
   /**
   * get total amoutn all order pending for this wallet
   **/
-  private function getTotalWalletPending($tradingWallet,$em){
+  private function getTotalWalletPending(TradingWallet $tradingWallet,$em){
     $total = 0;
     $orders = $em->getRepository('AppBundle:TradingOrder')->findBy(array(
       'tradingWallet' => $tradingWallet,
@@ -82,7 +83,7 @@ class WalletManager
   /**
   *
   */
-  private function getAmountCurrencyWalletPending($tradeOrder,$em){
+  private function getAmountCurrencyWalletPending(TradingOrder $tradeOrder,$em){
     $amount = 0;
     $orders = $em->getRepository('AppBundle:TradingOrder')->findBy(array(
       'tradingWallet' => $tradeOrder->getTradingWallet(),
@@ -99,7 +100,7 @@ class WalletManager
   /**
   * finalise new order
   */
-  public function finaliseOrder($tradeOrder,$em){
+  public function finaliseOrder(TradingOrder $tradeOrder,$em){
     $tradeOrder->setOrderStatus($this->getStatus($tradeOrder,$em));
     $total = $this->calculateTotal($tradeOrder);
     $tradeOrder->setTotal($total);
@@ -123,7 +124,7 @@ class WalletManager
   /**
   * get good status
   */
-  private function getStatus($tradeOrder, $em){
+  private function getStatus(TradingOrder $tradeOrder, $em){
     if($tradeOrder->getOrderMethod()->getId() == $this->container->getParameter('order_market') || $tradeOrder->getOrderStatus() !== NULL){
       $status = $this->container->getParameter('order_status_ok');
     }else{
@@ -135,7 +136,7 @@ class WalletManager
   /**
   * calculate total
   */
-  private function calculateTotal($tradeOrder){
+  private function calculateTotal(TradingOrder $tradeOrder){
     $priceEur = $tradeOrder->getCurrency()->getPriceEur();
     return $priceEur * $tradeOrder->getAmount();
   }
@@ -143,7 +144,7 @@ class WalletManager
   /**
   * incrémente wallet
   */
-  private function incrementeCurrencyWallet($tradeOrder,$em){
+  private function incrementeCurrencyWallet(TradingOrder $tradeOrder,$em){
     //check if exists ? create : update
     $wallet = $em->getRepository("AppBundle:CurrencyWallet")->findOneBy(array(
       'tradingWallet' => $tradeOrder->getTradingWallet(),
@@ -164,7 +165,7 @@ class WalletManager
   /**
   * decremente euro wallet
   */
-  private function decrementeEuroWallet($tradeOrder, $total){
+  private function decrementeEuroWallet(TradingOrder $tradeOrder, $total){
     $euroWallet = $tradeOrder->getTradingWallet()->getEuroWallet();
     $euroWallet->setAmount($euroWallet->getAmount() - $total);
   }
@@ -172,7 +173,7 @@ class WalletManager
   /**
   * decremente wallet
   */
-  private function decrementeCurrencyWallet($tradeOrder,$em){
+  private function decrementeCurrencyWallet(TradingOrder $tradeOrder,$em){
     $wallet = $em->getRepository("AppBundle:CurrencyWallet")->findOneBy(array(
       'tradingWallet' => $tradeOrder->getTradingWallet(),
       'currency' => $tradeOrder->getCurrency()
@@ -185,7 +186,7 @@ class WalletManager
   /**
   * incremente euro wallet
   */
-  private function incrementeEuroWallet($tradeOrder, $total){
+  private function incrementeEuroWallet(TradingOrder $tradeOrder, $total){
     $euroWallet = $tradeOrder->getTradingWallet()->getEuroWallet();
     $euroWallet->setAmount($euroWallet->getAmount() + $total);
   }

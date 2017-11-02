@@ -23,7 +23,6 @@ class TradeController extends Controller
    * @Route("/u/trade/wallets", name="trade_index")
    */
    public function indexAction(){
-     $em = $this->getDoctrine()->getManager();
      $wallets = $this->getUser()->getTradingWallets();
 
      return $this->render(':Trade:index.html.twig', array(
