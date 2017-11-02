@@ -182,8 +182,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
               $fs->mkdir($new_folder);
             }
         } catch (IOExceptionInterface $e) {
-            echo "An error occurred while creating your directory at ".$e->getPath();
-            exit();
+            throw new \Exception("An error occurred while creating your directory at ".$e->getPath());
         }
       }
     }
