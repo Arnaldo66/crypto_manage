@@ -16,27 +16,30 @@ class CurrencyRepository extends \Doctrine\ORM\EntityRepository
    public function getDataLastMonth($currency){
       $conn = $this->_em->getConnection();
       $conn->executeUpdate("SET sql_mode = '';");
-      $query = ("
-              SELECT t.valeur, t.period
-              FROM(
-                SELECT  TRUNCATE(AVG(average_eur),5) as valeur,
-                        CASE WHEN LENGTH(MONTH(day))=1
-                          THEN CONCAT(YEAR(day), '-0', MONTH(day), '-01')
-                          ELSE CONCAT(YEAR(day), '-', MONTH(day), '-01')
-                        END as period
-                FROM currency_value_history
-                WHERE day >= concat(YEAR(CURRENT_DATE)-1,'-', MONTH(CURRENT_DATE) ,'-01')
-                AND currency_id = ".$currency->getId()."
-                GROUP BY YEAR(day), MONTH(day)
+      $data = $conn->fetchAll("
+        SELECT t.valeur, t.period
+        FROM(
+          SELECT  TRUNCATE(AVG(average_eur),5) as valeur,
+                  CASE WHEN LENGTH(MONTH(day))=1
+                    THEN CONCAT(YEAR(day), '-0', MONTH(day), '-01')
+                    ELSE CONCAT(YEAR(day), '-', MONTH(day), '-01')
+                  END as period
+          FROM currency_value_history
+          WHERE day >= concat(YEAR(CURRENT_DATE)-1,'-', MONTH(CURRENT_DATE) ,'-01')
+          AND currency_id = ?
+          GROUP BY YEAR(day), MONTH(day)
 
-                UNION
-                
-                SELECT price_eur as valeur, CURRENT_DATE as  period
-                FROM currency
-                WHERE id = ".$currency->getId()."
-              ) as t
-              ORDER BY t.period
-       ");
-       return $conn->query($query)->fetchAll();
+          UNION
+
+          SELECT price_eur as valeur, CURRENT_DATE as  period
+          FROM currency
+          WHERE id = ?
+        ) as t
+        ORDER BY t.period",
+        array($currency->getId(), $currency->getId()),
+        array(\PDO::PARAM_INT, \PDO::PARAM_INT)
+      );
+
+      return $data;
    }
 }

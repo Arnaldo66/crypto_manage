@@ -37,7 +37,7 @@ class CurrencyController extends Controller
     /**
      * get date for year graph
      */
-     public function getGraphData($currency){
+     private function getGraphData($currency){
        $date = new \DateTime();
        $em = $this->getDoctrine()->getManager();
        if($currency->getGraphYearDate() === NULL || $currency->getGraphYearDate() < $date){
