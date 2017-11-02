@@ -87,19 +87,21 @@
 {% endblock %}
 
 {% block local_javascripts %}
-<script>
-$(function() {
-    var json_data = {{ data|raw }};
-    Morris.Area({
-        element: 'morris-area-chart',
-        data: json_data,
-        xkey: 'period',
-        ykeys: ['valeur'],
-        labels: ['valeur'],
-        pointSize: 1,
-        hideHover: 'auto',
-        resize: true
-    });
-});
-</script>
+  {% autoescape %}
+    <script>
+      $(function() {
+          var json_data = {{ data|raw }};
+          Morris.Area({
+              element: 'morris-area-chart',
+              data: json_data,
+              xkey: 'period',
+              ykeys: ['valeur'],
+              labels: ['valeur'],
+              pointSize: 1,
+              hideHover: 'auto',
+              resize: true
+          });
+      });
+    </script>
+  {% endautoescape %}
 {% endblock %}
