@@ -83,25 +83,24 @@
       <!-- /.panel-body -->
     </div>
   </div>
-
+  <div id="js-vars" data-vars="{{ data|e('html_attr') }}"/>
 {% endblock %}
 
 {% block local_javascripts %}
-  {% autoescape %}
-    <script>
-      $(function() {
-          var json_data = {{ data|raw }};
-          Morris.Area({
-              element: 'morris-area-chart',
-              data: json_data,
-              xkey: 'period',
-              ykeys: ['valeur'],
-              labels: ['valeur'],
-              pointSize: 1,
-              hideHover: 'auto',
-              resize: true
-          });
-      });
-    </script>
-  {% endautoescape %}
+<script>
+$(function() {
+    //mettre info dans div et aller les chercher
+    var data = jQuery('#js-vars').data('vars');
+    Morris.Area({
+          element: 'morris-area-chart',
+          data: data,
+          xkey: 'period',
+          ykeys: ['valeur'],
+          labels: ['valeur'],
+          pointSize: 1,
+          hideHover: 'auto',
+          resize: true
+    });
+});
+</script>
 {% endblock %}
