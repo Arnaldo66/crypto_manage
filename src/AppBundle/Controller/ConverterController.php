@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 use AppBundle\Form\Type\ConverterType;
 use AppBundle\Form\Type\ConverterInverseType;
@@ -12,6 +13,7 @@ class ConverterController extends Controller
 {
     /**
      * @Route("/convertisseur", name="converter")
+     * @Method({"GET"})
      */
     public function indexAction()
     {

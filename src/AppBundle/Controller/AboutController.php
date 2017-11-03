@@ -4,11 +4,13 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class AboutController extends Controller
 {
     /**
      * @Route("/a-propos", name="about")
+     * @Method({"GET"})
      */
     public function indexAction()
     {
@@ -17,6 +19,7 @@ class AboutController extends Controller
 
     /**
      * @Route("/premiers-pas", name="first_step")
+     * @Method({"GET"})
      */
     public function firstStepAction()
     {
@@ -25,6 +28,7 @@ class AboutController extends Controller
 
     /**
      * @Route("/ou-acheter-des-bitcoins", name="where_buy")
+     * @Method({"GET"})
      */
     public function whereBuyAction()
     {

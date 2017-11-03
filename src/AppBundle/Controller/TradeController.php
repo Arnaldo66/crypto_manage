@@ -4,11 +4,11 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use AppBundle\Form\Type\TradingWalletType;
@@ -20,6 +20,7 @@ class TradeController extends Controller
 {
   /**
    * @Route("/u/trade/wallets", name="trade_index")
+   * @Method({"GET"})
    */
    public function indexAction(){
      $wallets = $this->getUser()->getTradingWallets();
@@ -31,6 +32,7 @@ class TradeController extends Controller
 
    /**
     * @Route("/u/trade/wallets/{id}", name="trade_show")
+    * @Method({"GET"})
     * @ParamConverter("tradingWallet", class="AppBundle:TradingWallet")
     */
     public function showAction(TradingWallet $tradingWallet, WalletManager $walletManager){
@@ -48,6 +50,7 @@ class TradeController extends Controller
 
     /**
      * @Route("/u/trade/new", name="trade_new")
+     * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
     {

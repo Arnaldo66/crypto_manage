@@ -4,11 +4,13 @@ namespace AppBundle\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class CurrencyController extends Controller
 {
     /**
      * @Route("/egbo/currencies", name="admin_currencies")
+     * @Method({"GET"})
      */
     public function currenciesAction()
     {

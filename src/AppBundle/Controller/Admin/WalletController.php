@@ -4,11 +4,13 @@ namespace AppBundle\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class WalletController extends Controller
 {
     /**
      * @Route("/egbo/wallets", name="admin_wallets")
+     * @Method({"GET"})
      */
     public function walletsAction()
     {

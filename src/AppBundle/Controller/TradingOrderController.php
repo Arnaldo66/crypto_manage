@@ -17,6 +17,7 @@ class TradingOrderController extends Controller
 {
     /**
      * @Route("/u/trade/order/new", name="trade_order_new")
+     * @Method({"GET"})
      */
     public function newAction()
     {

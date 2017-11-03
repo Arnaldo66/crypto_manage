@@ -4,11 +4,13 @@ namespace AppBundle\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class UserController extends Controller
 {
     /**
      * @Route("/egbo/users", name="admin_users")
+     * @Method({"GET"})
      */
     public function usersAction()
     {

@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Form\Type\AlertType;
@@ -13,6 +14,7 @@ class AlertController extends Controller
 {
     /**
      * @Route("/u/alerts", name="alert")
+     * @Method({"GET"})
      */
     public function alertsAction()
     {
@@ -26,6 +28,7 @@ class AlertController extends Controller
 
     /**
      * @Route("/u/alerts/new", name="alert_new")
+     * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
     {
@@ -51,6 +54,7 @@ class AlertController extends Controller
 
     /**
      * @Route("/u/alerts/delete", name="alert_delete")
+     * @Method({"POST"})
      */
     public function deleteAction()
     {
