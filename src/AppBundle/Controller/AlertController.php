@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-use AppBundle\Form\AlertType;
+use AppBundle\Form\Type\AlertType;
 use AppBundle\Entity\Alert;
 
 class AlertController extends Controller

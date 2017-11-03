@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use AppBundle\Form\TradingWalletType;
+use AppBundle\Form\Type\TradingWalletType;
 use AppBundle\Entity\TradingWallet;
 use AppBundle\Entity\EuroWallet;
 use AppBundle\Service\WalletManager;

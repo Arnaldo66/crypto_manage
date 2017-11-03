@@ -8,8 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-use AppBundle\Form\TradingOrderFirstStepType;
-use AppBundle\Form\TradingOrderNextStepType;
+use AppBundle\Form\Type\TradingOrderFirstStepType;
+use AppBundle\Form\Type\TradingOrderNextStepType;
 use AppBundle\Entity\TradingOrder;
 use AppBundle\Service\WalletManager;
 

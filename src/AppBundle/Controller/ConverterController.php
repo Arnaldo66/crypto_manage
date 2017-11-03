@@ -5,8 +5,8 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-use AppBundle\Form\ConverterType;
-use AppBundle\Form\ConverterInverseType;
+use AppBundle\Form\Type\ConverterType;
+use AppBundle\Form\Type\ConverterInverseType;
 
 class ConverterController extends Controller
 {
