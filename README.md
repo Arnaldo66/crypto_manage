@@ -8,7 +8,6 @@ BUG
   - if not null transform value from btc or euro or dollars
   - Responsive mobile not good.
 TODO:
-  - script sh first installation project(tables, cron etc ...)
   - Show in more value and possiblity in currency graph
   - Add and amelioration test performances
   - Activate cron for order method "limit"
