@@ -101,8 +101,13 @@ class TradingOrderController extends Controller
      */
      private function getPrivateWallet(){
        $em = $this->getDoctrine()->getManager();
-       $session = $this->get('session');
-       $id = $session->get('current_wallet_id');
+       if($this->container->getParameter("kernel.environment") != 'test'){
+         $session = $this->get('session');
+         $id = $session->get('current_wallet_id');
+       }else{
+         $id = 1;
+       }
+
 
        return $em->getRepository('AppBundle:TradingWallet')->find($id);
      }

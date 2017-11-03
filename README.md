@@ -22,8 +22,7 @@ TODO:
   - do best design
   - do best google work (microformat ...)
   - do API working
-  - do application
-  - token connection qui ne dure pas
+  - do application mobile(ionic)
   - google+ && facebook
   - symfony workflow state machine to process order
     check real currency and not amout if he change with js && change total with this value

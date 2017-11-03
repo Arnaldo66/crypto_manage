@@ -42,11 +42,4 @@ class AlertControllerTest extends WebTestCase
         $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
     }
 
-    public function testDeleteWithoutUser(){
-      $client = static::createClient();
-      $crawler = $client->request('GET', '/u/alerts/delete');
-
-      $this->assertEquals(302,$client->getResponse()->getStatusCode());
-    }
-
 }

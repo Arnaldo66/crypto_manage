@@ -27,6 +27,23 @@ class LoadTradingWalletData extends AbstractFixture implements OrderedFixtureInt
         $manager->persist($tradingWallet);
         $manager->flush();
 
+        //One more but with no monney
+        $tradingWallet = new TradingWallet();
+        $euroWallet = new EuroWallet();
+
+        $tradingWallet->setUser($this->getReference('user'));
+        $tradingWallet->setName('NoMonney');
+        $tradingWallet->setPublic(true);
+
+        $euroWallet->setAmount(0);
+
+        $euroWallet->setTradingWallet($tradingWallet);
+        $tradingWallet->setEuroWallet($euroWallet);
+
+        $manager->persist($euroWallet);
+        $manager->persist($tradingWallet);
+        $manager->flush();
+
     }
 
     public function getOrder()
