@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-use AppBundle\Form\ContactType;
+use AppBundle\Form\Type\ContactType;
 use AppBundle\Entity\Contact;
 
 class ContactController extends Controller
