@@ -6,8 +6,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-use Symfony\Component\Debug\Exception\ContextErrorException;
-
 
 use AppBundle\Entity\Currency;
 use AppBundle\Entity\CurrencyValueMoment;
@@ -163,7 +161,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
           $new_folder = $folder .'/'. $value;
           try{
             file_put_contents($new_folder.'/'.$filename, file_get_contents('https://files.coinmarketcap.com/static/img/coins/'.$value.'x'.$value.'/'.$filename));
-          } catch (ContextErrorException $e){
+          } catch (\ErrorException $e){
             return null;
           }
         }
