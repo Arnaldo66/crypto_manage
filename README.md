@@ -26,6 +26,12 @@ TODO:
   - do application
   - token connection qui ne dure pas
   - google+ && facebook
+  - symfony workflow state machine to process order
+    check real currency and not amout if he change with js && change total with this value
+    pass arg and not all the container service
+  - create separate command and launch it by here check price alerts ? or listener ? Observer ?
+  - history why stop on prod and remove limit after fix
+  - change trade entity and controller to wallet.
 
 
   INSTALLATION

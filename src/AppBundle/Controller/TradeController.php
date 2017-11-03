@@ -18,7 +18,6 @@ use AppBundle\Service\WalletManager;
 
 class TradeController extends Controller
 {
-  //TODO: change trade to wallet.
   /**
    * @Route("/u/trade/wallets", name="trade_index")
    */

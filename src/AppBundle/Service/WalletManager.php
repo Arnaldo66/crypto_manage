@@ -13,10 +13,6 @@ class WalletManager
   private $container;
   private $em;
 
-  //TODO: symfony workflow state machine
-  //check real currency and not amout if he change with js && change total with this value
-  //pass arg and not all the container service
-
   public function __construct(ContainerInterface $container, EntityManagerInterface $em){
     $this->container = $container;
     $this->em = $em;

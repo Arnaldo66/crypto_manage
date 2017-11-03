@@ -17,7 +17,7 @@ class CronGetHistoricalDataCommand extends ContainerAwareCommand
     private $value;
     private $insert;
 
-    //TODO: check why stop on prod and remove limit after fix
+    
     protected function configure()
     {
         $this
