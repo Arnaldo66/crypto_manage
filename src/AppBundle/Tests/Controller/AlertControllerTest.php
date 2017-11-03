@@ -49,10 +49,4 @@ class AlertControllerTest extends WebTestCase
       $this->assertEquals(302,$client->getResponse()->getStatusCode());
     }
 
-    public function testDelete()
-    {
-        $crawler = $this->client->request('GET', '/u/alerts/delete');
-        $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
-    }
-
 }

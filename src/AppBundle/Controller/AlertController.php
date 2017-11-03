@@ -58,9 +58,8 @@ class AlertController extends Controller
      */
     public function deleteAction()
     {
-        return $this->render(':Alert:delete.html.twig', array(
-            // ...
-        ));
+      $this->addFlash('success-message','Votre alerte a bien été supprimé');
+      return $this->redirectToRoute('alert');
     }
 
 }
