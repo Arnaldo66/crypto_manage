@@ -92,7 +92,8 @@ class TradingOrderController extends Controller
         }
       }
       return $this->render(':TradingOrder:new-next-step.html.twig', array(
-        'form'=> $form->createView(), 'currency' => $tradeOrder->getCurrency()
+        'form'=> $form->createView(), 'currency' => $tradeOrder->getCurrency(),
+        'wallet' => $tradeOrder->getTradingWallet()
       ));
     }
 
@@ -101,13 +102,8 @@ class TradingOrderController extends Controller
      */
      private function getPrivateWallet(){
        $em = $this->getDoctrine()->getManager();
-       if($this->container->getParameter("kernel.environment") != 'test'){
-         $session = $this->get('session');
-         $id = $session->get('current_wallet_id');
-       }else{
-         $id = 1;
-       }
-
+       $session = $this->get('session');
+       $id = $session->get('current_wallet_id');
 
        return $em->getRepository('AppBundle:TradingWallet')->find($id);
      }
