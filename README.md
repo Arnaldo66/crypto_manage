@@ -8,6 +8,9 @@ BUG
   - if not null transform value from btc or euro or dollars
   - Responsive mobile not good.
 TODO:
+  - First: buy template
+  - do page mining, page faucet with affiliation.
+  - do dark web page
   - Show in more value and possiblity in currency graph
   - Add and amelioration test performances
   - Activate cron for order method "limit"
@@ -26,10 +29,10 @@ TODO:
   - google+ && facebook
   - symfony workflow state machine to process order
     check real currency and not amout if he change with js && change total with this value
-    pass arg and not all the container service
   - create separate command and launch it by here check price alerts ? or listener ? Observer ?
   - history why stop on prod and remove limit after fix
   - change trade entity and controller to wallet.
+  - test better cron
 
 
   INSTALLATION
