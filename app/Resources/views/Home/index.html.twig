@@ -1,1 +1,207 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!--- script google --->
+      {{ include('Include/google-webmastertool.html.twig') }}
+
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      <title>Bienvenue sur e-goldenboy.com</title>
+
+      <meta name="description" content="E golden boy affiche le cours en temps réel du bitcoin et des autres crypto-monnaies. Notre outil vous permet de faire de la simulation de trading et de mettre en place des alertes de hausse ou de baisse du cours." />
+      {% stylesheets '../app/Resources/public/css/*' filter='cssrewrite' %}
+          <link rel="stylesheet" href="{{ asset_url }}" />
+      {% endstylesheets %}
+      <link rel="icon" type="image/x-icon" href="{{ asset('/images/favicon.ico') }}" />
+
+      <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+      <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+
+  </head>
+  <body id="page-top">
+
+    {{ include('Include/landing-page-menu.html.twig') }}
+
+    <div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>Plateforme de<br/>
+                            simulation.<br />
+                            Trading de bitcoin<br />
+                            & altcoins</h1>
+                        <p>
+                            <a class="btn btn-lg btn-primary" href="#" role="button">En savoir plus</a>
+                        </p>
+                    </div>
+                </div>
+                <!-- Set background for slide in css -->
+                <div class="header-back one"></div>
+            </div>
+        </div>
+    </div>
+
+    <section id="features" class="container features">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>Simulation de trading<br/> <span class="navy"> bitcoin et +1000 crypto-monnaies</span> </h1>
+                <p>Entrainez-vous gratuitement à trader des bitcoins & altcoins</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 text-center wow fadeInLeft">
+                <div>
+                    <i class="fa fa-mobile features-icon"></i>
+                    <h2>Cours en temps réel</h2>
+                    <p>La plateforme affiche le cours du bitcoin et altcoins en temps réel. Les informations sont mis à jour toutes les 5 minutes.</p>
+                </div>
+                <div class="m-t-lg">
+                    <i class="fa fa-bar-chart features-icon"></i>
+                    <h2>Simulez l'achat/vente de crypto-monnaie</h2>
+                    <p>L'achat/vente virtuel de crypto-monnaies, permet de s'exercer au trading sans aucun risque. Permet d'expérimenter différentes techniques de trading</p>
+                </div>
+            </div>
+            <div class="col-md-6 text-center  wow zoomIn">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Cours actuel</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table table-striped text-left">
+                            <thead>
+                              <tr>
+                                  <th>#</th>
+                                  <th>Crypto</th>
+                                  <th>Valeur</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for currency in currencies %}
+                                <tr>
+                                  <td>{% if currency.image is not null %}<img src="{{ asset('images/currency-logo/32/' ~ currency.image ) }}">{% endif %}</td>
+                                  <td><a href="{{ path('currency_show', {'slug': currency.slug }) }}">{{ currency.name }}</a></td>
+                                  <td>{{ currency.priceEur|price }}</td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="text-right widget-home-bottom">
+                  <a href="#" class="italic-link">Voir tous les cours</a>
+                </div>
+            </div>
+            <div class="col-md-3 text-center wow fadeInRight">
+                <div>
+                    <i class="fa fa-envelope features-icon"></i>
+                    <h2>Utilisez notre convertisseur</h2>
+                    <p>Un convertisseur euro/crypto - crypto/euro est mis à disposition. Il prend les principales crypto-monnaies.</p>
+                </div>
+                <div class="m-t-lg">
+                    <i class="fa fa-google features-icon"></i>
+                    <h2>Créez des alertes</h2>
+                    <p>Soyez averti par mail, quand une crypto de votre choix atteint le seuil limite que vous lui avez fixé.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>Suivez les cours et tester le trading</h1>
+                <p>Tenez vous au courant des cours en temps réel et essayez-vous au trading </p>
+            </div>
+        </div>
+        <div class="row features-block">
+            <div class="col-lg-6 features-text wow fadeInLeft">
+                <small>Apprendre le trading</small>
+                <p>Nous mettons à dispositions des outils pour permettre de tester le trading de crypto-monnaie.
+                   Vous pouvez également consulter les protefeuilles public des autres utilisateurs afin de vous inspirer des meilleurs.</p>
+                <a href="" class="btn btn-primary">Consulter</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="team" class="gray-section team">
+        <div class="container">
+            <div class="row m-b-lg">
+                <div class="col-lg-12 text-center">
+                    <div class="navy-line"></div>
+                    <h1>Qui sommes-nous ?</h1>
+                    <p>
+                      Développeur et acheteur récent de bitcoin et alcoins, nous avons voulu mettre a disposition des outils pratiques et informer sur le bitcoin et le monde qui s'y rattache<br/>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
+                    <p>Cette plateforme est gratuite, elle ne comporte aucune publicité ni script de minnage à votre insu</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container hidden-xs">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="navy-line"></div>
+                    <h1>Ce site vous plait ? Aidez-nous à le faire vivre</h1>
+                    <p>Voici les adresses de nos wallets si vous voulez effectuer des micro-dons</p>
+                </div>
+            </div>
+            <div class="row">
+                {{ include('Include/donation.html.twig') }}
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="gray-section contact">
+        <div class="container">
+            <div class="row m-b-lg">
+                <div class="col-lg-12 text-center">
+                    <div class="navy-line"></div>
+                    <h1>Contactez-nous</h1>
+                    <p>Pour toutes questions ou informations, n'hésitez pas à nous contacter</p>
+                </div>
+            </div>
+            <div class="row m-b-lg">
+                <div class="col-lg-3 col-lg-offset-3">
+                    &nbsp;
+                </div>
+                <div class="col-lg-4">
+                    <p class="text-color">
+                        Toute remarque est bienvenue. N'hésitez pas à nous donner votre avis sur les outils.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <a href="mailto:admin@e-goldenboy.com" class="btn btn-primary">Contact</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
+                    <p>
+                      <strong>&copy; {{ "now"|date("Y") }} e-goldenboy.com</strong><br/>
+                      Tous droits réservés
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% block javascripts %}
+      {% javascripts '../app/Resources/public/js/*' %}
+          <script src="{{ asset_url }}"></script>
+      {% endjavascripts %}
+    {% endblock %}
+  </body>
+</html>
