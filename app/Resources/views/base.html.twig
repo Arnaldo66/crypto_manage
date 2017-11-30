@@ -62,7 +62,7 @@
         </div>
     </div>
 
-    <section  class="container features">
+    <section id="features" class="container features">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
@@ -84,7 +84,34 @@
                 </div>
             </div>
             <div class="col-md-6 text-center  wow zoomIn">
-                <img src="img/perspective.png" alt="Mettre ici le tableau des 10 top crypto" class="img-responsive">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Cours actuel</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table table-striped text-left">
+                            <thead>
+                              <tr>
+                                  <th>#</th>
+                                  <th>Crypto</th>
+                                  <th>Valeur</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for currency in currencies %}
+                                <tr>
+                                  <td>{% if currency.image is not null %}<img src="{{ asset('images/currency-logo/32/' ~ currency.image ) }}">{% endif %}</td>
+                                  <td><a href="{{ path('currency_show', {'slug': currency.slug }) }}">{{ currency.name }}</a></td>
+                                  <td>{{ currency.priceEur|price }}</td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="text-right widget-home-bottom">
+                  <a href="#" class="italic-link">Voir tous les cours</a>
+                </div>
             </div>
             <div class="col-md-3 text-center wow fadeInRight">
                 <div>
@@ -102,14 +129,15 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
-                <h1>Apprenez des autres</h1>
-                <p>Consultez les portefeuilles public des autres utilisateurs</p>
+                <h1>Suivez les cours et tester le trading</h1>
+                <p>Tenez vous au courant des cours en temps réel et essayez-vous au trading </p>
             </div>
         </div>
         <div class="row features-block">
             <div class="col-lg-6 features-text wow fadeInLeft">
-                <small>Passer le cap</small>
-                <p>Nous vous renseignons sur quelques plateformes permettant l'achat réel de bitcoin & altcoins.</p>
+                <small>Apprendre le trading</small>
+                <p>Nous mettons à dispositions des outils pour permettre de tester le trading de crypto-monnaie.
+                   Vous pouvez également consulter les protefeuilles public des autres utilisateurs afin de vous inspirer des meilleurs.</p>
                 <a href="" class="btn btn-primary">Consulter</a>
             </div>
             <div class="col-lg-6 text-right wow fadeInRight">
@@ -144,7 +172,7 @@
                 <div class="col-lg-12 text-center">
                     <div class="navy-line"></div>
                     <h1>Ce site vous plait ? Aidez-nous à le faire vivre</h1>
-                    <p>Voici les adresses de nos wallets pour recevoir des dons</p>
+                    <p>Voici les adresses de nos wallets si vous voulez effectuer des micro-dons</p>
                 </div>
             </div>
             <div class="row">
@@ -210,7 +238,10 @@
             </div>
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
-                    <p><strong>&copy; 2015 e-goldenboy.com</strong></p>
+                    <p>
+                      <strong>&copy; {{ "now"|date("Y") }} e-goldenboy.com</strong><br/>
+                      Tous droits réservés
+                    </p>
                 </div>
             </div>
         </div>
@@ -221,10 +252,6 @@
           <script src="{{ asset_url }}"></script>
       {% endjavascripts %}
     {% endblock %}
-
-
-    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 
     {% block local_javascripts %}
     {% endblock %}

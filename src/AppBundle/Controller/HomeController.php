@@ -18,9 +18,8 @@ class HomeController extends Controller
     {
         $currencies = $this->getDoctrine()
           ->getRepository('AppBundle:Currency')
-          ->findBy([],array('rank'=>'ASC'),100);
+          ->findBy([],array('rank'=>'ASC'),10);
 
         return $this->render(':Home:index.html.twig',array('currencies'=>$currencies));
     }
-
 }
