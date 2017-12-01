@@ -20,6 +20,6 @@ class LandingPageController extends Controller
           ->getRepository('AppBundle:Currency')
           ->findBy([],array('rank'=>'ASC'),10);
 
-        return $this->render(':Home:index.html.twig',array('currencies'=>$currencies));
+        return $this->render(':LandingPage:index.html.twig',array('currencies'=>$currencies));
     }
 }
