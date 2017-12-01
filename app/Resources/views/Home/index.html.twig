@@ -11,7 +11,7 @@
       <title>Bienvenue sur e-goldenboy.com</title>
 
       <meta name="description" content="E golden boy affiche le cours en temps réel du bitcoin et des autres crypto-monnaies. Notre outil vous permet de faire de la simulation de trading et de mettre en place des alertes de hausse ou de baisse du cours." />
-      {% stylesheets '../app/Resources/public/css/*' filter='cssrewrite' %}
+      {% stylesheets '../app/Resources/public/css-landing/*' filter='cssrewrite' %}
           <link rel="stylesheet" href="{{ asset_url }}" />
       {% endstylesheets %}
       <link rel="icon" type="image/x-icon" href="{{ asset('/images/favicon.ico') }}" />
@@ -199,7 +199,7 @@
     </section>
 
     {% block javascripts %}
-      {% javascripts '../app/Resources/public/js/*' %}
+      {% javascripts '../app/Resources/public/js-landing/*' %}
           <script src="{{ asset_url }}"></script>
       {% endjavascripts %}
     {% endblock %}
