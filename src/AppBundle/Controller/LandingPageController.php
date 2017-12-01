@@ -8,10 +8,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
 
-class HomeController extends Controller
+class LandingPageController extends Controller
 {
     /**
-     * @Route("", name="home")
+     * @Route("", name="landing-page")
      * @Method({"GET"})
      */
     public function indexAction(Request $request)
