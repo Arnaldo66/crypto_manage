@@ -5,12 +5,18 @@
         </div>
         <ul class="nav navbar-top-links navbar-right">
             <li>
-                <span class="m-r-sm text-muted welcome-message">Welcome to INSPINIA+ Admin Theme.</span>
+                <span class="m-r-sm text-muted welcome-message">e-goldenboy.com</span>
             </li>
             <li>
-                <a href="login.html">
-                <i class="fa fa-sign-out"></i> Log out
-                </a>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                  <a href="{{ path('fos_user_security_logout')}}">
+                    <i class="fa fa-sign-out"></i> Déconnexion
+                  </a>
+                {% else %}
+                  <a href="{{ path('fos_user_security_login')}}">
+                    <i class="fa fa-sign-in"></i> Login
+                  </a>
+                {% endif %}
             </li>
         </ul>
     </nav>
