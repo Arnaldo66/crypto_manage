@@ -37,7 +37,7 @@
                             Trading de bitcoin<br />
                             & altcoins</h1>
                         <p>
-                            <a class="btn btn-lg btn-primary" href="#" role="button">En savoir plus</a>
+                            <a class="btn btn-lg btn-primary" href="{{ path('about') }}" role="button">En savoir plus</a>
                         </p>
                     </div>
                 </div>
@@ -61,6 +61,7 @@
                     <i class="fa fa-mobile features-icon"></i>
                     <h2>Cours en temps réel</h2>
                     <p>La plateforme affiche le cours du bitcoin et altcoins en temps réel. Les informations sont mis à jour toutes les 5 minutes.</p>
+                    <a href="{{ path('dashboard')}}" class="btn btn-primary">Voir les cours</a>
                 </div>
                 <div class="m-t-lg">
                     <i class="fa fa-bar-chart features-icon"></i>
@@ -103,6 +104,7 @@
                     <i class="fa fa-envelope features-icon"></i>
                     <h2>Utilisez notre convertisseur</h2>
                     <p>Un convertisseur euro/crypto - crypto/euro est mis à disposition. Il prend les principales crypto-monnaies.</p>
+                    <a href="{{ path('converter')}}" class="btn btn-primary">Convertisseur</a>
                 </div>
                 <div class="m-t-lg">
                     <i class="fa fa-google features-icon"></i>
@@ -123,7 +125,6 @@
                 <small>Apprendre le trading</small>
                 <p>Nous mettons à dispositions des outils pour permettre de tester le trading de crypto-monnaie.
                    Vous pouvez également consulter les protefeuilles public des autres utilisateurs afin de vous inspirer des meilleurs.</p>
-                <a href="" class="btn btn-primary">Consulter</a>
             </div>
         </div>
     </section>
