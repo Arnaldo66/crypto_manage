@@ -17,13 +17,13 @@
             </li>
 
             <li class="active">
-                <a href="{{ path('dashboard')}}"><i class="fa fa-home fa-fw"></i> {{ 'Home'|trans }}</a>
+                <a href="{{ path('dashboard')}}"><i class="fa fa-home fa-fw"></i><span class="nav-label">{{ 'Home'|trans }}</span></a>
             </li>
             <li>
-              <a href="{{ path('converter')}}"><i class="fa fa-exchange fa-fw"></i> {{ 'Converter'|trans }}</a>
+              <a href="{{ path('converter')}}"><i class="fa fa-exchange fa-fw"></i><span class="nav-label">{{ 'Converter'|trans }}</span></a>
             </li>
             <li>
-              <a href="#"><i class="fa fa-euro fa-fw"></i> {{ 'Trading simulation'|trans }}<span class="fa arrow"></span></a>
+              <a href="#"><i class="fa fa-euro fa-fw"></i><span class="nav-label">{{ 'Trading simulation'|trans }}</span><span class="fa arrow"></span></a>
               <ul class="nav nav-second-level collapse">
                   <li>
                       <a href="{{ path('trade_new') }}"> {{ 'New'|trans }}</a>
@@ -34,17 +34,17 @@
               </ul>
             </li>
           <li>
-            <a href="{{ path('alert') }}"><i class="fa fa-exclamation-circle fa-fw"></i> {{ 'My Alerts'|trans }}</a>
+            <a href="{{ path('alert') }}"><i class="fa fa-exclamation-circle fa-fw"></i><span class="nav-label">{{ 'My Alerts'|trans }}</span></a>
           </li>
           <li>
-            <a href="{{ path('contact') }}"><i class="fa fa-envelope-o fa-fw"></i> {{ 'Contact'|trans }}</a>
+            <a href="{{ path('contact') }}"><i class="fa fa-envelope-o fa-fw"></i><span class="nav-label">{{ 'Contact'|trans }}</span></a>
           </li>
           <li>
-            <a href="{{ path('about') }}"><i class="fa fa-info-circle  fa-fw"></i> {{ 'About'|trans }}</a>
+            <a href="{{ path('about') }}"><i class="fa fa-info-circle  fa-fw"></i><span class="nav-label">{{ 'About'|trans }}</span></a>
           </li>
           {% if is_granted('ROLE_ADMIN') %}
             <li>
-              <a href="#"><i class="fa fa-wrench fa-fw"></i> Administration<span class="fa arrow"></span></a>
+              <a href="#"><i class="fa fa-wrench fa-fw"></i><span class="nav-label">Administration</span><span class="fa arrow"></span></a>
               <ul class="nav nav-second-level collapse">
                 <li>
                   <a href="{{ path('admin_users') }}"> Gestion des utilisateurs</a>
