@@ -9,13 +9,13 @@
 {% endblock meta %}
 
 {% block title_wrapper %}
-  <h1 class="page-header">Mes alertes en cours</h1>
+  <h2>Mes alertes en cours</h2>
 {% endblock title_wrapper %}
 
 {% block body %}
   <div class="row">
       <div class="col-lg-3 new-alert">
-        <a class="btn btn-success" href="{{ path('alert_new') }}">Créer une alerte</a>
+        <a class="btn btn-primary" href="{{ path('alert_new') }}">Créer une alerte</a>
       </div>
       <div class="col-lg-12">
           <div class="panel panel-default">

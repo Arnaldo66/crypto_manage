@@ -1,68 +1,65 @@
-<!-- Navigation -->
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0;height:100px!important;">
-    <div id="header-title" class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-         <a class="navbar-brand" href="{{ path('home')}}"><img src="{{ asset('images/logo.png')}}"/></a>
-    </div>
-
-    {% include('Include/user-toolbar.html.twig') %}
-
-    <div id="menu-side-bar" class="navbar-default sidebar" role="navigation">
-        <div class="sidebar-nav navbar-collapse">
-            <ul class="nav" id="side-menu">
-                <li>
-                    <a href="{{ path('home')}}"><i class="fa fa-home fa-fw"></i> {{ 'Home'|trans }}</a>
-                </li>
-                <li>
-                    <a href="{{ path('converter')}}"><i class="fa fa-exchange fa-fw"></i> {{ 'Converter'|trans }}</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-euro fa-fw"></i> {{ 'Trading simulation'|trans }}<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse">
-                        <li>
-                            <a href="{{ path('trade_new') }}"> {{ 'New'|trans }}</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('trade_index') }}"> {{ 'My wallets'|trans }}</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="{{ path('alert') }}"><i class="fa fa-exclamation-circle fa-fw"></i> {{ 'My Alerts'|trans }}</a>
-                </li>
-                <li>
-                    <a href="{{ path('contact') }}"><i class="fa fa-envelope-o fa-fw"></i> {{ 'Contact'|trans }}</a>
-                </li>
-                <li>
-                    <a href="{{ path('about') }}"><i class="fa fa-info-circle  fa-fw"></i> {{ 'About'|trans }}</a>
-                </li>
-                {% if is_granted('ROLE_ADMIN') %}
-                  <li>
-                      <a href="#"><i class="fa fa-wrench fa-fw"></i> Administration<span class="fa arrow"></span></a>
-                      <ul class="nav nav-second-level collapse">
-                          <li>
-                              <a href="{{ path('admin_users') }}"> Gestion des utilisateurs</a>
-                          </li>
-                          <li>
-                              <a href="{{ path('admin_wallets') }}"> Gestion des portefeuilles</a>
-                          </li>
-                          <li>
-                              <a href="{{ path('admin_currencies') }}"> Gestion des crypto-Monnaie</a>
-                          </li>
-                          <li>
-                              <a href="{{ path('admin_contacts') }}"> Gestion des contacts</a>
-                          </li>
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                  <div class="dropdown profile-element">
+                      <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                      <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{ app.user.username }}</strong>
+                      </span> <span class="text-muted text-xs block">Utilisateur<b class="caret"></b></span> </span> </a>
+                      <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                          <li><a href="{{ path('fos_user_profile_show')}}">Profile</a></li>
+                          <li class="divider"></li>
+                          <li><a href="{{ path('fos_user_security_logout')}}">Logout</a></li>
                       </ul>
-                  </li>
+                  </div>
                 {% endif %}
-            </ul>
-        </div>
-        <!-- /.sidebar-collapse -->
+            </li>
+            <li {% if app.request.attributes.get('_route') == 'dashboard' %}class="active"{% endif %}>
+                <a href="{{ path('dashboard')}}"><i class="fa fa-home fa-fw"></i><span class="nav-label">{{ 'Home'|trans }}</span></a>
+            </li>
+            <li {% if app.request.attributes.get('_route') == 'converter' %}class="active"{% endif %}>
+              <a href="{{ path('converter')}}"><i class="fa fa-exchange fa-fw"></i><span class="nav-label">{{ 'Converter'|trans }}</span></a>
+            </li>
+            <li {% if app.request.attributes.get('_route') == 'trade_new' or app.request.attributes.get('_route') == 'trade_index' %}class="active"{% endif %}>
+              <a href="#"><i class="fa fa-euro fa-fw"></i><span class="nav-label">{{ 'Trading simulation'|trans }}</span><span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level collapse">
+                  <li {% if app.request.attributes.get('_route') == 'trade_new' %}class="active"{% endif %}>
+                      <a href="{{ path('trade_new') }}"> {{ 'New'|trans }}</a>
+                  </li>
+                  <li {% if app.request.attributes.get('_route') == 'trade_index' %}class="active"{% endif %}>
+                      <a href="{{ path('trade_index') }}"> {{ 'My wallets'|trans }}</a>
+                  </li>
+              </ul>
+            </li>
+          <li {% if app.request.attributes.get('_route') == 'alert' %}class="active"{% endif %}>
+            <a href="{{ path('alert') }}"><i class="fa fa-exclamation-circle fa-fw"></i><span class="nav-label">{{ 'My Alerts'|trans }}</span></a>
+          </li>
+          <li {% if app.request.attributes.get('_route') == 'contact' %}class="active"{% endif %}>
+            <a href="{{ path('contact') }}"><i class="fa fa-envelope-o fa-fw"></i><span class="nav-label">{{ 'Contact'|trans }}</span></a>
+          </li>
+          <li {% if app.request.attributes.get('_route') == 'where_buy' %}class="active"{% endif %}>
+            <a href="{{ path('where_buy') }}"><i class="fa fa-info-circle  fa-fw"></i><span class="nav-label">Acheter des bitcoins</span></a>
+          </li>
+          {% if is_granted('ROLE_ADMIN') %}
+            <li>
+              <a href="#"><i class="fa fa-wrench fa-fw"></i><span class="nav-label">Administration</span><span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level collapse">
+                <li>
+                  <a href="{{ path('admin_users') }}"> Gestion des utilisateurs</a>
+                </li>
+                <li>
+                  <a href="{{ path('admin_wallets') }}"> Gestion des portefeuilles</a>
+                </li>
+                <li>
+                  <a href="{{ path('admin_currencies') }}"> Gestion des crypto-Monnaie</a>
+                </li>
+                <li>
+                  <a href="{{ path('admin_contacts') }}"> Gestion des contacts</a>
+                </li>
+              </ul>
+            </li>
+          {% endif %}
+        </ul>
     </div>
-    <!-- /.navbar-static-side -->
 </nav>

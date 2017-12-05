@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block title_wrapper %}
-  <h1 class="page-header">Nouvel ordre:</h1>
+  <h2>Nouvel ordre:</h2>
 {% endblock title_wrapper %}
 
 {% block body %}
@@ -17,7 +17,7 @@
         {{ form_widget(form.currency,{'attr':{'class':'form-control js-select-currency'}}) }}
       </div>
 
-      <button type="submit" id="btn-create-order" class="btn btn-default">Prochaine étape</button>
+      <button type="submit" id="btn-create-order" class="btn btn-primary">Prochaine étape</button>
     {{ form_end(form) }}
     </div>
   </div>

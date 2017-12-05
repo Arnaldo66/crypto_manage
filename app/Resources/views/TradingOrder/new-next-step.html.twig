@@ -1,7 +1,7 @@
 {% extends "::base.html.twig" %}
 
 {% block title_wrapper %}
-  <h1 class="page-header">Nouvel ordre:</h1>
+  <h2>Nouvel ordre:</h2>
   <p>
     Valeur actuelle du {{ currency.name}}: {{ currency.priceEur|price }} €<br/>
     Montant restant: {{ wallet.euroWallet.amount|price }} €
@@ -72,8 +72,8 @@
         </div>
 
 
-        <a href="{{ path('trade_order_new')}}" class="btn btn-default"><< Retour</a>
-        <button type="submit" id="btn-finalise-order" class="btn btn-default">Soumettre</button>
+        <a href="{{ path('trade_order_new')}}" class="btn btn-primary"><< Retour</a>
+        <button type="submit" id="btn-finalise-order" class="btn btn-primary">Soumettre</button>
       </div>
     </div>
   {{ form_end(form) }}

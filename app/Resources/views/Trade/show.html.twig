@@ -1,7 +1,7 @@
 {% extends "::base.html.twig" %}
 
 {% block title_wrapper %}
-  <h1 class="page-header">Portefeuille: {{ tradingWallet.name }}</h1>
+  <h2>Portefeuille: {{ tradingWallet.name }}</h2>
 {% endblock title_wrapper %}
 
 {% block body %}
@@ -9,7 +9,7 @@
   <div class="row">
     <div class="col-lg-12">
         <p>
-          <a href="{{ path('trade_order_new')}}" class="btn btn-success">Nouvel ordre</a>
+          <a href="{{ path('trade_order_new')}}" class="btn btn-primary">Nouvel ordre</a>
         </p>
     </div>
   </div>

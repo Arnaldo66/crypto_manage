@@ -52,6 +52,7 @@ class CronSitemapsGeneratorCommand extends ContainerAwareCommand
 
     private function createStaticLink(){
       return '<url><loc>https://e-goldenboy.com/</loc><changefreq>daily</changefreq><priority>1</priority></url>
+              <url><loc>https://e-goldenboy.com/dashboard</loc><changefreq>daily</changefreq><priority>1</priority></url>
               <url><loc>https://e-goldenboy.com/login</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
               <url><loc>https://e-goldenboy.com/register/</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
               <url><loc>https://e-goldenboy.com/convertisseur</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
