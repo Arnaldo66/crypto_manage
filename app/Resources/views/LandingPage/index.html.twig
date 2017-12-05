@@ -88,7 +88,7 @@
                                 <tr>
                                   <td>{% if currency.image is not null %}<img src="{{ asset('images/currency-logo/32/' ~ currency.image ) }}">{% endif %}</td>
                                   <td><a href="{{ path('currency_show', {'slug': currency.slug }) }}">{{ currency.name }}</a></td>
-                                  <td>{{ currency.priceEur|price }}</td>
+                                  <td>€ {{ currency.priceEur|price }}</td>
                                 </tr>
                               {% endfor %}
                             </tbody>
