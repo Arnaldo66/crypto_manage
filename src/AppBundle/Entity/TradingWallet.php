@@ -39,7 +39,7 @@ class TradingWallet
 
     /**
      * @var boolean
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @ORM\Column(name="public", type="boolean")
      */
     private $public;
