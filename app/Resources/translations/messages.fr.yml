@@ -22,7 +22,7 @@ lp_feature_simulator_title: "Simulez l'achat/vente de crypto-monnaie"
 lp_feature_simulator_text: "L'achat/vente virtuel de crypto-monnaies, permet de s'exercer au trading sans aucun risque. Permet d'expérimenter différentes techniques de trading"
 lp_feature_actual_course_title: 'Cours en temps réel'
 lp_feature_actual_course_text: 'La plateforme affiche le cours du bitcoin et altcoins en temps réel. Les informations sont mis à jour toutes les 5 minutes.'
-lp_feature_actual_course_btn: 'Cours actuel'
+lp_feature_actual_course_info: 'Cours actuel'
 lp_feature_converter_title: 'Utilisez notre convertisseur'
 lp_feature_converter_text: 'Un convertisseur euro/crypto - crypto/euro est mis à disposition. Il prend les principales crypto-monnaies.'
 lp_feature_alert_title: 'Créez des alertes'
