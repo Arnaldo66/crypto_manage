@@ -8,9 +8,9 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
 
-      <title>Bienvenue sur e-goldenboy.com</title>
+      <title>{{ 'general_title'|trans }}</title>
 
-      <meta name="description" content="E golden boy affiche le cours en temps réel du bitcoin et des autres crypto-monnaies. Notre outil vous permet de faire de la simulation de trading et de mettre en place des alertes de hausse ou de baisse du cours." />
+      <meta name="description" content="{{ 'general_description'|trans }}" />
       {% stylesheets '../app/Resources/public/css-landing/*' filter='cssrewrite' %}
           <link rel="stylesheet" href="{{ asset_url }}" />
       {% endstylesheets %}
@@ -32,12 +32,9 @@
             <div class="item active">
                 <div class="container">
                     <div class="carousel-caption">
-                        <h1>Plateforme de<br/>
-                            simulation.<br />
-                            Trading de bitcoin<br />
-                            & altcoins</h1>
+                        <h1>{{ 'lp_title'|trans|raw }}</h1>
                         <p>
-                            <a class="btn btn-lg btn-primary" href="{{ path('about') }}" role="button">En savoir plus</a>
+                            <a class="btn btn-lg btn-primary" href="{{ path('about') }}" role="button">{{ 'know_more'|trans }}</a>
                         </p>
                     </div>
                 </div>
@@ -51,36 +48,36 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
-                <h1>Simulation de trading<br/> <span class="navy"> bitcoin et +1000 crypto-monnaies</span> </h1>
-                <p>Entrainez-vous gratuitement à trader des bitcoins & altcoins</p>
+                <h1>{{ 'lp_feature_general_title'|trans|raw }}</h1>
+                <p>{{ 'lp_feature_general_text'|trans }}</p>
             </div>
         </div>
         <div class="row">
             <div class="col-md-3 text-center wow fadeInLeft">
                 <div>
                     <i class="fa fa-mobile features-icon"></i>
-                    <h2>Cours en temps réel</h2>
-                    <p>La plateforme affiche le cours du bitcoin et altcoins en temps réel. Les informations sont mis à jour toutes les 5 minutes.</p>
-                    <a href="{{ path('dashboard')}}" class="btn btn-primary">Voir les cours</a>
+                    <h2>{{ 'lp_feature_actual_course_title'|trans }}</h2>
+                    <p>{{ 'lp_feature_actual_course_text'|trans }}</p>
+                    <a href="{{ path('dashboard')}}" class="btn btn-primary">{{ 'lp_feature_actual_course_btn'|trans }}</a>
                 </div>
                 <div class="m-t-lg">
                     <i class="fa fa-bar-chart features-icon"></i>
-                    <h2>Simulez l'achat/vente de crypto-monnaie</h2>
-                    <p>L'achat/vente virtuel de crypto-monnaies, permet de s'exercer au trading sans aucun risque. Permet d'expérimenter différentes techniques de trading</p>
+                    <h2>{{ 'lp_feature_simulator_title'|trans }}</h2>
+                    <p>{{ 'lp_feature_simulator_text'|trans }}</p>
                 </div>
             </div>
             <div class="col-md-6 text-center  wow zoomIn">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Cours actuel</h5>
+                        <h5>{{ 'lp_feature_actual_course'|trans }}</h5>
                     </div>
                     <div class="ibox-content">
                         <table class="table table-striped text-left">
                             <thead>
                               <tr>
                                   <th>#</th>
-                                  <th>Crypto</th>
-                                  <th>Valeur</th>
+                                  <th>{{ 'crypto'|trans }}</th>
+                                  <th>{{ 'value'|trans }}</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -96,35 +93,34 @@
                     </div>
                 </div>
                 <div class="text-right widget-home-bottom">
-                  <a href="{{ path('currencies')}}" class="italic-link">Voir tous les cours</a>
+                  <a href="{{ path('currencies')}}" class="italic-link">{{ 'see_all_course'|trans }}</a>
                 </div>
             </div>
             <div class="col-md-3 text-center wow fadeInRight">
                 <div>
                     <i class="fa fa-envelope features-icon"></i>
-                    <h2>Utilisez notre convertisseur</h2>
-                    <p>Un convertisseur euro/crypto - crypto/euro est mis à disposition. Il prend les principales crypto-monnaies.</p>
-                    <a href="{{ path('converter')}}" class="btn btn-primary">Convertisseur</a>
+                    <h2>{{ 'lp_feature_converter_title'|trans }}</h2>
+                    <p>{{ 'lp_feature_converter_text'|trans }}</p>
+                    <a href="{{ path('converter')}}" class="btn btn-primary">{{ 'converter'|trans }}</a>
                 </div>
                 <div class="m-t-lg">
                     <i class="fa fa-google features-icon"></i>
-                    <h2>Créez des alertes</h2>
-                    <p>Soyez averti par mail, quand une crypto de votre choix atteint le seuil limite que vous lui avez fixé.</p>
+                    <h2>{{ 'lp_feature_alert_title'|trans }}</h2>
+                    <p>{{ 'lp_feature_alert_text'|trans }}</p>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
-                <h1>Suivez les cours et tester le trading</h1>
-                <p>Tenez vous au courant des cours en temps réel et essayez-vous au trading </p>
+                <h1>{{ 'lp_feature_trading_test_title'|trans }}</h1>
+                <p>{{ 'lp_feature_trading_test_text'|trans }}</p>
             </div>
         </div>
         <div class="row features-block">
             <div class="col-lg-6 features-text wow fadeInLeft">
-                <small>Apprendre le trading</small>
-                <p>Nous mettons à dispositions des outils pour permettre de tester le trading de crypto-monnaie.
-                   Vous pouvez également consulter les protefeuilles public des autres utilisateurs afin de vous inspirer des meilleurs.</p>
+                <small>{{ 'lp_feature_learn_title'|trans }}</small>
+                <p>{{ 'lp_feature_learn_text'|trans }}</p>
             </div>
         </div>
     </section>
@@ -134,16 +130,16 @@
             <div class="row m-b-lg">
                 <div class="col-lg-12 text-center">
                     <div class="navy-line"></div>
-                    <h1>Qui sommes-nous ?</h1>
+                    <h1>{{ 'lp_team'|trans }}</h1>
                     <p>
-                      Développeurs et récents acquéreurs de bitcoin et altcoins, nous avons voulu mettre a disposition des outils pratiques et informer sur le bitcoin et le monde qui s'y rattache<br/>
+                      {{ 'lp_team_response'|trans }}<br/>
                     </p>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
-                    <p>Cette plateforme est gratuite, elle ne comporte aucune publicité ni script de minnage à votre insu</p>
+                    <p>{{ 'lp_team_info'|trans }}</p>
                 </div>
             </div>
         </div>
@@ -154,8 +150,8 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="navy-line"></div>
-                    <h1>Ce site vous plait ? Aidez-nous à le faire vivre</h1>
-                    <p>Faites nous des retours d'expérience et donnez nous votre avis</p>
+                    <h1>{{ 'lp_feature_help_us_title'|trans }}</h1>
+                    <p>{{ 'lp_feature_help_us_text'|trans }}</p>
                 </div>
             </div>
             <div class="row">
@@ -169,8 +165,8 @@
             <div class="row m-b-lg">
                 <div class="col-lg-12 text-center">
                     <div class="navy-line"></div>
-                    <h1>Contactez-nous</h1>
-                    <p>Pour toutes questions ou informations, n'hésitez pas à nous contacter</p>
+                    <h1>{{ 'contact_us'|trans }}</h1>
+                    <p>{{ 'lp_contact_info'|trans }}</p>
                 </div>
             </div>
             <div class="row m-b-lg">
@@ -179,20 +175,20 @@
                 </div>
                 <div class="col-lg-4">
                     <p class="text-color">
-                        Toute remarque est bienvenue. N'hésitez pas à nous donner votre avis sur les outils.
+                        {{ 'lp_contact_impression'|trans }}
                     </p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <a href="mailto:admin@e-goldenboy.com" class="btn btn-primary">Contact</a>
+                    <a href="mailto:admin@e-goldenboy.com" class="btn btn-primary">{{ 'contact'|trans }}</a>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
                     <p>
                       <strong>&copy; {{ "now"|date("Y") }} e-goldenboy.com</strong><br/>
-                      Tous droits réservés
+                      {{ 'all_right_reserved'|trans }}
                     </p>
                 </div>
             </div>
