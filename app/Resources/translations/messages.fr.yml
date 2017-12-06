@@ -5,6 +5,7 @@ team: 'équipe'
 contact: 'Contact'
 login: 'Connexion'
 logout: 'Déconnexion'
+account: 'Mon compte'
 # landing page text
 know_more: 'En savoir plus'
 contact_us: 'Contactez-nous'
