@@ -6,40 +6,40 @@
                   <div class="dropdown profile-element">
                       <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                       <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{ app.user.username }}</strong>
-                      </span> <span class="text-muted text-xs block">Utilisateur<b class="caret"></b></span> </span> </a>
+                      </span> <span class="text-muted text-xs block">{{ 'user'|trans }}<b class="caret"></b></span> </span> </a>
                       <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                          <li><a href="{{ path('fos_user_profile_show')}}">Profile</a></li>
+                          <li><a href="{{ path('fos_user_profile_show')}}">{{ 'profil'|trans }}</a></li>
                           <li class="divider"></li>
-                          <li><a href="{{ path('fos_user_security_logout')}}">Logout</a></li>
+                          <li><a href="{{ path('fos_user_security_logout')}}">{{ 'logout'|trans }}</a></li>
                       </ul>
                   </div>
                 {% endif %}
             </li>
             <li {% if app.request.attributes.get('_route') == 'dashboard' %}class="active"{% endif %}>
-                <a href="{{ path('dashboard')}}"><i class="fa fa-home fa-fw"></i><span class="nav-label">{{ 'Home'|trans }}</span></a>
+                <a href="{{ path('dashboard')}}"><i class="fa fa-home fa-fw"></i><span class="nav-label">{{ 'home'|trans }}</span></a>
             </li>
             <li {% if app.request.attributes.get('_route') == 'converter' %}class="active"{% endif %}>
-              <a href="{{ path('converter')}}"><i class="fa fa-exchange fa-fw"></i><span class="nav-label">{{ 'Converter'|trans }}</span></a>
+              <a href="{{ path('converter')}}"><i class="fa fa-exchange fa-fw"></i><span class="nav-label">{{ 'converter'|trans }}</span></a>
             </li>
             <li {% if app.request.attributes.get('_route') == 'trade_new' or app.request.attributes.get('_route') == 'trade_index' %}class="active"{% endif %}>
-              <a href="#"><i class="fa fa-euro fa-fw"></i><span class="nav-label">{{ 'Trading simulation'|trans }}</span><span class="fa arrow"></span></a>
+              <a href="#"><i class="fa fa-euro fa-fw"></i><span class="nav-label">{{ 'trading_simulation'|trans }}</span><span class="fa arrow"></span></a>
               <ul class="nav nav-second-level collapse">
                   <li {% if app.request.attributes.get('_route') == 'trade_new' %}class="active"{% endif %}>
-                      <a href="{{ path('trade_new') }}"> {{ 'New'|trans }}</a>
+                      <a href="{{ path('trade_new') }}"> {{ 'new'|trans }}</a>
                   </li>
                   <li {% if app.request.attributes.get('_route') == 'trade_index' %}class="active"{% endif %}>
-                      <a href="{{ path('trade_index') }}"> {{ 'My wallets'|trans }}</a>
+                      <a href="{{ path('trade_index') }}"> {{ 'my_wallets'|trans }}</a>
                   </li>
               </ul>
             </li>
           <li {% if app.request.attributes.get('_route') == 'alert' %}class="active"{% endif %}>
-            <a href="{{ path('alert') }}"><i class="fa fa-exclamation-circle fa-fw"></i><span class="nav-label">{{ 'My Alerts'|trans }}</span></a>
+            <a href="{{ path('alert') }}"><i class="fa fa-exclamation-circle fa-fw"></i><span class="nav-label">{{ 'my_alerts'|trans }}</span></a>
           </li>
           <li {% if app.request.attributes.get('_route') == 'contact' %}class="active"{% endif %}>
-            <a href="{{ path('contact') }}"><i class="fa fa-envelope-o fa-fw"></i><span class="nav-label">{{ 'Contact'|trans }}</span></a>
+            <a href="{{ path('contact') }}"><i class="fa fa-envelope-o fa-fw"></i><span class="nav-label">{{ 'contact'|trans }}</span></a>
           </li>
           <li {% if app.request.attributes.get('_route') == 'where_buy' %}class="active"{% endif %}>
-            <a href="{{ path('where_buy') }}"><i class="fa fa-info-circle  fa-fw"></i><span class="nav-label">Acheter des bitcoins</span></a>
+            <a href="{{ path('where_buy') }}"><i class="fa fa-info-circle  fa-fw"></i><span class="nav-label">{{ 'where_buy'|trans }}</span></a>
           </li>
           {% if is_granted('ROLE_ADMIN') %}
             <li>
