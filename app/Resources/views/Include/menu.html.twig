@@ -1,20 +1,9 @@
 <nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
-            <li class="nav-header">
-                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                  <div class="dropdown profile-element">
-                      <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                      <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{ app.user.username }}</strong>
-                      </span> <span class="text-muted text-xs block">{{ 'user'|trans }}<b class="caret"></b></span> </span> </a>
-                      <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                          <li><a href="{{ path('fos_user_profile_show')}}">{{ 'profil'|trans }}</a></li>
-                          <li class="divider"></li>
-                          <li><a href="{{ path('fos_user_security_logout')}}">{{ 'logout'|trans }}</a></li>
-                      </ul>
-                  </div>
-                {% endif %}
-            </li>
+
+            {{ include('Include/user-menu.html.twig') }}
+
             <li {% if app.request.attributes.get('_route') == 'dashboard' %}class="active"{% endif %}>
                 <a href="{{ path('dashboard')}}"><i class="fa fa-home fa-fw"></i><span class="nav-label">{{ 'home'|trans }}</span></a>
             </li>
@@ -41,25 +30,9 @@
           <li {% if app.request.attributes.get('_route') == 'where_buy' %}class="active"{% endif %}>
             <a href="{{ path('where_buy') }}"><i class="fa fa-info-circle  fa-fw"></i><span class="nav-label">{{ 'where_buy'|trans }}</span></a>
           </li>
-          {% if is_granted('ROLE_ADMIN') %}
-            <li>
-              <a href="#"><i class="fa fa-wrench fa-fw"></i><span class="nav-label">Administration</span><span class="fa arrow"></span></a>
-              <ul class="nav nav-second-level collapse">
-                <li>
-                  <a href="{{ path('admin_users') }}"> Gestion des utilisateurs</a>
-                </li>
-                <li>
-                  <a href="{{ path('admin_wallets') }}"> Gestion des portefeuilles</a>
-                </li>
-                <li>
-                  <a href="{{ path('admin_currencies') }}"> Gestion des crypto-Monnaie</a>
-                </li>
-                <li>
-                  <a href="{{ path('admin_contacts') }}"> Gestion des contacts</a>
-                </li>
-              </ul>
-            </li>
-          {% endif %}
+
+
+          {{ include('Include/admin-menu.html.twig') }}
         </ul>
     </div>
 </nav>
