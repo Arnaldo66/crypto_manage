@@ -18,6 +18,7 @@
                       <thead>
                           <tr>
                             <th>Nom</th>
+                            <th>Propriétaire</th>
                             <th>Investissement initial</th>
                             <th>Montant actuel</th>
                             <th>Date création</th>
@@ -32,6 +33,7 @@
                             {% endfor %}
                             <tr class="odd gradeX">
                               <td><a href="{{ path('trade_show',{id:wallet.id}) }}">{{ wallet.name }}</a></td>
+                              <td>{{ wallet.user.username }}</td>
                               <td>{{ wallet.initialAmount }}</td>
                               <td>{{ (wallet.euroWallet.amount + totalWallet)|price }}</td>
                               <td>{{ wallet.createdAt|date("d/m/Y")  }}</td>

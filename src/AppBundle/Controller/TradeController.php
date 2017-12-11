@@ -31,7 +31,7 @@ class TradeController extends Controller
    }
 
    /**
-    * @Route("/portefeuille-public", name="trade_public")
+    * @Route("/portefeuilles-publics", name="trade_public")
     * @Method({"GET"})
     */
     public function publicWalletAction(){
