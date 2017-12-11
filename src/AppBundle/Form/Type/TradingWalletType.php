@@ -7,7 +7,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
 use AppBundle\Entity\TradingWallet;
 
@@ -17,7 +16,7 @@ class TradingWalletType extends AbstractType
     {
         $builder
             ->add('name',TextType::class)
-            ->add('initialAmount', MoneyType::class)
+            ->add('initialAmount', TextType::class)
             ->add('public', ChoiceType::class, array(
               'expanded' => true,
               'choices'  => array(
