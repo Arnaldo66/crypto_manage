@@ -56,4 +56,9 @@ class TradeControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/u/trade/wallets/1');
         $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
     }
+
+    public function testShowPublicWallet(){
+       $crawler = $this->client->request('GET', '/portefeuilles-publics');
+       $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
+    }
 }

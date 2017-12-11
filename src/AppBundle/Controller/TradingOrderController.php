@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use AppBundle\Form\Type\TradingOrderFirstStepType;
 use AppBundle\Form\Type\TradingOrderNextStepType;
@@ -22,7 +23,6 @@ class TradingOrderController extends Controller
     public function newAction()
     {
         $tradeOrder = new TradingOrder;
-        //
         $form = $this->createForm(TradingOrderFirstStepType::class, $tradeOrder, array(
           'action' => $this->generateUrl('trade_order_new_next_step'),
           'method' => 'POST',
@@ -55,7 +55,7 @@ class TradingOrderController extends Controller
           $orderMethod = $em->getRepository('AppBundle:OrderMethod')->find(1);
           $tradeOrder->setOrderAction($orderAction);
           $tradeOrder->setOrderMethod($orderMethod);
-          $wallet = $this->getPrivateWallet();
+          $wallet = $this->getSessionWallet();
 
           $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array(
             'wallet' => $wallet,
@@ -77,10 +77,14 @@ class TradingOrderController extends Controller
     {
       $tradeOrder = new TradingOrder;
 
-      $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array('wallet' => $this->getPrivateWallet()));
+      $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array('wallet' => $this->getSessionWallet()));
       $form->handleRequest($request);
 
       if ($form->isSubmitted() && $form->isValid()){
+        if($tradeOrder->getTradingWallet()->getUser()->getId() !== $this->getUser()->getId()){
+          throw new AccessDeniedException('Ce portefeuille ne vous appartient pas');
+        }
+
         $canFinalise = $walletManager->canFinaliseOrder($tradeOrder);
         if($canFinalise['success']){
           $walletManager->finaliseOrder($tradeOrder);
@@ -100,7 +104,7 @@ class TradingOrderController extends Controller
     /**
      * get wallet in session
      */
-     private function getPrivateWallet(){
+     private function getSessionWallet(){
        $em = $this->getDoctrine()->getManager();
        $session = $this->get('session');
        $id = $session->get('current_wallet_id');

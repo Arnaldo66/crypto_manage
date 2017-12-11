@@ -31,6 +31,19 @@ class TradeController extends Controller
    }
 
    /**
+    * @Route("/portefeuilles-publics", name="trade_public")
+    * @Method({"GET"})
+    */
+    public function publicWalletAction(){
+      $em = $this->getDoctrine()->getManager();
+      $wallets = $em->getRepository('AppBundle:TradingWallet')->findBy(array('public'=>1));
+
+      return $this->render(':Trade:public_wallet.html.twig', array(
+          'wallets' => $wallets
+      ));
+    }
+
+   /**
     * @Route("/u/trade/wallets/{id}", name="trade_show")
     * @Method({"GET"})
     * @ParamConverter("tradingWallet", class="AppBundle:TradingWallet")
@@ -39,8 +52,8 @@ class TradeController extends Controller
       $session = $this->get('session');
       $session->set('current_wallet_id', $tradingWallet->getId());
 
-      if($this->getUser()->getId() !== $tradingWallet->getUser()->getId()){
-        throw new AccessDeniedException('Access denied: It\'s not your wallet');
+      if(($this->getUser()->getId() !== $tradingWallet->getUser()->getId()) &&  $tradingWallet->getPublic() == 0){
+        throw new AccessDeniedException('Portefeuille privé: Le portefeuille est privé et ne vous appartient pas');
       }
       $totalCurrencies = $walletManager->getTotalCurrencyWalletValue($tradingWallet);
       return $this->render(':Trade:show.html.twig', array(

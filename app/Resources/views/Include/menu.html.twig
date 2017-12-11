@@ -24,6 +24,9 @@
           <li {% if app.request.attributes.get('_route') == 'alert' %}class="active"{% endif %}>
             <a href="{{ path('alert') }}"><i class="fa fa-exclamation-circle fa-fw"></i><span class="nav-label">{{ 'my_alerts'|trans }}</span></a>
           </li>
+          <li {% if app.request.attributes.get('_route') == 'trade_public' %}class="active"{% endif %}>
+            <a href="{{ path('trade_public') }}"><i class="fa fa-eye"></i><span class="nav-label">{{ 'public_wallet'|trans }}</span></a>
+          </li>
           <li {% if app.request.attributes.get('_route') == 'contact' %}class="active"{% endif %}>
             <a href="{{ path('contact') }}"><i class="fa fa-envelope-o fa-fw"></i><span class="nav-label">{{ 'contact'|trans }}</span></a>
           </li>

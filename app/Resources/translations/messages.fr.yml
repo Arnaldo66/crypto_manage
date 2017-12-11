@@ -47,6 +47,7 @@ converter: 'Convertisseur'
 trading_simulation: 'Simulation de trading'
 new: Nouveau
 my_wallets: 'Mes portefeuilles'
+public_wallet: 'Portefeuilles publics'
 my_alerts: 'Mes alertes'
 about: 'A propos'
 where_buy: 'Acheter des bitcoins'
