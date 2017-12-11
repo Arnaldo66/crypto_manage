@@ -9,7 +9,8 @@ class TradingWalletTest extends KernelTestCase
 {
     private $em;
     private $validator;
-    const NB_FIELD_NOT_NULL = 3;
+    const NB_FIELD_NOT_NULL = 4;
+    const NB_FIELD_ONE_ERROR = 1;
     const NO_ERROR = 0;
 
     public function setUp(){
@@ -24,6 +25,7 @@ class TradingWalletTest extends KernelTestCase
      private function getGoldenPass(){
         $tradingWallet = new TradingWallet;
         $tradingWallet->setName('test');
+        $tradingWallet->setInitialAmount(100);
         $tradingWallet->setPublic(1);
         $tradingWallet->setUser(
           $this->em->getRepository("AppBundle:User")->find(1)
@@ -50,5 +52,27 @@ class TradingWalletTest extends KernelTestCase
 
       $violationList = $this->validator->validate($tradingWallet);
       $this->assertEquals($violationList->count(), self::NB_FIELD_NOT_NULL);
+    }
+
+    /**
+     * The nmin value initial amount
+     */
+    public function testMinValue(){
+      $tradingWallet = $this->getGoldenPass();
+      $tradingWallet->setInitialAmount(0);
+
+      $violationList = $this->validator->validate($tradingWallet);
+      $this->assertEquals($violationList->count(), self::NB_FIELD_ONE_ERROR);
+    }
+
+    /**
+     * The max value initial amount
+     */
+    public function testMaxValue(){
+      $tradingWallet = $this->getGoldenPass();
+      $tradingWallet->setInitialAmount(2000000);
+
+      $violationList = $this->validator->validate($tradingWallet);
+      $this->assertEquals($violationList->count(), self::NB_FIELD_ONE_ERROR);
     }
 }

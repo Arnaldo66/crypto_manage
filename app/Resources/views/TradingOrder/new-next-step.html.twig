@@ -43,12 +43,12 @@
           {{ form_widget(form.tradingWallet,{'attr':{'class':'form-control', 'autocomplete':'off'}}) }}
         </div>
 
-        {% if form_errors(form.amount) %}
-          <span class="error">{{ form_errors(form.amount) }}</span>
+        {% if form_errors(form.total) %}
+          <span class="error">{{ form_errors(form.total) }}</span>
         {% endif %}
         <div class="form-group input-group">
-            {{ form_widget(form.amount,{'attr':{'class':'form-control', 'placeholder': 'Montant', 'autocomplete':'off'}}) }}
-            <span class="input-group-addon">{{ currency.symbol }}</span>
+            {{ form_widget(form.total,{'attr':{'class':'form-control', 'placeholder': 'Montant', 'autocomplete':'off'}}) }}
+            <span class="input-group-addon">€</span>
         </div>
 
         {% if form_errors(form.price) %}
@@ -59,12 +59,12 @@
             <span class="input-group-addon">€</span>
         </div>
 
-        {% if form_errors(form.total) %}
-          <span class="error">{{ form_errors(form.total) }}</span>
+        {% if form_errors(form.amount) %}
+          <span class="error">{{ form_errors(form.amount) }}</span>
         {% endif %}
         <div class="form-group input-group">
-            {{ form_widget(form.total,{'attr':{'class':'form-control', 'placeholder': 'Total', 'autocomplete':'off', 'readonly': 'readonly'}}) }}
-            <span class="input-group-addon">€</span>
+            {{ form_widget(form.amount,{'attr':{'class':'form-control', 'placeholder': 'Nombre de devises', 'autocomplete':'off', 'readonly': 'readonly'}}) }}
+            <span class="input-group-addon">{{ currency.symbol }}</span>
         </div>
 
         <div class="invisible">
@@ -91,21 +91,21 @@
           }
       });
 
-      $('input#trading_order_next_step_amount').change(function() {
+      $('input#trading_order_next_step_total').change(function() {
           var amout = this.value;
           var price = initial_price;
           if($('input#trading_order_next_step_orderMethod_2').is(":checked")){
             price = $('#trading_order_next_step_price').val();
           }
-          var newValue = amout * price;
-          $('#trading_order_next_step_total').removeAttr("readonly").val(newValue).attr("readonly","readonly");
+          var newValue = amout / price;
+          $('#trading_order_next_step_amount').removeAttr("readonly").val(newValue).attr("readonly","readonly");
       })
 
       $('input#trading_order_next_step_price').change(function() {
-          var amout = $('#trading_order_next_step_amount').val();
+          var amout = $('#trading_order_next_step_total').val();
           var price = this.value;
-          var newValue = amout * price;
-          $('#trading_order_next_step_total').removeAttr("readonly").val(newValue).attr("readonly","readonly");
+          var newValue = amout / price;
+          $('#trading_order_next_step_amount').removeAttr("readonly").val(newValue).attr("readonly","readonly");
       })
 
     });
