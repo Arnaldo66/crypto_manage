@@ -60,6 +60,7 @@ class CronSitemapsGeneratorCommand extends ContainerAwareCommand
               <url><loc>https://e-goldenboy.com/a-propos</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
               <url><loc>https://e-goldenboy.com/ou-acheter-des-bitcoins</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
               <url><loc>https://e-goldenboy.com/premiers-pas</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+              <url><loc>https://e-goldenboy.com/portefeuilles-publics</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
               <url><loc>https://www.e-goldenboy.com/toutes-les-crypto-monnaies</loc><changefreq>daily</changefreq><priority>0.9</priority></url>';
     }
 
