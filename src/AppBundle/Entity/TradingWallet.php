@@ -32,11 +32,11 @@ class TradingWallet
     private $name;
 
     /**
-     * @var int
+     * @var float
      * @Assert\NotBlank()
      * @Assert\GreaterThan(0)
      * @Assert\LessThanOrEqual(1000000)
-     * @ORM\Column(name="initial_amount", type="string", length=255, nullable=true)
+     * @ORM\Column(name="initial_amount", type="float", length=255, nullable=true)
      */
     private $initialAmount;
 
