@@ -1,0 +1,26 @@
+<?php
+namespace AppBundle\DataFixtures\ORM;
+
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use AppBundle\Entity\Article;
+
+class LoadArticleData extends AbstractFixture implements OrderedFixtureInterface
+{
+    public function load(ObjectManager $manager)
+    {
+        $article = new Article();
+        $article->setTitle('unique');
+        $article->setDescription('unique');
+        $article->setUser($this->getReference('user'));
+
+        $manager->persist($article);
+        $manager->flush();
+    }
+
+    public function getOrder()
+    {
+        return 8;
+    }
+}
