@@ -114,5 +114,5 @@ fos_user:
     firewall_name: main
     user_class: AppBundle\Entity\User
     from_email:
-        address: "admin@e-goldenboy.com"
+        address: "crypto_currency@gmail.com"
         sender_name: "Arno"
