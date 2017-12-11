@@ -23,6 +23,7 @@ class TradeOrderTest extends WebTestCase
 
         $form = $buttonCrawlerNode->form(array(
             'trading_wallet[name]'  => 'Name',
+            'trading_wallet[initialAmount]' => '10'
         ));
         $this->client->submit($form);
         $this->assertTrue($this->client->getResponse()->isRedirect('/u/trade/wallets'));
@@ -38,11 +39,26 @@ class TradeOrderTest extends WebTestCase
 
         $form = $buttonCrawlerNode->form(array(
             'trading_wallet[name]'  => '',
+            'trading_wallet[initialAmount]' => '10'
         ));
         $crawler = $this->client->submit($form);
         $this->assertFalse($this->client->getResponse()->isRedirect('/u/trade/wallets'));
         $this->assertCount(1, $crawler->filter('span.error'));
     }
+
+    public function testWithEmptyInitialAmount()
+    {
+        $crawler = $this->client->request('GET', '/u/trade/new');
+        $buttonCrawlerNode = $crawler->selectButton('btn-create-trading');
+
+        $form = $buttonCrawlerNode->form(array(
+            'trading_wallet[name]'  => 'name',
+        ));
+        $crawler = $this->client->submit($form);
+        $this->assertFalse($this->client->getResponse()->isRedirect('/u/trade/wallets'));
+        $this->assertCount(1, $crawler->filter('span.error'));
+    }
+
 
     public function testCreatePrivateWallet()
     {
@@ -51,7 +67,8 @@ class TradeOrderTest extends WebTestCase
 
         $form = $buttonCrawlerNode->form(array(
             'trading_wallet[name]'  => 'Name',
-            'trading_wallet[public]' => '0'
+            'trading_wallet[public]' => '0',
+            'trading_wallet[initialAmount]' => '10'
         ));
         $this->client->submit($form);
         $this->assertTrue($this->client->getResponse()->isRedirect('/u/trade/wallets'));
