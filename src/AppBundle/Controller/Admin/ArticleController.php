@@ -12,18 +12,26 @@ use AppBundle\Entity\Article;
 
 class ArticleController extends Controller
 {
+
+
     /**
      * @Route("/egbo/articles/new", name="admin_new_article")
-     * @Method({"GET"})
+     * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
     {
         $article = new Article();
-
+        $article->setUser($this->getUser());
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-          die('ii');
+          $em = $this->getDoctrine()->getManager();
+          $em->persist($article);
+          $em->flush();
+
+          //todo: add redict
+          $this->addFlash('success-message','Votre article a bien été crée');
+          return $this->redirectToRoute('dashboard');
         }
 
         return $this->render(':Admin\Article:new.html.twig', array(
