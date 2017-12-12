@@ -46,6 +46,21 @@ class Article
      */
     private $description;
 
+
+    /**
+     * @var string
+     * @Assert\NotBlank()
+     * @ORM\Column(name="meta_description", type="string", length=255)
+     */
+    private $metaDescription;
+
+    /**
+     * @var string
+     * @Assert\NotBlank()
+     * @ORM\Column(name="subtitle", type="string", length=255)
+     */
+    private $subtitle;
+
     /**
      * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="User")
@@ -221,5 +236,53 @@ class Article
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set metaDescription
+     *
+     * @param string $metaDescription
+     *
+     * @return Article
+     */
+    public function setMetaDescription($metaDescription)
+    {
+        $this->metaDescription = $metaDescription;
+
+        return $this;
+    }
+
+    /**
+     * Get metaDescription
+     *
+     * @return string
+     */
+    public function getMetaDescription()
+    {
+        return $this->metaDescription;
+    }
+
+    /**
+     * Set subtitle
+     *
+     * @param string $subtitle
+     *
+     * @return Article
+     */
+    public function setSubtitle($subtitle)
+    {
+        $this->subtitle = $subtitle;
+
+        return $this;
+    }
+
+    /**
+     * Get subtitle
+     *
+     * @return string
+     */
+    public function getSubtitle()
+    {
+        return $this->subtitle;
     }
 }

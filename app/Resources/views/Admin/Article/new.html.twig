@@ -22,6 +22,22 @@
         </div>
 
         <div class="form-group">
+          <label>Sous-titre</label>
+          {% if form_errors(form.subtitle) %}
+            <span class="error">{{ form_errors(form.subtitle) }}</span>
+          {% endif %}
+          {{ form_widget(form.subtitle,{'attr':{'class':'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+          <label>Meta-description</label>
+          {% if form_errors(form.metaDescription) %}
+            <span class="error">{{ form_errors(form.metaDescription) }}</span>
+          {% endif %}
+          {{ form_widget(form.metaDescription,{'attr':{'class':'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
           <label>Description</label>
           {% if form_errors(form.description) %}
             <span class="error">{{ form_errors(form.description) }}</span>

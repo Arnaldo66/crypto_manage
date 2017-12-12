@@ -17,6 +17,8 @@ class ArticleType extends AbstractType
         $builder
             ->add('title',TextType::class)
             ->add('description',TextareaType::class)
+            ->add('subtitle',TextType::class)
+            ->add('metaDescription',TextType::class)
         ;
     }
 

@@ -31,7 +31,7 @@ class ArticleController extends Controller
 
           //todo: add redict
           $this->addFlash('success-message','Votre article a bien été crée');
-          return $this->redirectToRoute('dashboard');
+          return $this->redirectToRoute('article_list');
         }
 
         return $this->render(':Admin\Article:new.html.twig', array(

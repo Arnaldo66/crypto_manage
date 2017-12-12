@@ -13,6 +13,8 @@ class LoadArticleData extends AbstractFixture implements OrderedFixtureInterface
         $article = new Article();
         $article->setTitle('unique');
         $article->setDescription('unique');
+        $article->setMetaDescription('unique');
+        $article->setSubtitle('unique');
         $article->setUser($this->getReference('user'));
 
         $manager->persist($article);
