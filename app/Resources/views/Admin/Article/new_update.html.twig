@@ -1,0 +1,69 @@
+{% extends "::base.html.twig" %}
+
+{% if app.request.attributes.get('_route') == 'admin_new_article' %}
+  {% set btn_title = 'Créer' %}
+  {% set header_title = 'Nouvel article' %}
+{% else %}
+  {% set btn_title = 'Editer' %}
+  {% set header_title = 'Editer l\'article' %}
+{% endif %}
+
+{% block title %}
+  <title>{{ header_title }} - e-goldenboy.com</title>
+{% endblock title %}
+
+{% block title_wrapper %}
+  <h2>{{ header_title }}</h2>
+{% endblock title_wrapper %}
+
+{% block body %}
+  <div class="row">
+    <div class="col-lg-8">
+      {{ form_start(form) }}
+
+        <div class="form-group">
+          <label>Titre</label>
+          {% if form_errors(form.title) %}
+            <span class="error">{{ form_errors(form.title) }}</span>
+          {% endif %}
+          {{ form_widget(form.title,{'attr':{'class':'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+          <label>Sous-titre</label>
+          {% if form_errors(form.subtitle) %}
+            <span class="error">{{ form_errors(form.subtitle) }}</span>
+          {% endif %}
+          {{ form_widget(form.subtitle,{'attr':{'class':'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+          <label>Meta-description</label>
+          {% if form_errors(form.metaDescription) %}
+            <span class="error">{{ form_errors(form.metaDescription) }}</span>
+          {% endif %}
+          {{ form_widget(form.metaDescription,{'attr':{'class':'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          {% if form_errors(form.description) %}
+            <span class="error">{{ form_errors(form.description) }}</span>
+          {% endif %}
+          {{ form_widget(form.description,{'attr':{'class':'form-control', 'rows': '15'}}) }}
+        </div>
+
+        {{ form_widget(form) }}
+        <button type="submit" id="btn-create-article" class="btn btn-primary">{{ btn_title }}</button>
+      {{ form_end(form) }}
+    </div>
+  </div>
+
+  {% block local_javascripts %}
+    <script>
+      $(document).ready(function() {
+          $('#article_description').summernote();
+      });
+    </script>
+  {% endblock %}
+{% endblock body %}
