@@ -15,9 +15,15 @@ class ArticleControllerTest extends WebTestCase
       ));
     }
 
-    public function testContacts()
+    public function testNewArticle()
     {
         $crawler = $this->client->request('GET', '/egbo/articles/new');
+        $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
+    }
+
+    public function testUpdateArticle()
+    {
+        $crawler = $this->client->request('GET', '/egbo/articles/1');
         $this->assertEquals(200,$this->client->getResponse()->getStatusCode());
     }
 
