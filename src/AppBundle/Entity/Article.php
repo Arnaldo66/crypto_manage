@@ -61,6 +61,15 @@ class Article
      */
     private $subtitle;
 
+
+    /**
+     * @var boolean
+     * @Assert\NotNull()
+     * @ORM\Column(name="visible", type="boolean")
+     */
+    private $visible;
+
+
     /**
      * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="User")
@@ -284,5 +293,29 @@ class Article
     public function getSubtitle()
     {
         return $this->subtitle;
+    }
+
+    /**
+     * Set visible
+     *
+     * @param boolean $visible
+     *
+     * @return Article
+     */
+    public function setVisible($visible)
+    {
+        $this->visible = $visible;
+
+        return $this;
+    }
+
+    /**
+     * Get visible
+     *
+     * @return boolean
+     */
+    public function getVisible()
+    {
+        return $this->visible;
     }
 }

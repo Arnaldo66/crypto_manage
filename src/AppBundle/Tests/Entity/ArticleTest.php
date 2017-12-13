@@ -9,7 +9,7 @@ class ArticleTest extends KernelTestCase
 {
     private $em;
     private $validator;
-    const NB_FIELD_NOT_NULL = 5;
+    const NB_FIELD_NOT_NULL = 6;
     const NB_ERROR_UNIQUE = 1;
     const NO_ERROR = 0;
 
@@ -28,6 +28,7 @@ class ArticleTest extends KernelTestCase
         $article->setDescription('bla bla bla');
         $article->setMetaDescription('unique');
         $article->setSubtitle('unique');
+        $article->setVisible('1');
         $article->setUser(
           $this->em->getRepository("AppBundle:User")->find(1)
         );

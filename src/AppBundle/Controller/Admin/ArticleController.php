@@ -23,6 +23,7 @@ class ArticleController extends Controller
     {
         $article = new Article();
         $article->setUser($this->getUser());
+        $article->setVisible(1);
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

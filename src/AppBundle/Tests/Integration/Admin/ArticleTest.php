@@ -24,6 +24,7 @@ class ArticleTest extends WebTestCase
           'article[subtitle]'  => 'sous titre',
           'article[description]'  => 'descr',
           'article[metaDescription]'  => 'metadescr',
+          'article[visible]' => '1'
       ));
       $this->client->submit($form);
       $this->assertTrue($this->client->getResponse()->isRedirect('/articles'));
@@ -40,6 +41,7 @@ class ArticleTest extends WebTestCase
           'article[subtitle]'  => '',
           'article[description]'  => '',
           'article[metaDescription]'  => '',
+          'article[visible]' => '0'
       ));
       $crawler = $this->client->submit($form);
       $this->assertCount(4, $crawler->filter('span.error'));

@@ -7,6 +7,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 use AppBundle\Entity\Article;
 
@@ -19,6 +20,14 @@ class ArticleType extends AbstractType
             ->add('description',TextareaType::class)
             ->add('subtitle',TextType::class)
             ->add('metaDescription',TextType::class)
+            ->add('metaDescription',TextType::class)
+            ->add('visible', ChoiceType::class, array(
+              'expanded' => true,
+              'choices'  => array(
+                'Visible' => true,
+                'Non visible' => false,
+              )
+            ))
         ;
     }
 

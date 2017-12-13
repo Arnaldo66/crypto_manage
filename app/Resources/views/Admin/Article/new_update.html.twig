@@ -46,6 +46,25 @@
         </div>
 
         <div class="form-group">
+          {% if form_errors(form.visible) %}
+            <span class="error">{{ form_errors(form.visible) }}</span>
+          {% endif %}
+          <div class="radio">
+            <label>
+              {{ form_widget(form.visible[0],{'attr':{'autocomplete':'off'}}) }}
+              Visible
+            </label>
+          </div>
+
+          <div class="radio">
+            <label>
+              {{ form_widget(form.visible[1],{'attr':{'autocomplete':'off'}}) }}
+              Non visible
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
           <label>Description</label>
           {% if form_errors(form.description) %}
             <span class="error">{{ form_errors(form.description) }}</span>
