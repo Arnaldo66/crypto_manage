@@ -18,7 +18,7 @@ class ArticleController extends Controller
     public function indexAction()
     {
         $articles = $this->getDoctrine()->getManager()->getRepository(
-          'AppBundle:Article')->findAll();
+          'AppBundle:Article')->findBy(array('visible' => '1'));
         return $this->render(':Article:index.html.twig', array(
             'articles' => $articles
         ));
