@@ -107,6 +107,15 @@ assetic:
         font-awesome-woff2:
             inputs: '%kernel.root_dir%/Resources/public/fonts/fontawesome-webfont.woff2'
             output: 'fonts/fontawesome-webfont.woff2'
+        summernote-eot:
+            inputs: '%kernel.root_dir%/Resources/public/fonts/summernote.eot'
+            output: 'fonts/summernote.eot'
+        summernote-ttf:
+            inputs: '%kernel.root_dir%/Resources/public/fonts/summernote.ttf'
+            output: 'fonts/summernote.ttf'
+        summernote-woff:
+            inputs: '%kernel.root_dir%/Resources/public/fonts/summernote.woff'
+            output: 'fonts/summernote.woff'
 
 # fosuserbundle config
 fos_user:
