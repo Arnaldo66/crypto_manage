@@ -7,6 +7,9 @@ BUG
   - test if price is nul (btc && euro && dollars) .. dont take
   - if not null transform value from btc or euro or dollars
 TODO:
+  - redirection static page to article
+  - change sitemaps generator (add article)
+  - change menu 
   - do best google work (microformat ...)
   - Test view (title, description)
   - history why stop on prod and remove limit after fix

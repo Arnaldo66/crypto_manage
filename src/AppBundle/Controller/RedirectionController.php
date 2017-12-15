@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
-class AboutController extends Controller
+class RedirectionController extends Controller
 {
     /**
      * @Route("/a-propos", name="about")
@@ -14,7 +14,9 @@ class AboutController extends Controller
      */
     public function indexAction()
     {
-        return $this->render(':About:index.html.twig');
+        return $this->redirectToRoute('article_show', array(
+          'slug' => 'a-propos'
+        ), 301);
     }
 
     /**
@@ -23,7 +25,9 @@ class AboutController extends Controller
      */
     public function firstStepAction()
     {
-        return $this->render(':About:first-step.html.twig');
+      return $this->redirectToRoute('article_show', array(
+        'slug' => 'explication-du-jeu-de-simulation-de-trading'
+      ), 301);
     }
 
     /**
@@ -32,6 +36,8 @@ class AboutController extends Controller
      */
     public function whereBuyAction()
     {
-        return $this->render(':About:where-buy.html.twig');
+      return $this->redirectToRoute('article_show', array(
+        'slug' => 'ou-acheter-vendre-des-bitcoins'
+      ), 301);
     }
 }
