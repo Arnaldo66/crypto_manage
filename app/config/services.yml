@@ -4,6 +4,7 @@ parameters:
     order_buy: '%order_buy%'
     order_sell: '%order_sell%'
     order_market: '%order_market%'
+    order_limit: '%order_limit%'
     order_status_ok: '%order_status_ok%'
     order_status_pending: '%order_status_pending%'
 
@@ -33,7 +34,8 @@ services:
           $order_status_pending: '%order_status_pending%'
           $order_sell: '%order_sell%'
           $order_market: '%order_market%'
-          $order_status_ok: '%order_status_ok%'      
+          $order_status_ok: '%order_status_ok%'
+          $order_limit: '%order_limit%'
         public: true
     # controllers are imported separately to make sure they're public
     # and have a tag that allows actions to type-hint services
