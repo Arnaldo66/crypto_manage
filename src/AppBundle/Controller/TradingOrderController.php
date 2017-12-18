@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use AppBundle\Form\Type\TradingOrderFirstStepType;
 use AppBundle\Form\Type\TradingOrderNextStepType;
@@ -113,4 +114,31 @@ class TradingOrderController extends Controller
 
        return $em->getRepository('AppBundle:TradingWallet')->find($id);
      }
+
+
+     /**
+       * get ajax to cancel order
+       * @Route("/u/trade/order/cancel/{id}", name="trade_order_cancel", options = { "expose" = true })
+       * @Method({"PUT", "POST"})
+       * @ParamConverter("tradingOrder", class="AppBundle:TradingOrder")
+      */
+      public function deleteAction(TradingOrder $tradingOrder){
+        if($tradingOrder->getOrderStatus()->getId() != $this->getParameter('order_status_pending')){
+          throw new AccessDeniedException('Access denied: It\'s not possible to cancel this order');
+        }
+
+        if($this->getUser()->getId() !== $tradingOrder->getTradingWallet()->getUser()->getId()){
+          throw new AccessDeniedException('Access denied: It\'s not your wallet');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $status = $em->getRepository('AppBundle:orderStatus')->find(
+          $this->getParameter('order_status_abort')
+        );
+        $tradingOrder->setOrderStatus($status);
+        $em->flush();
+
+        $this->addFlash('success-message','Votre ordre a bien été annulé !');
+        return $this->redirectToRoute('trade_show', array('id'=>$tradingOrder->getTradingWallet()->getId()));
+      }
 }
