@@ -13,17 +13,19 @@ class WalletManager
   private $order_status_pending;
   private $order_sell;
   private $order_market;
+  private $order_limit;
   private $order_status_ok;
   private $em;
 
   public function __construct(EntityManagerInterface $em, $order_buy, $order_status_pending,
-                              $order_sell, $order_market, $order_status_ok){
+                              $order_sell, $order_market, $order_status_ok, $order_limit){
     $this->em = $em;
     $this->order_buy = $order_buy;
     $this->order_status_pending = $order_status_pending;
     $this->order_sell = $order_sell;
     $this->order_market = $order_market;
     $this->order_status_ok = $order_status_ok;
+    $this->order_limit = $order_limit;
   }
 
   /**
@@ -143,7 +145,11 @@ class WalletManager
   * calculate total
   */
   private function calculateTotal(TradingOrder $tradeOrder){
-    $priceEur = $tradeOrder->getCurrency()->getPriceEur();
+    if($tradeOrder->getOrderMethod()->getId() == $this->order_market){
+      $priceEur = $tradeOrder->getCurrency()->getPriceEur();
+    }else{
+      $priceEur = $tradeOrder->getTotal();
+    }
     return $priceEur * $tradeOrder->getAmount();
   }
 
