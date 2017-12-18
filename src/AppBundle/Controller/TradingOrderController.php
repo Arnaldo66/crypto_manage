@@ -64,7 +64,7 @@ class TradingOrderController extends Controller
           ));
           return $this->render(':TradingOrder:new-next-step.html.twig', array(
             'form'=> $form->createView(), 'currency' => $currency,
-            'wallet' =>$wallet
+            'wallet' =>$wallet, 'errors'=> 0
           ));
         }
     }
@@ -79,6 +79,7 @@ class TradingOrderController extends Controller
 
       $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array('wallet' => $this->getSessionWallet()));
       $form->handleRequest($request);
+      $error = 0;
 
       if ($form->isSubmitted() && $form->isValid()){
         if($tradeOrder->getTradingWallet()->getUser()->getId() !== $this->getUser()->getId()){
@@ -93,11 +94,12 @@ class TradingOrderController extends Controller
           return $this->redirectToRoute('trade_show', array('id'=>$tradeOrder->getTradingWallet()->getId()));
         }else{
           $this->addFlash('error-message',$canFinalise['message']);
+          $errors = 1;
         }
       }
       return $this->render(':TradingOrder:new-next-step.html.twig', array(
         'form'=> $form->createView(), 'currency' => $tradeOrder->getCurrency(),
-        'wallet' => $tradeOrder->getTradingWallet()
+        'wallet' => $tradeOrder->getTradingWallet(), 'errors'=> $errors, 'entity' => $tradeOrder
       ));
     }
 
