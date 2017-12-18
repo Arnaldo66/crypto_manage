@@ -108,13 +108,13 @@ class WalletManager
   /**
   * finalise new order
   */
-  public function finaliseOrder(TradingOrder $tradeOrder){
+  public function finaliseOrder(TradingOrder $tradeOrder, $force_order = 0){
     $tradeOrder->setOrderStatus($this->getStatus($tradeOrder));
     $total = $this->calculateTotal($tradeOrder);
     $tradeOrder->setTotal($total);
 
     //In order market we  really change value, in limit juste create order with pending status
-    if($tradeOrder->getOrderMethod()->getId() == $this->order_market){
+    if($tradeOrder->getOrderMethod()->getId() == $this->order_market || $force_order == 1){
       if($tradeOrder->getOrderAction()->getId() == $this->order_buy){
         $wallet = $this->incrementeCurrencyWallet($tradeOrder);
         $this->decrementeEuroWallet($tradeOrder, $total);
