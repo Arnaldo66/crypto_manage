@@ -123,6 +123,10 @@ class TradingOrderController extends Controller
        * @ParamConverter("tradingOrder", class="AppBundle:TradingOrder")
       */
       public function deleteAction(TradingOrder $tradingOrder){
+        if($tradingOrder->getOrderStatus()->getId() != $this->getParameter('order_status_pending')){
+          throw new AccessDeniedException('Access denied: It\'s not possible to cancel this order');
+        }
+
         if($this->getUser()->getId() !== $tradingOrder->getTradingWallet()->getUser()->getId()){
           throw new AccessDeniedException('Access denied: It\'s not your wallet');
         }
