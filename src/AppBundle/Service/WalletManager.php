@@ -147,10 +147,11 @@ class WalletManager
   private function calculateTotal(TradingOrder $tradeOrder){
     if($tradeOrder->getOrderMethod()->getId() == $this->order_market){
       $priceEur = $tradeOrder->getCurrency()->getPriceEur();
+      $priceEur = $priceEur * $tradeOrder->getAmount();
     }else{
       $priceEur = $tradeOrder->getTotal();
     }
-    return $priceEur * $tradeOrder->getAmount();
+    return $priceEur;
   }
 
   /**

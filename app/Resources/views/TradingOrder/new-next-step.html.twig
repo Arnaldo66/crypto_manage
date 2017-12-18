@@ -55,7 +55,15 @@
           <span class="error">{{ form_errors(form.price) }}</span>
         {% endif %}
         <div class="form-group input-group">
-            {{ form_widget(form.price,{'attr':{'class':'form-control', 'placeholder': 'Prix', 'autocomplete':'off', 'value': currency.priceEur, 'readonly': 'readonly' }}) }}
+            {% if errors == 0 %}
+              {{ form_widget(form.price,{'attr':{'class':'form-control', 'autocomplete':'off', 'placeholder': 'Prix', 'value': currency.priceEur, 'readonly': 'readonly' }}) }}
+            {% else %}
+              {% if entity.orderMethod.id == 1 %}
+                {{ form_widget(form.price,{'attr':{'class':'form-control', 'autocomplete':'off', 'placeholder': 'Prix', 'readonly': 'readonly' }}) }}
+              {% else %}
+                {{ form_widget(form.price,{'attr':{'class':'form-control', 'autocomplete':'off', 'placeholder': 'Prix'}}) }}
+              {% endif %}
+            {% endif %}
             <span class="input-group-addon">€</span>
         </div>
 
