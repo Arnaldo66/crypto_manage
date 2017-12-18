@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use AppBundle\Form\Type\AlertType;
 use AppBundle\Entity\Alert;
@@ -53,13 +55,22 @@ class AlertController extends Controller
     }
 
     /**
-     * @Route("/u/alerts/delete", name="alert_delete")
-     * @Method({"POST"})
+     * get ajax to remove alert
+     * @Route("/u/alert/delete/{id}", name="alerte_delete", options = { "expose" = true })
+     * @Method({"DELETE", "POST"})
+     * @ParamConverter("alert", class="AppBundle:Alert")
      */
-    public function deleteAction()
-    {
-      $this->addFlash('success-message','Votre alerte a bien été supprimé');
-      return $this->redirectToRoute('alert');
-    }
+     public function deleteAction(Alert $alert){
+       if($this->getUser()->getId() !== $alert->getUser()->getId()){
+         throw new AccessDeniedException('Access denied: It\'s not your alert');
+       }
+
+       $em = $this->getDoctrine()->getManager();
+       $em->remove($alert);
+       $em->flush();
+
+       $this->addFlash('success-message','Votre alerte a bien été supprimée.');
+       return $this->redirectToRoute('alert');
+     }
 
 }
