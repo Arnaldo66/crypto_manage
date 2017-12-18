@@ -56,7 +56,16 @@
                                 <td>{{ tradingOrder.amount }}</td>
                                 <td>{{ tradingOrder.price|price }}</td>
                                 <td>{{ tradingOrder.total|price }}</td>
-                                <td>{{ tradingOrder.orderStatus.name }}</td>
+                                <td>
+                                  {% set order_status = tradingOrder.orderStatus.id %}
+                                  {% if order_status == 1 %}
+                                    <span class="label label-success">{{ tradingOrder.orderStatus.name }}</span>
+                                  {% elseif order_status == 2 %}
+                                    <span class="label label-warning">{{ tradingOrder.orderStatus.name }}</span>
+                                  {% else %}
+                                      <span class="label label-danger">{{ tradingOrder.orderStatus.name }}</span>
+                                  {% endif %}
+                                </td>
                               </tr>
                             {% endfor %}
                       </tbody>
