@@ -30,21 +30,18 @@
           <li {% if app.request.attributes.get('_route') == 'contact' %}class="active"{% endif %}>
             <a href="{{ path('contact') }}"><i class="fa fa-envelope-o fa-fw"></i><span class="nav-label">{{ 'contact'|trans }}</span></a>
           </li>
-          <li {% if app.request.attributes.get('_route') == 'where_buy' %}class="active"{% endif %}>
-            <a href="{{ path('where_buy') }}"><i class="fa fa-info-circle  fa-fw"></i><span class="nav-label">{{ 'where_buy'|trans }}</span></a>
-          </li>
 
-            <!---<li {#% if app.request.attributes.get('_route') == 'article_list' or app.request.attributes.get('_route') == 'where_buy' %#}class="active"{#% endif %#}>
-              <a href="#"><i class="fa fa-folder-open"></i><span class="nav-label">{{ 'articles'|trans }}</span><span class="fa arrow"></span></a>
-              <ul class="nav nav-second-level collapse">
-                  <li {#% if app.request.attributes.get('_route') == 'article_list' %#}class="active"{#% endif %#}>
-                      <a href="{{ path('article_list') }}"> {{ 'all_articles'|trans }}</a>
-                  </li>
-                  <li {#% if app.request.attributes.get('_route') == 'where_buy' %#}class="active"{#% endif %#}>
-                      <a href="{{ path('where_buy') }}"> {{ 'where_buy'|trans }}</a>
-                  </li>
-              </ul>
-            </li>--->
+          <li {% if app.request.attributes.get('_route') == 'article_list' or app.request.attributes.get('_route') == 'where_buy' %}class="active"{% endif %}>
+            <a href="#"><i class="fa fa-folder-open"></i><span class="nav-label">{{ 'articles'|trans }}</span><span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level collapse">
+                <li {% if app.request.attributes.get('_route') == 'article_list' %}class="active"{% endif %}>
+                    <a href="{{ path('article_list') }}"> {{ 'all_articles'|trans }}</a>
+                </li>
+                <li {% if app.request.attributes.get('_route') == 'where_buy' %}class="active"{% endif %}>
+                    <a href="{{ path('where_buy') }}"> {{ 'where_buy'|trans }}</a>
+                </li>
+            </ul>
+          </li>
 
           {{ include('Include/admin-menu.html.twig') }}
         </ul>
