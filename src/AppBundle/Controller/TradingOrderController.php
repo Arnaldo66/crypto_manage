@@ -79,7 +79,7 @@ class TradingOrderController extends Controller
 
       $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array('wallet' => $this->getSessionWallet()));
       $form->handleRequest($request);
-      $error = 0;
+      $errors = 0;
 
       if ($form->isSubmitted() && $form->isValid()){
         if($tradeOrder->getTradingWallet()->getUser()->getId() !== $this->getUser()->getId()){
