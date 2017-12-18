@@ -29,7 +29,7 @@ class CronCheckLimitActionCommand extends ContainerAwareCommand
       $tradeOrders = $em->getRepository('AppBundle:TradingOrder')->findBy(array('orderStatus'=>$orderStatus));
       foreach($tradeOrders as $tradeOrder){
         if($tradeOrder->getPrice() >= $tradeOrder->getCurrency()->getPriceEur()){
-          $walletManager->finaliseOrder($tradeOrder,$em);
+          $walletManager->finaliseOrder($tradeOrder, 1);
         }
       }
       $output->writeln('OK');

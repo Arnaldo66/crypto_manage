@@ -45,6 +45,10 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    globals:
+        order_status_ok: '%order_status_ok%'
+        order_status_pending: '%order_status_pending%'
+        order_status_abort: '%order_status_abort%'
 
 # Doctrine Configuration
 doctrine:
