@@ -8,7 +8,9 @@
 
   <div class="row">
     <div class="col-lg-12">
+        {% set owner = 0 %}
         {% if tradingWallet.user.id == app.user.id %}
+          {% set owner = 1 %}
           <p>
             <a href="{{ path('trade_order_new')}}" class="btn btn-primary">Nouvel ordre</a>
           </p>
@@ -46,6 +48,9 @@
                             <th>Prix unitaire</th>
                             <th>Prix total</th>
                             <th>Status</th>
+                            {% if owner %}
+                              <th>Supprimer</th>
+                            {% endif %}
                           </tr>
                       </thead>
                       <tbody>
@@ -66,6 +71,13 @@
                                       <span class="label label-danger">{{ tradingOrder.orderStatus.name }}</span>
                                   {% endif %}
                                 </td>
+                                {% if owner %}
+                                    {% if order_status == 2 %}
+                                      <td><p class="fa fa-times-circle" style="cursor:pointer;" data-toggle="modal" data-target="#removeOrder" data-id="{{ tradingOrder.id }}"></p></td>
+                                    {% else %}
+                                      <td>&nbsp;</td>
+                                    {% endif %}
+                                {% endif %}
                               </tr>
                             {% endfor %}
                       </tbody>
@@ -115,11 +127,45 @@
       </div>
       <!-- /.col-lg-12 -->
   </div>
+
+
+  <div class="modal fade" id="removeOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Suppression d'un ordre</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="" method="POST">
+          <div class="modal-body">
+            Etes-vous sûr de vouloir annuler votre ordre ?<br/>
+            Votre ordre passera en status "Annulé"
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+            <button type="submit" class="btn btn-primary">Confirmer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
+
 
 {% block local_javascripts %}
   <script>
   $(document).ready(function() {
+
+
+      $('#removeOrder').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('id');
+        $(this).find('form').attr('action', Routing.generate('trade_order_cancel', { id: id }));
+      })
+
       var url = "https://cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"
       $('#dataTables-orders').DataTable({
           responsive: true,
