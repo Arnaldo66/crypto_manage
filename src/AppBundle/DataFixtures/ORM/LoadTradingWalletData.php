@@ -69,6 +69,8 @@ class LoadTradingWalletData extends AbstractFixture implements OrderedFixtureInt
         $manager->persist($tradingWallet);
         $manager->flush();
 
+        $this->addReference('trading_wallet_unit_test', $tradingWallet);
+
     }
 
     public function getOrder()

@@ -61,11 +61,13 @@ class WalletManagerTest extends KernelTestCase
      * test unit totalWalletPending
      */
     public function testTotalWalletPending(){
-        $tradingWallet = $this->getTradingWallet();
         $reflection = new \ReflectionClass(get_class($this->walletManager));
         $method = $reflection->getMethod('getTotalWalletPending');
         $method->setAccessible(true);
-        $result = $method->invokeArgs($this->walletManager, array($tradingWallet));
+        $result = $method->invokeArgs($this->walletManager, array($this->tradingWallet));
         $this->assertEquals($result, self::NO_ORDER_PENDING);
     }
+
+    //Creer un ordre achat + ordre de vente
+    
 }
