@@ -196,11 +196,11 @@ class TradingWallet
     /**
      * Add currencyWallet
      *
-     * @param \AppBundle\Entity\EuroWallet $currencyWallet
+     * @param \AppBundle\Entity\CurrencyWallet $currencyWallet
      *
      * @return TradingWallet
      */
-    public function addCurrencyWallet(\AppBundle\Entity\EuroWallet $currencyWallet)
+    public function addCurrencyWallet(\AppBundle\Entity\CurrencyWallet $currencyWallet)
     {
         $this->currencyWallets[] = $currencyWallet;
 
@@ -210,9 +210,9 @@ class TradingWallet
     /**
      * Remove currencyWallet
      *
-     * @param \AppBundle\Entity\EuroWallet $currencyWallet
+     * @param \AppBundle\Entity\CurrencyWallet $currencyWallet
      */
-    public function removeCurrencyWallet(\AppBundle\Entity\EuroWallet $currencyWallet)
+    public function removeCurrencyWallet(\AppBundle\Entity\CurrencyWallet $currencyWallet)
     {
         $this->currencyWallets->removeElement($currencyWallet);
     }

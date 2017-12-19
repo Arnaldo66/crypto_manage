@@ -22,6 +22,20 @@ class LoadCurrencyData extends AbstractFixture implements OrderedFixtureInterfac
         $manager->flush();
 
         $this->addReference('currency', $currency);
+
+
+        $currency = new Currency();
+        $currency->setName('nexisterajamaislagny');
+        $currency->setSymbol('JXRTKK');
+        $currency->setUniqueName('nexisterajamaislagny');
+        $currency->setPriceUsd('4000');
+        $currency->setPriceEur('3500');
+        $currency->setRank(2000);
+
+        $manager->persist($currency);
+        $manager->flush();
+
+        $this->addReference('currency_not_reel', $currency);
     }
 
     public function getOrder()
