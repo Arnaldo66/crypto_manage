@@ -26,7 +26,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
       $client = new \GuzzleHttp\Client();
-      $res = $client->request('GET', 'https://api.coinmarketcap.com/v1/ticker/?convert=EUR&limit=1000');
+      $res = $client->request('GET', 'https://api.coinmarketcap.com/v1/ticker/?convert=EUR&limit=2000');
       $em = $this->getContainer()->get('doctrine')->getManager();
 
       //insert old value in table currencyValueDay
