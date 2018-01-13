@@ -1,0 +1,26 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}
+  <title>Mis à jour de {{ entity.name }} - e-goldenboy.com</title>
+{% endblock title %}
+
+{% block title_wrapper %}
+  <h2>Mis à jour de {{ entity.name }}</h2>
+{% endblock title_wrapper %}
+
+{% block body %}
+  <div class="row">
+    <div class="col-lg-4">
+      {{ form_start(form) }}
+        <div class="form-group">
+          <label>Code graph:</label>
+          {% if form_errors(form.graphCode) %}
+            <span class="error">{{ form_errors(form.graphCode) }}</span>
+          {% endif %}
+          {{ form_widget(form.graphCode,{'attr':{'class':'form-control'}}) }}
+        </div>
+        <button type="submit" id="btn-update-currency" class="btn btn-default">Update</button>
+      {{ form_end(form) }}
+    </div>
+  </div>
+{% endblock %}

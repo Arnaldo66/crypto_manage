@@ -142,6 +142,13 @@ class Currency
     private $graphYearData;
 
     /**
+     * @var string
+     * @Assert\Length(max = 50)
+     * @ORM\Column(name="graph_code", type="string", length=50, nullable=true)
+     */
+    private $graphCode;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -593,5 +600,29 @@ class Currency
     public function getPriceBtc()
     {
         return $this->priceBtc;
+    }
+
+    /**
+     * Set graphCode
+     *
+     * @param string $graphCode
+     *
+     * @return Currency
+     */
+    public function setGraphCode($graphCode)
+    {
+        $this->graphCode = $graphCode;
+
+        return $this;
+    }
+
+    /**
+     * Get graphCode
+     *
+     * @return string
+     */
+    public function getGraphCode()
+    {
+        return $this->graphCode;
     }
 }
