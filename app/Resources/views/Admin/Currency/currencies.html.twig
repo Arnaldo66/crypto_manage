@@ -20,8 +20,10 @@
                             <th>Logo</th>
                             <th>id</th>
                             <th>Nom</th>
+                            <th>Rank</th>
                             <th>Nom unique</th>
                             <th>Historique</th>
+                            <th>Editer</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -30,8 +32,10 @@
                               <td>{% if currency.image is not null %}<img src="{{ asset('images/currency-logo/32/' ~ currency.image ) }}">{% endif %}</td>
                               <td>{{ currency.id }}</td>
                               <td>{{ currency.name }}</td>
+                              <td>{{ currency.rank }}</td>
                               <td>{{ currency.uniqueName }}</td>
                               <td>{{ currency.history }}</td>
+                              <td><a href="{{ path('admin_currencies_update',{'id': currency.id})}}">edit</td>
                             </tr>
                           {% endfor %}
                       </tbody>
