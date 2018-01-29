@@ -18,8 +18,8 @@ class DashboardController extends Controller
         $currencies = $this->getDoctrine()
           ->getRepository('AppBundle:Currency')
           ->findBy([],array('rank'=>'ASC'),100);
-        return $this->render(':Dashboard:index.html.twig', array(
-            'currencies' => $currencies
+        return $this->render(':Currency:currencies.html.twig', array(
+            'currencies' => $currencies, 'dashboard' => 1
         ));
     }
 

@@ -20,7 +20,7 @@ class CurrencyController extends Controller
                           ->getRepository('AppBundle:Currency')
                           ->findAll();
       return $this->render(':Currency:currencies.html.twig', array(
-        'currencies' => $currencies
+        'currencies' => $currencies, 'dashboard' => 0
       ));
      }
 
