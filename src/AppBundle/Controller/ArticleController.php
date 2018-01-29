@@ -17,8 +17,9 @@ class ArticleController extends Controller
      */
     public function indexAction()
     {
+        $authorization = $this->get('security.authorization_checker');
         $user = $this->getUser();
-        if($user !== NULL && $user->hasRole('ROLE_SUPER_ADMIN')){
+        if($user !== NULL && $authorization->isGranted('ROLE_ADMIN')){
           $articles = $this->getDoctrine()->getManager()->getRepository(
             'AppBundle:Article')->findAll();
         }else{
