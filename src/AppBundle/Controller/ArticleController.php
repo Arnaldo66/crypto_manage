@@ -17,8 +17,15 @@ class ArticleController extends Controller
      */
     public function indexAction()
     {
-        $articles = $this->getDoctrine()->getManager()->getRepository(
-          'AppBundle:Article')->findBy(array('visible' => '1'));
+        $user = $this->getUser();
+        if($user !== NULL && $user->hasRole('ROLE_SUPER_ADMIN')){
+          $articles = $this->getDoctrine()->getManager()->getRepository(
+            'AppBundle:Article')->findAll();
+        }else{
+          $articles = $this->getDoctrine()->getManager()->getRepository(
+            'AppBundle:Article')->findBy(array('visible' => '1'));
+        }
+
         return $this->render(':Article:index.html.twig', array(
             'articles' => $articles
         ));
