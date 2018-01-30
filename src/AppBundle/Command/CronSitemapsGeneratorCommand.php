@@ -51,21 +51,24 @@ class CronSitemapsGeneratorCommand extends ContainerAwareCommand
     }
 
     private function createStaticLink(){
-      return '<url><loc>https://e-goldenboy.com/</loc><changefreq>daily</changefreq><priority>1</priority></url>
+      return "<url><loc>https://e-goldenboy.com/</loc><changefreq>daily</changefreq><priority>1</priority></url>
               <url><loc>https://e-goldenboy.com/dashboard</loc><changefreq>daily</changefreq><priority>1</priority></url>
               <url><loc>https://e-goldenboy.com/login</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
               <url><loc>https://e-goldenboy.com/register/</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
               <url><loc>https://e-goldenboy.com/convertisseur</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
               <url><loc>https://e-goldenboy.com/contact</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-              <url><loc>https://e-goldenboy.com/a-propos</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-              <url><loc>https://e-goldenboy.com/ou-acheter-des-bitcoins</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
               <url><loc>https://e-goldenboy.com/premiers-pas</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
               <url><loc>https://e-goldenboy.com/portefeuilles-publics</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-              <url><loc>https://www.e-goldenboy.com/toutes-les-crypto-monnaies</loc><changefreq>daily</changefreq><priority>0.9</priority></url>';
+              <url><loc>https://www.e-goldenboy.com/toutes-les-crypto-monnaies</loc><changefreq>daily</changefreq><priority>0.9</priority></url>\r";
     }
 
     private function createDynamicLink($em){
       $data = '';
+      $articles = $em->getRepository('AppBundle:Article')->findAll();
+      foreach ($articles as $value) {
+        $data .= "<url><loc>https://e-goldenboy.com/articles/".$value->getSlug()."</loc><changefreq>daily</changefreq><priority>1</priority></url>\r";
+      }
+
       $currencies = $em->getRepository('AppBundle:Currency')->findAll();
       foreach ($currencies as $value) {
         $data .= "<url><loc>https://e-goldenboy.com/crypto-monnaies/".$value->getSlug()."</loc><changefreq>daily</changefreq><priority>1</priority></url>\r";
