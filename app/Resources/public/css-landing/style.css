@@ -1034,3 +1034,12 @@ section.comments {
     visibility: hidden;
   }
 }
+.text-navy{
+  color: #1ab394;
+}
+.text-danger{
+  color: #ed5565;
+}
+.text-success {
+    color: #1c84c6;
+}

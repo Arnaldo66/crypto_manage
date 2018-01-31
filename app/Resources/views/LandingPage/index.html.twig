@@ -78,14 +78,27 @@
                                   <th>#</th>
                                   <th>{{ 'crypto'|trans }}</th>
                                   <th>{{ 'value'|trans }}</th>
+                                  <th>{{ 'change'|trans }}</th>
                               </tr>
                             </thead>
                             <tbody>
                               {% for currency in currencies %}
+                                {% set change_value = 0 %}
+                                {% if currency.currencyValueMoment is not null %}
+                                  {% set change_value = currency.currencyValueMoment.percentChange24h %}
+                                {% endif %}
+                                {% if change_value > 0 %}
+                                  {% set div_class_default = "text-navy" %}
+                                {% elseif change_value < 0 %}
+                                  {% set div_class_default = "text-danger" %}
+                                {% else %}
+                                  {% set div_class_default = "text-success" %}
+                                {% endif %}
                                 <tr>
                                   <td>{% if currency.image is not null %}<img src="{{ asset('images/currency-logo/32/' ~ currency.image ) }}">{% endif %}</td>
                                   <td><a href="{{ path('currency_show', {'slug': currency.slug }) }}">{{ currency.name }}</a></td>
                                   <td>€ {{ currency.priceEur|price }}</td>
+                                  <td><div id="percentage-change-1" class="{{ div_class_default }}">{{ change_value }} %</div></td>
                                 </tr>
                               {% endfor %}
                             </tbody>
@@ -121,6 +134,7 @@
             <div class="col-lg-6 features-text wow fadeInLeft">
                 <small>{{ 'lp_feature_learn_title'|trans }}</small>
                 <p>{{ 'lp_feature_learn_text'|trans }}</p>
+                <a href="{{ path('trade_public')}}" class="btn btn-primary">{{ 'lp_btn_see_wallet'|trans }}</a>
             </div>
         </div>
     </section>

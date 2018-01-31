@@ -11,6 +11,7 @@ know_more: 'En savoir plus'
 contact_us: 'Contactez-nous'
 value: 'Valeur'
 crypto: 'Crypto'
+change: '24h change'
 see_course: 'Voir les cours'
 see_all_course: 'Voir tous les cours'
 general_title: 'Bienvenue sur e-goldenboy.com'
@@ -20,18 +21,18 @@ lp_title: 'Plateforme de<br/>simulation.<br />Trading de bitcoin<br />& altcoins
 lp_feature_general_title: 'Simulation de trading<br/> <span class="navy"> bitcoin et +1000 crypto-monnaies</span>'
 lp_feature_general_text: 'Entrainez-vous gratuitement à trader des bitcoins & altcoins'
 lp_feature_simulator_title: "Simulez l'achat/vente de crypto-monnaie"
-lp_feature_simulator_text: "L'achat/vente virtuel de crypto-monnaies, permet de s'exercer au trading sans aucun risque. Permet d'expérimenter différentes techniques de trading"
+lp_feature_simulator_text: "L'achat/vente virtuel de crypto-monnaies permet de s'exercer au trading sans aucun risque. Permet d'expérimenter différentes techniques de trading"
 lp_feature_actual_course_title: 'Cours en temps réel'
-lp_feature_actual_course_text: 'La plateforme affiche le cours du bitcoin et altcoins en temps réel. Les informations sont mis à jour toutes les 5 minutes.'
+lp_feature_actual_course_text: 'La plateforme affiche le cours du bitcoin et altcoins en temps réel. Les informations sont mises à jour toutes les 5 minutes.'
 lp_feature_actual_course_info: 'Cours actuel'
 lp_feature_converter_title: 'Utilisez notre convertisseur'
 lp_feature_converter_text: 'Un convertisseur euro/crypto - crypto/euro est mis à disposition. Il prend les principales crypto-monnaies.'
 lp_feature_alert_title: 'Créez des alertes'
 lp_feature_alert_text: 'Soyez averti par mail, quand une crypto de votre choix atteint le seuil limite que vous lui avez fixé.'
 lp_feature_trading_test_title: 'Suivez les cours et tester le trading'
-lp_feature_trading_test_text: 'Tenez vous au courant des cours en temps réel et essayez-vous au trading'
+lp_feature_trading_test_text: 'Tenez vous au courant des cours en temps réel et essayez-vous au trading. Examinez les portefeuilles publics des autres utilisateurs afin de vous familiariser avec le monde du trading.'
 lp_feature_learn_title: 'Apprendre le trading'
-lp_feature_learn_text: 'Nous mettons à dispositions des outils pour permettre de tester le trading de crypto-monnaie. Vous pouvez également consulter les protefeuilles public des autres utilisateurs afin de vous inspirer des meilleurs.'
+lp_feature_learn_text: 'Nous mettons à dispositions des outils pour permettre de tester le trading de crypto-monnaie. Vous pouvez également consulter les portefeuilles public des autres utilisateurs afin de vous inspirer des meilleurs.'
 lp_team: 'Qui sommes-nous ?'
 lp_team_response: "Développeurs et récents acquéreurs de bitcoin et altcoins, nous avons voulu mettre a disposition des outils pratiques et informer sur le bitcoin et le monde qui s'y rattache"
 lp_team_info: 'Cette plateforme est gratuite, elle ne comporte aucune publicité ni script de minnage à votre insu'
@@ -39,6 +40,7 @@ lp_feature_help_us_title: 'Ce site vous plait ? Aidez-nous à le faire vivre'
 lp_feature_help_us_text: "Faites nous des retours d'expérience et donnez nous votre avis"
 lp_contact_info: "Pour toutes questions ou informations, n'hésitez pas à nous contacter"
 lp_contact_impression: "Toute remarque est bienvenue. N'hésitez pas à nous donner votre avis sur les outils."
+lp_btn_see_wallet: "Portefeuilles publics"
 
 # menu
 user: 'Utilisateur'
