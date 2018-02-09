@@ -27,7 +27,7 @@ class CreateCurrencyValueHistoryCommand extends ContainerAwareCommand
       foreach ($values as $value) {
         $this->createCurrencyValueHistory($em,$value);
       }
-
+      //todo put the flush outsite the function
       //delete this value from currencyDay table
       $curday_repo->deleteOldValues();
 

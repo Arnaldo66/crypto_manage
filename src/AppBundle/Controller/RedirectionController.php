@@ -9,6 +9,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 class RedirectionController extends Controller
 {
     /**
+     * @Route("/dashboard", name="old-dashboard")
+     * @Method({"GET"})
+     */
+    public function dashboardAction()
+    {
+        return $this->redirectToRoute('dashboard', array(), 301);
+    }
+
+    /**
      * @Route("/a-propos", name="about")
      * @Method({"GET"})
      */
