@@ -22,7 +22,8 @@
                             <th>Investissement initial</th>
                             <th>Montant actuel</th>
                             <th>Date création</th>
-                            <th>Balance</th>
+                            <th>Gain</th>
+                            <th>Gain en %</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -37,7 +38,27 @@
                               <td>{{ wallet.initialAmount }}</td>
                               <td>{{ (wallet.euroWallet.amount + totalWallet)|price }}</td>
                               <td>{{ wallet.createdAt|date("d/m/Y")  }}</td>
-                              <td>{{ (wallet.euroWallet.amount + totalWallet - wallet.initialAmount)|price }}</td>
+                              {% set balance = (wallet.euroWallet.amount + totalWallet - wallet.initialAmount)|price %}
+                              {% if balance > 0 %}
+                                {% set div_class_default = "text-navy" %}
+                                {% set level_default = "fa-level-up" %}
+                              {% elseif balance < 0 %}
+                                {% set div_class_default = "text-danger" %}
+                                {% set level_default = "fa-level-down" %}
+                              {% else %}
+                                {% set div_class_default = "text-success" %}
+                                {% set level_default = "" %}
+                              {% endif %}
+                              <td class="{{ div_class_default }}"><i class="fa {{ level_default }}"></i> {{ balance }}€</td>
+                              <td class="{{ div_class_default }}">
+                                <i class="fa {{ level_default }}"></i>
+                                {% set pourcentage = 0 %}
+                                {% if balance != 0 %}
+                                  {% set result = wallet.euroWallet.amount + totalWallet %}
+                                  {% set pourcentage =  ((result - wallet.initialAmount) / (wallet.initialAmount) * 100)|price %}
+                                {% endif %}
+                                {{ pourcentage }} %
+                              </td>
                             </tr>
                           {% endfor %}
                       </tbody>
