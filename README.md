@@ -3,18 +3,11 @@ crypto_manage
 
 A Symfony project created on August 23, 2017
 
-BUG
-  - test if price is nul (btc && euro && dollars) .. dont take
-  - if not null transform value from btc or euro or dollars
 TODO:
-  - change sitemaps generator (add article)
   - change menu
   - do best google work (microformat ...)
   - Test view (title, description)
-  - history why stop on prod and remove limit after fix
   - do page mining, page faucet with affiliation.
-  - do dark web page
-  - Show in more value and possiblity in currency graph
   - multilanguage - french - english - spanish (Voir comment faire au mieux SEO ?)
   - Create a widget with 10 interesting crypto. This widget is parametrable by user on his account
   - do some tutorial to create account coinbase, kraken, litebit
