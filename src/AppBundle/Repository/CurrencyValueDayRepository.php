@@ -27,7 +27,14 @@ class CurrencyValueDayRepository extends \Doctrine\ORM\EntityRepository
                             currency_id
                    FROM     currency_value_day
                    WHERE    DATE_FORMAT(currency_value_day.created_at,"%Y-%m-%d") < DATE_FORMAT(NOW(),"%Y-%m-%d")
-                   GROUP BY currency_id, date_day');
+                   GROUP BY currency_id, date_day
+                   HAVING   min_euro is not null
+                    AND     min_usd is not null
+                    AND     avg_euro is not null
+                    AND     max_euro is not null
+                    AND     max_usd is not null
+                    AND     avg_usd is not null
+                   ');
        return $conn->query($query)->fetchAll();
     }
 
@@ -36,9 +43,7 @@ class CurrencyValueDayRepository extends \Doctrine\ORM\EntityRepository
      */
      public function deleteOldValues(){
        $conn = $this->_em->getConnection();
-       $query = (' DELETE
-                   FROM     currency_value_day
-                   WHERE    DATE_FORMAT(currency_value_day.created_at,"%Y-%m-%d") < DATE_FORMAT(NOW(),"%Y-%m-%d")');
+       $query = ('truncate currency_value_day');
        $conn->executeUpdate($query);
      }
 }
