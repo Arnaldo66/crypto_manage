@@ -39,11 +39,11 @@ class CurrencyValueDayRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
-     *
+     * truncate table after historication
      */
-     public function deleteOldValues(){
-       $conn = $this->_em->getConnection();
-       $query = ('truncate currency_value_day');
-       $conn->executeUpdate($query);
+     public function truncateTable(){
+       $connection = $this->_em->getConnection();
+       $platform   = $connection->getDatabasePlatform();
+       $connection->executeUpdate($platform->getTruncateTableSQL('currency_value_day', true));
      }
 }

@@ -22,7 +22,6 @@ class CreateCurrencyValueHistoryCommand extends ContainerAwareCommand
       $em = $this->getContainer()->get('doctrine')->getManager();
       $curday_repo = $em->getRepository('AppBundle:CurrencyValueDay');
       $values = $curday_repo->getHistoricalValueByDay();
-      
       //create historical value
       foreach ($values as $value) {
         $this->createCurrencyValueHistory($em,$value);
@@ -30,7 +29,7 @@ class CreateCurrencyValueHistoryCommand extends ContainerAwareCommand
       $em->flush();
 
       //delete this value from currencyDay table
-      $curday_repo->deleteOldValues();
+      $curday_repo->truncateTable();
 
       $output->writeln('ok');
     }
