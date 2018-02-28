@@ -9,7 +9,7 @@ class MyCryptoWalletDetailTest extends KernelTestCase
 {
     private $em;
     private $validator;
-    const NB_FIELD_NOT_NULL = 2;
+    const NB_FIELD_NOT_NULL = 3;
     const NO_ERROR = 0;
 
     public function setUp(){
@@ -27,6 +27,9 @@ class MyCryptoWalletDetailTest extends KernelTestCase
         $myCryptoWalletDetail->setAmount('1.145');
         $myCryptoWalletDetail->setMyCryptoWallet(
           $this->em->getRepository("AppBundle:MyCryptoWallet")->find(1)
+        );
+        $myCryptoWalletDetail->setCurrency(
+          $this->em->getRepository("AppBundle:Currency")->find(1)
         );
 
         return $myCryptoWalletDetail;

@@ -38,6 +38,13 @@ class MyCryptoWalletDetail
     private $myCryptoWallet;
 
     /**
+     * @Assert\NotNull()
+     * @ORM\ManyToOne(targetEntity="Currency")
+     * @ORM\JoinColumn(name="currency_id", referencedColumnName="id", nullable=false)
+     */
+    private $currency;
+
+    /**
      * @var datetime
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
@@ -156,5 +163,29 @@ class MyCryptoWalletDetail
     public function getMyCryptoWallet()
     {
         return $this->myCryptoWallet;
+    }
+
+    /**
+     * Set currency
+     *
+     * @param \AppBundle\Entity\Currency $currency
+     *
+     * @return MyCryptoWalletDetail
+     */
+    public function setCurrency(\AppBundle\Entity\Currency $currency)
+    {
+        $this->currency = $currency;
+
+        return $this;
+    }
+
+    /**
+     * Get currency
+     *
+     * @return \AppBundle\Entity\Currency
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
     }
 }
