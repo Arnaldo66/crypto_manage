@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class MyCryptoWalletController extends Controller
 {
     /**
-     * @Route("/u/my-crypto/dashboard")
+     * @Route("/u/my-crypto/dashboard", name="my_crypto_dashboard")
      */
     public function indexAction()
     {
@@ -18,7 +18,7 @@ class MyCryptoWalletController extends Controller
     }
 
     /**
-     * @Route("/u/my-crypto/new")
+     * @Route("/u/my-crypto/new", name="my_crypto_new")
      */
     public function newAction()
     {
@@ -28,7 +28,7 @@ class MyCryptoWalletController extends Controller
     }
 
     /**
-     * @Route("/u/my-crypto/{id}")
+     * @Route("/u/my-crypto/{id}", name="my_crypto_show")
      */
     public function showAction()
     {
