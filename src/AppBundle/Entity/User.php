@@ -32,14 +32,14 @@ class User extends BaseUser
     /**
      * @ORM\OneToMany(targetEntity="MyCryptoWallet", mappedBy="user")
      */
-    private $myCryptoWallet;
+    private $myCryptoWallets;
 
     public function __construct()
     {
       parent::__construct();
       $this->tradingWallets = new \Doctrine\Common\Collections\ArrayCollection();
       $this->alerts = new \Doctrine\Common\Collections\ArrayCollection();
-      $this->myCryptoWallet = new \Doctrine\Common\Collections\ArrayCollection();
+      $this->myCryptoWallets = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -119,7 +119,7 @@ class User extends BaseUser
      */
     public function addMyCryptoWallet(\AppBundle\Entity\MyCryptoWallet $myCryptoWallet)
     {
-        $this->myCryptoWallet[] = $myCryptoWallet;
+        $this->myCryptoWallets[] = $myCryptoWallet;
 
         return $this;
     }
@@ -131,16 +131,16 @@ class User extends BaseUser
      */
     public function removeMyCryptoWallet(\AppBundle\Entity\MyCryptoWallet $myCryptoWallet)
     {
-        $this->myCryptoWallet->removeElement($myCryptoWallet);
+        $this->myCryptoWallets->removeElement($myCryptoWallet);
     }
 
     /**
-     * Get myCryptoWallet
+     * Get myCryptoWallets
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getMyCryptoWallet()
+    public function getMyCryptoWallets()
     {
-        return $this->myCryptoWallet;
+        return $this->myCryptoWallets;
     }
 }

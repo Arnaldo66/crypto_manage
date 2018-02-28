@@ -32,7 +32,7 @@ class MyCryptoWallet
 
     /**
      * @Assert\NotNull()
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="myRealCryptos")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="myCryptoWallets")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $user;

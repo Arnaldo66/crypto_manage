@@ -12,8 +12,9 @@ class MyCryptoWalletController extends Controller
      */
     public function indexAction()
     {
+        $crypto_wallets = $this->getUser()->getMyCryptoWallets();
         return $this->render(':MyCryptoWallet:dashboard.html.twig', array(
-            // ...
+            'crypto_wallets' => $crypto_wallets
         ));
     }
 
