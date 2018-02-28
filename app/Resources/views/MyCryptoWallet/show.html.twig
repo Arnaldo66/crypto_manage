@@ -1,7 +1,45 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:MyRealCrypto:show{% endblock %}
+{% block title %}
+  <title>Détail d'un suivi d'actif - e-goldenboy.com</title>
+{% endblock title %}
+
+{% block title_wrapper %}
+  <a class="btn btn-default" href="" role="button">Ajouter</a>
+  <h2>Détail d'un portefeuille d'actifs</h2>
+{% endblock title_wrapper %}
 
 {% block body %}
-<h1>Welcome to the MyRealCrypto:show page</h1>
+<div class="row">
+  <div class="col-md-10 text-center  wow zoomIn">
+      <div class="ibox float-e-margins">
+          <div class="ibox-content">
+              <table class="table table-striped text-left">
+                  <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>{{ 'crypto'|trans }}</th>
+                        <th>{{ 'value'|trans }}</th>
+                        <th>{{ 'active'|trans }}</th>
+                        <th>{{ 'total'|trans }}</th>
+                        <th>{{ 'change'|trans }}</th>
+                        <th>{{ 'delete'|trans }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                        <td>image</td>
+                        <td><a href="">Bitcoin</a></td>
+                        <td>1.45</td>
+                        <td>€ 125</td>
+                        <td>€ 1458</td>
+                        <td><div id="percentage-change-1" class=""> %</div></td>
+                        <td></td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</div>
 {% endblock %}

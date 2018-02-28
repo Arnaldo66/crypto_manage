@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use AppBundle\Entity\MyCryptoWallet;
 use AppBundle\Form\Type\MyCryptoWalletType;
@@ -51,11 +52,12 @@ class MyCryptoWalletController extends Controller
 
     /**
      * @Route("/u/my-crypto/{id}", name="my_crypto_show")
+     * @ParamConverter("myCryptoWallet", class="AppBundle:MyCryptoWallet")
      */
-    public function showAction()
+    public function showAction(MyCryptoWallet $myCryptoWallet)
     {
         return $this->render(':MyCryptoWallet:show.html.twig', array(
-            // ...
+          'myCryptoWallet' => $myCryptoWallet
         ));
     }
 

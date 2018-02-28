@@ -59,3 +59,7 @@ about: 'A propos'
 articles: 'Articles'
 all_articles: 'Tous les articles'
 where_buy: 'Acheter des bitcoins'
+
+# divers
+active: 'Actifs'
+delete: 'Supprimer'
