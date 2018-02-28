@@ -38,6 +38,11 @@ class MyCryptoWallet
     private $user;
 
     /**
+     * @ORM\OneToMany(targetEntity="MyCryptoWalletDetail", mappedBy="myCryptoWallet")
+     */
+    private $details;
+
+    /**
      * @var datetime
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
@@ -51,6 +56,14 @@ class MyCryptoWallet
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->details = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -156,5 +169,39 @@ class MyCryptoWallet
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Add detail
+     *
+     * @param \AppBundle\Entity\MyCryptoWalletDetail $detail
+     *
+     * @return MyCryptoWallet
+     */
+    public function addDetail(\AppBundle\Entity\MyCryptoWalletDetail $detail)
+    {
+        $this->details[] = $detail;
+
+        return $this;
+    }
+
+    /**
+     * Remove detail
+     *
+     * @param \AppBundle\Entity\MyCryptoWalletDetail $detail
+     */
+    public function removeDetail(\AppBundle\Entity\MyCryptoWalletDetail $detail)
+    {
+        $this->details->removeElement($detail);
+    }
+
+    /**
+     * Get details
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDetails()
+    {
+        return $this->details;
     }
 }
