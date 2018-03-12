@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use AppBundle\Entity\MyCryptoWallet;
 use AppBundle\Entity\MyCryptoWalletDetail;
@@ -15,14 +16,26 @@ use AppBundle\Form\Type\MyCryptoWalletDetailType;
 class MyCryptoWalletDetailController extends Controller
 {
     /**
-     * @Route("/u/my-crypto-detail/new" , name="my_crypto_detail_new")
+     * @Route("/u/my-crypto-detail/{id}/new" , name="my_crypto_detail_new")
+     * @ParamConverter("myCryptoWallet", class="AppBundle:MyCryptoWallet")
      * @Method({"GET", "POST"})
      */
-    public function newAction()
+    public function newAction(MyCryptoWallet $myCryptoWallet, Request $request)
     {
-        //ajouter le formulaire, virer si pas currentUser, passer l'id du wallet en get
+        if ($myCryptoWallet->getUser()->getId() != $this->getUser()->getId()) {
+            throw new AccessDeniedException('Access denied: It\'s not your wallet');
+        }
+
+        $walletDetail = new MyCryptoWalletDetail;
+        $form = $this->createForm(MyCryptoWalletDetailType::class, $walletDetail);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            die('ie');
+        }
+
         return $this->render(':MyCryptoWalletDetail:new.html.twig', array(
-            // ...
+            'form'=> $form->createView()
         ));
     }
 
