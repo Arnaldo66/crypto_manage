@@ -12,42 +12,45 @@ class ContactTest extends KernelTestCase
     const NB_FIELD_NOT_NULL = 3;
     const NO_ERROR = 0;
 
-    public function setUp(){
-      self::bootKernel();
-      $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
-      $this->validator = static::$kernel->getContainer()->get('validator');
+    public function setUp()
+    {
+        self::bootKernel();
+        $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $this->validator = static::$kernel->getContainer()->get('validator');
     }
 
 
     /**
      * give complete and good entity
      */
-     private function getGoldenPass(){
+    private function getGoldenPass()
+    {
         $contact = new Contact;
         $contact->setEmail('test@yahoo.fr');
         $contact->setName('test');
         $contact->setMessage('testtest');
 
         return $contact;
-     }
+    }
 
-     /**
-      * golden pass
-      */
-      public function testGoldenPass(){
-         $contact = $this->getGoldenPass();
-         $violationList = $this->validator->validate($contact);
-         $this->assertEquals($violationList->count(), self::NO_ERROR);
-      }
+    /**
+     * golden pass
+     */
+    public function testGoldenPass()
+    {
+        $contact = $this->getGoldenPass();
+        $violationList = $this->validator->validate($contact);
+        $this->assertEquals($violationList->count(), self::NO_ERROR);
+    }
 
     /**
      * The name field must be not null
      */
-    public function testNotNullValue(){
+    public function testNotNullValue()
+    {
+        $contact = new Contact;
 
-      $contact = new Contact;
-
-      $violationList = $this->validator->validate($contact);
-      $this->assertEquals($violationList->count(), self::NB_FIELD_NOT_NULL);
+        $violationList = $this->validator->validate($contact);
+        $this->assertEquals($violationList->count(), self::NB_FIELD_NOT_NULL);
     }
 }
