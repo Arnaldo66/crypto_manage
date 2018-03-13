@@ -60,7 +60,9 @@
                             <td class="font-bold">
                                 <div id="percentage-change-1" class="{{ div_class_default }}"><i class="fa {{ level_default }}"></i>{{ change_value_default }} %</div>
                             </td>
-                            <td></td>
+                            <td>
+                                <p class="fa fa-times-circle" style="cursor:pointer;" data-toggle="modal" data-target="#removeDetail" data-id="{{ detail.id }}"></p>
+                            </td>
                         </tr>
                     {% endfor %}
                     {% set total_percent_change = 1 %}
@@ -92,4 +94,41 @@
       </div>
   </div>
 </div>
+
+<div class="modal fade" id="removeDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Supprimer de votre portefeuille</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="" method="POST">
+        <div class="modal-body">
+          Etes-vous sûr de vouloir supprimer cet actif de votre portefeuille ?<br/>
+          La suppression est définitive
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-primary">Confirmer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block local_javascripts %}
+  <script>
+  $(document).ready(function() {
+
+
+      $('#removeDetail').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('id');
+        $(this).find('form').attr('action', Routing.generate('my_crypto_detail_delete', { id: id }));
+      })
+  });
+  </script>
 {% endblock %}

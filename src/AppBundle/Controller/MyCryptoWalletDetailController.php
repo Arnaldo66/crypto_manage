@@ -48,13 +48,22 @@ class MyCryptoWalletDetailController extends Controller
     }
 
     /**
-     * @Route("/u/my-crypto-detail/delete/{id}")
+     * @Route("/u/my-crypto-detail/delete/{id}", name="my_crypto_detail_delete", options = { "expose" = true })
      * @ParamConverter("myCryptoWalletDetail", class="AppBundle:MyCryptoWalletDetail")
      */
     public function deleteAction(MyCryptoWalletDetail $walletDetail)
     {
-        return $this->render('AppBundle:MyCryptoWalletDetail:delete.html.twig', array(
-            // ...
+        if ($this->getUser()->getId() !== $walletDetail->getMyCryptoWallet()->getUser()->getId()) {
+            throw new AccessDeniedException('Access denied: It\'s not your alert');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($walletDetail);
+        $em->flush();
+
+        $this->addFlash('success-message', 'Votre crypto a bien été supprimée.');
+        return $this->redirectToRoute('my_crypto_show', array(
+            'id'=> $walletDetail->getMyCryptoWallet()->getId()
         ));
     }
 }
