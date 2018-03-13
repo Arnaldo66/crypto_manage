@@ -10,8 +10,7 @@ class DashboardControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/tableau-de-bord');
-          $this->assertEquals(200,$client->getResponse()->getStatusCode());
+        $client->request('GET', '/tableau-de-bord');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
-
 }
