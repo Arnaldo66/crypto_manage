@@ -12,16 +12,18 @@ class CurrencyTest extends KernelTestCase
     const NB_ERROR_FIELD = 1;
     const NO_ERROR = 0;
 
-    public function setUp(){
-      self::bootKernel();
-      $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
-      $this->validator = static::$kernel->getContainer()->get('validator');
+    public function setUp()
+    {
+        self::bootKernel();
+        $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $this->validator = static::$kernel->getContainer()->get('validator');
     }
 
     /**
      * give complete and good entity
      */
-     private function getGoldenPass(){
+    private function getGoldenPass()
+    {
         $currency = new Currency;
         $currency->setName('thisnameneverexists');
         $currency->setSymbol('bitbitbit');
@@ -31,60 +33,65 @@ class CurrencyTest extends KernelTestCase
         $currency->setRank(1);
 
         return $currency;
-     }
+    }
 
     /**
      * give complete and good entity
      */
-    public function testValidCurrency(){
-      $currency = $this->getGoldenPass();
+    public function testValidCurrency()
+    {
+        $currency = $this->getGoldenPass();
 
-      $violationList = $this->validator->validate($currency);
-      $this->assertEquals($violationList->count(), self::NO_ERROR);
+        $violationList = $this->validator->validate($currency);
+        $this->assertEquals($violationList->count(), self::NO_ERROR);
     }
 
 
     /**
      * The name must be unique, "bitoin exists already"
      */
-    public function testNameUnique(){
-      $currency = $this->getGoldenPass();
-      $currency->setUniqueName('bitcoin');
+    public function testNameUnique()
+    {
+        $currency = $this->getGoldenPass();
+        $currency->setUniqueName('bitcoin');
 
-      $violationList = $this->validator->validate($currency);
-      $this->assertEquals($violationList->count(), self::NB_ERROR_FIELD);
+        $violationList = $this->validator->validate($currency);
+        $this->assertEquals($violationList->count(), self::NB_ERROR_FIELD);
     }
 
     /**
      * The name less or equal than 255
      */
-    public function testNameLength(){
-      $currency = $this->getGoldenPass();
-      $currency->setName(str_repeat("a", 256));
+    public function testNameLength()
+    {
+        $currency = $this->getGoldenPass();
+        $currency->setName(str_repeat("a", 256));
 
-      $violationList = $this->validator->validate($currency);
-      $this->assertEquals($violationList->count(), self::NB_ERROR_FIELD);
+        $violationList = $this->validator->validate($currency);
+        $this->assertEquals($violationList->count(), self::NB_ERROR_FIELD);
     }
 
     /**
      * The bit less or equal than 30
      */
-    public function testSymbolLength(){
-      $currency = $this->getGoldenPass();
-      $currency->setSymbol(str_repeat("a", 31));
+    public function testSymbolLength()
+    {
+        $currency = $this->getGoldenPass();
+        $currency->setSymbol(str_repeat("a", 31));
 
-      $violationList = $this->validator->validate($currency);
-      $this->assertEquals($violationList->count(), self::NB_ERROR_FIELD);
+        $violationList = $this->validator->validate($currency);
+        $this->assertEquals($violationList->count(), self::NB_ERROR_FIELD);
     }
 
     /**
      * The name, and dates not to be null
      */
-    public function testNullValue(){
-      $currency = $this->getGoldenPass();
-      $currency->setName(NULL);
+    public function testNullValue()
+    {
+        $currency = $this->getGoldenPass();
+        $currency->setName(null);
 
-      $violationList = $this->validator->validate($currency);
-      $this->assertEquals($violationList->count(), self::NB_ERROR_FIELD);
+        $violationList = $this->validator->validate($currency);
+        $this->assertEquals($violationList->count(), self::NB_ERROR_FIELD);
     }
 }

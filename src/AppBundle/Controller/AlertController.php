@@ -41,12 +41,12 @@ class AlertController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-          $em = $this->getDoctrine()->getManager();
-          $em->persist($alert);
-          $em->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($alert);
+            $em->flush();
 
-          $this->addFlash('success-message','Votre alerte a bien été crée');
-          return $this->redirectToRoute('alert');
+            $this->addFlash('success-message', 'Votre alerte a bien été crée');
+            return $this->redirectToRoute('alert');
         }
 
         return $this->render(':Alert:new.html.twig', array(
@@ -60,17 +60,17 @@ class AlertController extends Controller
      * @Method({"DELETE", "POST"})
      * @ParamConverter("alert", class="AppBundle:Alert")
      */
-     public function deleteAction(Alert $alert){
-       if($this->getUser()->getId() !== $alert->getUser()->getId()){
-         throw new AccessDeniedException('Access denied: It\'s not your alert');
-       }
+    public function deleteAction(Alert $alert)
+    {
+        if ($this->getUser()->getId() !== $alert->getUser()->getId()) {
+            throw new AccessDeniedException('Access denied: It\'s not your alert');
+        }
 
-       $em = $this->getDoctrine()->getManager();
-       $em->remove($alert);
-       $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($alert);
+        $em->flush();
 
-       $this->addFlash('success-message','Votre alerte a bien été supprimée.');
-       return $this->redirectToRoute('alert');
-     }
-
+        $this->addFlash('success-message', 'Votre alerte a bien été supprimée.');
+        return $this->redirectToRoute('alert');
+    }
 }

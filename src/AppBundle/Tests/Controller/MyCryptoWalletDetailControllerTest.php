@@ -4,7 +4,7 @@ namespace AppBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class TradingOrderControllerTest extends WebTestCase
+class MyCryptoWalletDetailControllerTest extends WebTestCase
 {
     private $client;
 
@@ -15,16 +15,10 @@ class TradingOrderControllerTest extends WebTestCase
           'PHP_AUTH_PW'   => 'password',
         ));
     }
-    public function testNewWithout()
-    {
-        $client = static::createClient();
-        $client->request('GET', '/u/trade/order/new');
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-    }
 
     public function testNew()
     {
-        $this->client->request('GET', '/u/trade/order/new');
+        $this->client->request('GET', '/u/my-crypto-detail/1/new');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
 }

@@ -3,13 +3,13 @@ namespace AppBundle\Tests\Entity;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\ValidatorFactory;
-use AppBundle\Entity\OrderStatus;
+use AppBundle\Entity\MyCryptoWallet;
 
-class OrderStatusTest extends KernelTestCase
+class MyCryptoWalletTest extends KernelTestCase
 {
     private $em;
     private $validator;
-    const NB_FIELD_NOT_NULL = 1;
+    const NB_FIELD_NOT_NULL = 2;
     const NO_ERROR = 0;
 
     public function setUp()
@@ -25,10 +25,13 @@ class OrderStatusTest extends KernelTestCase
      */
     private function getGoldenPass()
     {
-        $orderStatus = new OrderStatus;
-        $orderStatus->setName('Bla');
+        $myCryptoWallet = new MyCryptoWallet;
+        $myCryptoWallet->setName('myname');
+        $myCryptoWallet->setUser(
+            $this->em->getRepository("AppBundle:User")->find(1)
+        );
 
-        return $orderStatus;
+        return $myCryptoWallet;
     }
 
     /**
@@ -36,8 +39,8 @@ class OrderStatusTest extends KernelTestCase
      */
     public function testGoldenPass()
     {
-        $orderStatus = $this->getGoldenPass();
-        $violationList = $this->validator->validate($orderStatus);
+        $myCryptoWallet = $this->getGoldenPass();
+        $violationList = $this->validator->validate($myCryptoWallet);
         $this->assertEquals($violationList->count(), self::NO_ERROR);
     }
 
@@ -46,9 +49,9 @@ class OrderStatusTest extends KernelTestCase
      */
     public function testNotNullValue()
     {
-        $orderStatus = new OrderStatus;
+        $myCryptoWallet = new MyCryptoWallet;
 
-        $violationList = $this->validator->validate($orderStatus);
+        $violationList = $this->validator->validate($myCryptoWallet);
         $this->assertEquals($violationList->count(), self::NB_FIELD_NOT_NULL);
     }
 }

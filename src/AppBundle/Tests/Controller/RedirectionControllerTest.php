@@ -10,24 +10,23 @@ class RedirectionControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/a-propos');
-        $this->assertEquals(301,$client->getResponse()->getStatusCode());
+        $client->request('GET', '/a-propos');
+        $this->assertEquals(301, $client->getResponse()->getStatusCode());
         $this->assertTrue(
-          $client->getResponse()->isRedirect('/articles/a-propos')
+            $client->getResponse()->isRedirect('/articles/a-propos')
         );
-
     }
 
     public function testFirstStep()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/premiers-pas');
-        $this->assertEquals(301,$client->getResponse()->getStatusCode());
+        $client->request('GET', '/premiers-pas');
+        $this->assertEquals(301, $client->getResponse()->getStatusCode());
         $this->assertTrue(
-          $client->getResponse()->isRedirect(
-            '/articles/explication-du-jeu-de-simulation-de-trading'
-          )
+            $client->getResponse()->isRedirect(
+                '/articles/explication-du-jeu-de-simulation-de-trading'
+            )
         );
     }
 
@@ -35,12 +34,12 @@ class RedirectionControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/ou-acheter-des-bitcoins');
-        $this->assertEquals(301,$client->getResponse()->getStatusCode());
+        $client->request('GET', '/ou-acheter-des-bitcoins');
+        $this->assertEquals(301, $client->getResponse()->getStatusCode());
         $this->assertTrue(
-          $client->getResponse()->isRedirect(
-            '/articles/ou-acheter-vendre-des-bitcoins'
-          )
+            $client->getResponse()->isRedirect(
+                '/articles/ou-acheter-vendre-des-bitcoins'
+            )
         );
     }
 }

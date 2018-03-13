@@ -12,42 +12,45 @@ class CurrencyValueMomentTest extends KernelTestCase
     const NB_FIELD_NOT_NULL = 2;
     const NO_ERROR = 0;
 
-    public function setUp(){
-      self::bootKernel();
-      $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
-      $this->validator = static::$kernel->getContainer()->get('validator');
+    public function setUp()
+    {
+        self::bootKernel();
+        $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $this->validator = static::$kernel->getContainer()->get('validator');
     }
 
 
     /**
      * give complete and good entity
      */
-     private function getGoldenPass(){
+    private function getGoldenPass()
+    {
         $currencyValueMoment = new CurrencyValueMoment;
         $currencyValueMoment->setRank(1);
         $currencyValueMoment->setCurrency(
-          $this->em->getRepository("AppBundle:Currency")->find(1)
+            $this->em->getRepository("AppBundle:Currency")->find(1)
         );
 
         return $currencyValueMoment;
-     }
+    }
 
-     /**
-      * golden pass
-      */
-      public function testGoldenPass(){
-         $currencyValueMoment = $this->getGoldenPass();
-         $violationList = $this->validator->validate($currencyValueMoment);
-         $this->assertEquals($violationList->count(), self::NO_ERROR);
-      }
+    /**
+     * golden pass
+     */
+    public function testGoldenPass()
+    {
+        $currencyValueMoment = $this->getGoldenPass();
+        $violationList = $this->validator->validate($currencyValueMoment);
+        $this->assertEquals($violationList->count(), self::NO_ERROR);
+    }
     /**
      * The name field must be not null
      */
-    public function testNotNullValue(){
+    public function testNotNullValue()
+    {
+        $currencyValueMoment = new CurrencyValueMoment;
 
-      $currencyValueMoment = new CurrencyValueMoment;
-
-      $violationList = $this->validator->validate($currencyValueMoment);
-      $this->assertEquals($violationList->count(), self::NB_FIELD_NOT_NULL);
+        $violationList = $this->validator->validate($currencyValueMoment);
+        $this->assertEquals($violationList->count(), self::NB_FIELD_NOT_NULL);
     }
 }

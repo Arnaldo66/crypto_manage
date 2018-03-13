@@ -10,16 +10,15 @@ class ArticleControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/articles');
-        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+        $client->request('GET', '/articles');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
     public function testShow()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/articles/unique');
-        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+        $client->request('GET', '/articles/unique');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
-
 }
