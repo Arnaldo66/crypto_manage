@@ -42,7 +42,7 @@ class MyCryptoWalletController extends Controller
           $em->persist($myCryptoWallet);
           $em->flush();
 
-          $this->addFlash('success-message','Votre portefeuille de suivi a bien été crée');
+          $this->addFlash('success-message', 'Votre portefeuille de suivi a bien été crée');
           return $this->redirectToRoute('my_crypto_dashboard');
         }
         return $this->render(':MyCryptoWallet:new.html.twig', array(

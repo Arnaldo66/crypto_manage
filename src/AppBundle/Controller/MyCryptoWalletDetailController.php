@@ -27,11 +27,17 @@ class MyCryptoWalletDetailController extends Controller
         }
 
         $walletDetail = new MyCryptoWalletDetail;
+        $walletDetail->setMyCryptoWallet($myCryptoWallet);
         $form = $this->createForm(MyCryptoWalletDetailType::class, $walletDetail);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            die('ie');
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($walletDetail);
+            $em->flush();
+
+            $this->addFlash('success-message', 'Vos cryptos ont bien été ajouté à votre wallet');
+            return $this->redirectToRoute('my_crypto_dashboard');
         }
 
         return $this->render(':MyCryptoWalletDetail:new.html.twig', array(
@@ -41,12 +47,12 @@ class MyCryptoWalletDetailController extends Controller
 
     /**
      * @Route("/u/my-crypto-detail/delete/{id}")
+     * @ParamConverter("myCryptoWalletDetail", class="AppBundle:MyCryptoWalletDetail")
      */
-    public function deleteAction($id)
+    public function deleteAction(MyCryptoWalletDetail $walletDetail)
     {
         return $this->render('AppBundle:MyCryptoWalletDetail:delete.html.twig', array(
             // ...
         ));
     }
-
 }

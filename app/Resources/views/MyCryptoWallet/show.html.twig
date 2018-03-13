@@ -5,7 +5,7 @@
 {% endblock title %}
 
 {% block title_wrapper %}
-  <a class="btn btn-default" href="" role="button">Ajouter</a>
+  <a class="btn btn-default" href="{{ path('my_crypto_detail_new', {id: myCryptoWallet.id})}}" role="button">Ajouter</a>
   <h2>Détail d'un portefeuille d'actifs</h2>
 {% endblock title_wrapper %}
 
@@ -27,15 +27,17 @@
                     </tr>
                   </thead>
                   <tbody>
-                      <tr>
-                        <td>image</td>
-                        <td><a href="">Bitcoin</a></td>
-                        <td>1.45</td>
-                        <td>€ 125</td>
-                        <td>€ 1458</td>
-                        <td><div id="percentage-change-1" class=""> %</div></td>
-                        <td></td>
-                      </tr>
+                      {% for detail in myCryptoWallet.details %}
+                          <tr>
+                            <td>image</td>
+                            <td><a href="{{ path('currency_show', { slug: detail.currency.slug }) }}">{{ detail.currency.name }}</a></td>
+                            <td>{{ detail.amount }}</td>
+                            <td>€ 125</td>
+                            <td>€ 1458</td>
+                            <td><div id="percentage-change-1" class=""> %</div></td>
+                            <td></td>
+                          </tr>
+                      {% endfor %}
                   </tbody>
               </table>
           </div>
