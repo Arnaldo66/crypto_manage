@@ -63,3 +63,5 @@ where_buy: 'Acheter des bitcoins'
 # divers
 active: 'Actifs'
 delete: 'Supprimer'
+unit_price: 'Prix unitaire'
+amount: 'Montant'
