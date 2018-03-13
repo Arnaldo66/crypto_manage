@@ -37,4 +37,14 @@ class MyCryptoDetailTest extends WebTestCase
 
         return $crawler;
     }
+
+    public function testDeleteWalletDetail()
+    {
+        $this->client->request('GET', '/u/my-crypto-detail/delete/1');
+        $this->assertTrue($this->client->getResponse()->isRedirect('/u/my-crypto/1'));
+        $crawler = $this->client->followRedirect();
+        $this->assertCount(1, $crawler->filter('div.alert-success'));
+
+        return $crawler;
+    }
 }
