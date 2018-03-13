@@ -8,11 +8,10 @@ class CurrencyControllerTest extends WebTestCase
 {
     public function testShow()
     {
-        //TODO: try to do with doctrine in code setGraphData cause pb
-        /*$client = static::createClient();
+        $client = static::createClient();
 
         $client->request('GET', '/crypto-monnaies/bitcoin');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());*/
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals(1, 1);
     }
 
