@@ -12,20 +12,22 @@ class ContactTest extends WebTestCase
     /**
      * @before
      */
-    public function setUpVariable(){
-      $this->client = static::createClient();
-      $crawler = $this->client->request('GET', '/contact');
-      $this->buttonCrawler = $crawler->selectButton('btn-create-contact');
+    public function setUpVariable()
+    {
+        $this->client = static::createClient();
+        $crawler = $this->client->request('GET', '/contact');
+        $this->buttonCrawler = $crawler->selectButton('btn-create-contact');
     }
 
     /**
      * validate that is false redirect
      */
-     public function validateFalseRedirect($form){
-         $crawler = $this->client->submit($form);
-         $this->assertFalse($this->client->getResponse()->isRedirect('/contact'));
-         $this->assertCount(1, $crawler->filter('span.error'));
-     }
+    public function validateFalseRedirect($form)
+    {
+        $crawler = $this->client->submit($form);
+        $this->assertFalse($this->client->getResponse()->isRedirect('/contact'));
+        $this->assertCount(1, $crawler->filter('span.error'));
+    }
 
 
     public function testContact()
@@ -80,5 +82,4 @@ class ContactTest extends WebTestCase
         ));
         $this->validateFalseRedirect($form);
     }
-
 }

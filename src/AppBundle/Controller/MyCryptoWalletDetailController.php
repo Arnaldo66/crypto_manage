@@ -37,7 +37,9 @@ class MyCryptoWalletDetailController extends Controller
             $em->flush();
 
             $this->addFlash('success-message', 'Vos cryptos ont bien été ajouté à votre wallet');
-            return $this->redirectToRoute('my_crypto_dashboard');
+            return $this->redirectToRoute('my_crypto_show', array(
+                'id'=> $myCryptoWallet->getId()
+            ));
         }
 
         return $this->render(':MyCryptoWalletDetail:new.html.twig', array(
