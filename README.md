@@ -4,6 +4,9 @@ crypto_manage
 A Symfony project created on August 23, 2017
 
 TODO:
+  - historique page + export
+  - New detail wallet page
+  - phpdoc
   - change menu
   - do best google work (microformat ...)
   - Test view (title, description)

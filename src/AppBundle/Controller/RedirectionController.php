@@ -18,6 +18,15 @@ class RedirectionController extends Controller
     }
 
     /**
+     * @Route("/qui-sommes-nous", name="old-who-we-are")
+     * @Method({"GET"})
+     */
+    public function whoWeAreAction()
+    {
+        return $this->redirectToRoute('dashboard', array(), 301);
+    }
+
+    /**
      * @Route("/a-propos", name="about")
      * @Method({"GET"})
      */
