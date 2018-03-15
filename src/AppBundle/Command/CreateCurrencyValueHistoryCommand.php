@@ -11,7 +11,7 @@ class CreateCurrencyValueHistoryCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
-      $this
+        $this
         ->setName('cron:create-currency-history')
         ->setDescription('Fill database with top, lower et AVG value for the last day')
         ->setHelp('This command fill table currency_value_history. Launch by cron 1 time by day at 00h01.');
@@ -19,22 +19,23 @@ class CreateCurrencyValueHistoryCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-      $em = $this->getContainer()->get('doctrine')->getManager();
-      $curday_repo = $em->getRepository('AppBundle:CurrencyValueDay');
-      $values = $curday_repo->getHistoricalValueByDay();
-      //create historical value
-      foreach ($values as $value) {
-        $this->createCurrencyValueHistory($em,$value);
-      }
-      $em->flush();
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $curday_repo = $em->getRepository('AppBundle:CurrencyValueDay');
+        $values = $curday_repo->getHistoricalValueByDay();
+        //create historical value
+        foreach ($values as $value) {
+            $this->createCurrencyValueHistory($em, $value);
+        }
+        $em->flush();
 
-      //delete this value from currencyDay table
-      $curday_repo->truncateTable();
+        //delete this value from currencyDay table
+        $curday_repo->truncateTable();
 
-      $output->writeln('ok');
+        $output->writeln('ok');
     }
 
-    private function createCurrencyValueHistory($em,$value){
+    private function createCurrencyValueHistory($em, $value)
+    {
         $currency = $em->getRepository('AppBundle:Currency')->find($value['currency_id']);
 
         $currencyValueHistory = new CurrencyValueHistory;

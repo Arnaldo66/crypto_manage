@@ -22,16 +22,16 @@ class CronCheckLimitActionCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-      $em = $this->getContainer()->get('doctrine')->getManager();
-      $walletManager = $this->getContainer()->get(WalletManager::class);
-      $orderStatus = $this->getContainer()->getParameter('order_status_pending');
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $walletManager = $this->getContainer()->get(WalletManager::class);
+        $orderStatus = $this->getContainer()->getParameter('order_status_pending');
 
-      $tradeOrders = $em->getRepository('AppBundle:TradingOrder')->findBy(array('orderStatus'=>$orderStatus));
-      foreach($tradeOrders as $tradeOrder){
-        if($tradeOrder->getPrice() >= $tradeOrder->getCurrency()->getPriceEur()){
-          $walletManager->finaliseOrder($tradeOrder, 1);
+        $tradeOrders = $em->getRepository('AppBundle:TradingOrder')->findBy(array('orderStatus'=>$orderStatus));
+        foreach ($tradeOrders as $tradeOrder) {
+            if ($tradeOrder->getPrice() >= $tradeOrder->getCurrency()->getPriceEur()) {
+                $walletManager->finaliseOrder($tradeOrder, 1);
+            }
         }
-      }
-      $output->writeln('OK');
+        $output->writeln('OK');
     }
 }

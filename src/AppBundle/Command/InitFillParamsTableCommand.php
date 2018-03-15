@@ -32,42 +32,45 @@ class InitFillParamsTableCommand extends ContainerAwareCommand
         $output->writeln('Params tables fill');
     }
 
-    private function fillOrderAction($em){
-      $orders = $em->getRepository('AppBundle:OrderAction')->findAll();
-      if(!count($orders)){
-        $order_one = new OrderAction;
-        $this->fillEntity($em, $order_one, 'Achat');
-        $order_two = new OrderAction;
-        $this->fillEntity($em, $order_two, 'Vente');
-      }
+    private function fillOrderAction($em)
+    {
+        $orders = $em->getRepository('AppBundle:OrderAction')->findAll();
+        if (!count($orders)) {
+            $order_one = new OrderAction;
+            $this->fillEntity($em, $order_one, 'Achat');
+            $order_two = new OrderAction;
+            $this->fillEntity($em, $order_two, 'Vente');
+        }
     }
 
-    private function fillOrderMethod($em){
-      $orders = $em->getRepository('AppBundle:OrderMethod')->findAll();
-      if(!count($orders)){
-        $order_one = new OrderMethod;
-        $this->fillEntity($em, $order_one, 'Market');
-        $order_two = new OrderMethod;
-        $this->fillEntity($em, $order_two, 'Limit');
-      }
+    private function fillOrderMethod($em)
+    {
+        $orders = $em->getRepository('AppBundle:OrderMethod')->findAll();
+        if (!count($orders)) {
+            $order_one = new OrderMethod;
+            $this->fillEntity($em, $order_one, 'Market');
+            $order_two = new OrderMethod;
+            $this->fillEntity($em, $order_two, 'Limit');
+        }
     }
 
-    private function fillOrderStatus($em){
-      $orders = $em->getRepository('AppBundle:OrderStatus')->findAll();
-      if(!count($orders)){
-        $order_one = new OrderStatus;
-        $this->fillEntity($em, $order_one, 'Validé');
-        $order_two = new OrderStatus;
-        $this->fillEntity($em, $order_two, 'En cours');
-        $order_tree = new OrderStatus;
-        $this->fillEntity($em, $order_tree, 'Annulé');
-      }
+    private function fillOrderStatus($em)
+    {
+        $orders = $em->getRepository('AppBundle:OrderStatus')->findAll();
+        if (!count($orders)) {
+            $order_one = new OrderStatus;
+            $this->fillEntity($em, $order_one, 'Validé');
+            $order_two = new OrderStatus;
+            $this->fillEntity($em, $order_two, 'En cours');
+            $order_tree = new OrderStatus;
+            $this->fillEntity($em, $order_tree, 'Annulé');
+        }
     }
 
-    private function fillEntity($em, $entity, $name){
-      $entity->setName($name);
-      $em->persist($entity);
-      $em->flush();
+    private function fillEntity($em, $entity, $name)
+    {
+        $entity->setName($name);
+        $em->persist($entity);
+        $em->flush();
     }
-
 }
