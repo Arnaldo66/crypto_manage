@@ -4,6 +4,9 @@
   <title>Ajouter une crypto - e-goldenboy.com</title>
 {% endblock title %}
 
+{% block local_stylesheets %}
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
 
 {% block title_wrapper %}
   <h2>Ajouter une crypto à votre wallet de suivi</h2>
@@ -34,4 +37,13 @@
       {{ form_end(form) }}
     </div>
   </div>
+{% endblock %}
+
+{% block local_javascripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+  <script>
+  $(document).ready(function() {
+      $('.js-select-currency').select2();
+  });
+  </script>
 {% endblock %}
