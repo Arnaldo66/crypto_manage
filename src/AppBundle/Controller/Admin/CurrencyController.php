@@ -33,20 +33,21 @@ class CurrencyController extends Controller
      * @Method({"GET", "POST"})
      * @ParamConverter("currency", class="AppBundle:Currency")
      */
-    public function updateAction(Request $request, Currency $currency){
-      $form = $this->createForm(CurrencyType::class, $currency);
-      $form->handleRequest($request);
+    public function updateAction(Request $request, Currency $currency)
+    {
+        $form = $this->createForm(CurrencyType::class, $currency);
+        $form->handleRequest($request);
 
-      if ($form->isSubmitted() && $form->isValid()) {
-        $em = $this->getDoctrine()->getManager();
-        $em->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
 
-        $this->addFlash('success-message','La crypto a bien été mise à jour');
-        return $this->redirectToRoute('admin_currencies');
-      }
+            $this->addFlash('success-message', 'La crypto a bien été mise à jour');
+            return $this->redirectToRoute('admin_currencies');
+        }
 
-      return $this->render(':Admin\Currency:update.html.twig', array(
-        'form' => $form->createView(), 'entity' => $currency
-      ));
+        return $this->render(':Admin\Currency:update.html.twig', array(
+            'form' => $form->createView(), 'entity' => $currency
+        ));
     }
 }

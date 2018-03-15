@@ -43,9 +43,9 @@ class RedirectionController extends Controller
      */
     public function firstStepAction()
     {
-      return $this->redirectToRoute('article_show', array(
-        'slug' => 'explication-du-jeu-de-simulation-de-trading'
-      ), 301);
+        return $this->redirectToRoute('article_show', array(
+            'slug' => 'explication-du-jeu-de-simulation-de-trading'
+        ), 301);
     }
 
     /**
@@ -54,8 +54,8 @@ class RedirectionController extends Controller
      */
     public function whereBuyAction()
     {
-      return $this->redirectToRoute('article_show', array(
-        'slug' => 'ou-acheter-vendre-des-bitcoins'
-      ), 301);
+        return $this->redirectToRoute('article_show', array(
+            'slug' => 'ou-acheter-vendre-des-bitcoins'
+        ), 301);
     }
 }

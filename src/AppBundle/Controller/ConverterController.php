@@ -18,10 +18,9 @@ class ConverterController extends Controller
     public function indexAction()
     {
         $form = $this->createForm(ConverterType::class);
-        $form_inverse = $this->createForm(ConverterInverseType::class);
+        $formInverse = $this->createForm(ConverterInverseType::class);
         return $this->render(':Converter:index.html.twig', array(
-          'form' => $form->createView(), 'form_inverse' => $form_inverse->createView()
+          'form' => $form->createView(), 'form_inverse' => $formInverse->createView()
         ));
     }
-
 }

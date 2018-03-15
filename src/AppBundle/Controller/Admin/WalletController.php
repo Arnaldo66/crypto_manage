@@ -22,5 +22,4 @@ class WalletController extends Controller
             'wallets' => $wallets
         ));
     }
-
 }

@@ -22,5 +22,4 @@ class ContactController extends Controller
             'contacts' => $contacts
         ));
     }
-
 }

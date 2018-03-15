@@ -19,8 +19,7 @@ class UserController extends Controller
                   ->findAll();
 
         return $this->render(':Admin\User:users.html.twig', array(
-          'users' => $users
+            'users' => $users
         ));
     }
-
 }

@@ -19,12 +19,14 @@ class ArticleController extends Controller
     {
         $authorization = $this->get('security.authorization_checker');
         $user = $this->getUser();
-        if($user !== NULL && $authorization->isGranted('ROLE_ADMIN')){
-          $articles = $this->getDoctrine()->getManager()->getRepository(
-            'AppBundle:Article')->findAll();
-        }else{
-          $articles = $this->getDoctrine()->getManager()->getRepository(
-            'AppBundle:Article')->findBy(array('visible' => '1'));
+        if ($user !== null && $authorization->isGranted('ROLE_ADMIN')) {
+            $articles = $this->getDoctrine()->getManager()->getRepository(
+                'AppBundle:Article'
+            )->findAll();
+        } else {
+            $articles = $this->getDoctrine()->getManager()->getRepository(
+                'AppBundle:Article'
+            )->findBy(array('visible' => '1'));
         }
 
         return $this->render(':Article:index.html.twig', array(

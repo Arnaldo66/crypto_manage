@@ -27,11 +27,11 @@ class ArticleController extends Controller
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-          $em = $this->getDoctrine()->getManager();
-          $em->persist($article);
-          $em->flush();
-          $this->addFlash('success-message','Votre article a bien été crée');
-          return $this->redirectToRoute('article_list');
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($article);
+            $em->flush();
+            $this->addFlash('success-message', 'Votre article a bien été crée');
+            return $this->redirectToRoute('article_list');
         }
 
         return $this->render(':Admin\Article:new_update.html.twig', array(
@@ -44,21 +44,20 @@ class ArticleController extends Controller
      * @Method({"GET", "POST"})
      * @ParamConverter("article", class="AppBundle:Article")
      */
-     public function updateAction(Request $request, Article $article){
-
-       $article->setUser($this->getUser());
-       $form = $this->createForm(ArticleType::class, $article);
-       $form->handleRequest($request);
-       if ($form->isSubmitted() && $form->isValid()) {
-         $em = $this->getDoctrine()->getManager();
-         $em->persist($article);
-         $em->flush();
-         $this->addFlash('success-message','Votre article a bien été modifié');
-         return $this->redirectToRoute('article_list');
-       }
-       return $this->render(':Admin\Article:new_update.html.twig', array(
-         'form'=>$form->createView()
-       ));
-     }
-
+    public function updateAction(Request $request, Article $article)
+    {
+        $article->setUser($this->getUser());
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($article);
+            $em->flush();
+            $this->addFlash('success-message', 'Votre article a bien été modifié');
+            return $this->redirectToRoute('article_list');
+        }
+        return $this->render(':Admin\Article:new_update.html.twig', array(
+            'form'=>$form->createView()
+        ));
+    }
 }

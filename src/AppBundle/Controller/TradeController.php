@@ -18,47 +18,50 @@ use AppBundle\Service\WalletManager;
 
 class TradeController extends Controller
 {
-  /**
-   * @Route("/u/trade/wallets", name="trade_index")
-   * @Method({"GET"})
-   */
-   public function indexAction(){
-     $wallets = $this->getUser()->getTradingWallets();
+    /**
+     * @Route("/u/trade/wallets", name="trade_index")
+     * @Method({"GET"})
+     */
+    public function indexAction()
+    {
+        $wallets = $this->getUser()->getTradingWallets();
 
-     return $this->render(':Trade:index.html.twig', array(
-         'wallets' => $wallets
-     ));
-   }
-
-   /**
-    * @Route("/portefeuilles-publics", name="trade_public")
-    * @Method({"GET"})
-    */
-    public function publicWalletAction(){
-      $em = $this->getDoctrine()->getManager();
-      $wallets = $em->getRepository('AppBundle:TradingWallet')->findBy(array('public'=>1));
-
-      return $this->render(':Trade:public_wallet.html.twig', array(
-          'wallets' => $wallets
-      ));
+        return $this->render(':Trade:index.html.twig', array(
+            'wallets' => $wallets
+        ));
     }
 
-   /**
-    * @Route("/u/trade/wallets/{id}", name="trade_show")
-    * @Method({"GET"})
-    * @ParamConverter("tradingWallet", class="AppBundle:TradingWallet")
-    */
-    public function showAction(TradingWallet $tradingWallet, WalletManager $walletManager){
-      $session = $this->get('session');
-      $session->set('current_wallet_id', $tradingWallet->getId());
+    /**
+     * @Route("/portefeuilles-publics", name="trade_public")
+     * @Method({"GET"})
+     */
+    public function publicWalletAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $wallets = $em->getRepository('AppBundle:TradingWallet')->findBy(array('public'=>1));
 
-      if(($this->getUser()->getId() !== $tradingWallet->getUser()->getId()) &&  $tradingWallet->getPublic() == 0){
-        throw new AccessDeniedException('Portefeuille privé: Le portefeuille est privé et ne vous appartient pas');
-      }
-      $totalCurrencies = $walletManager->getTotalCurrencyWalletValue($tradingWallet);
-      return $this->render(':Trade:show.html.twig', array(
-          'tradingWallet' => $tradingWallet, 'totalCurrencies' => $totalCurrencies
-      ));
+        return $this->render(':Trade:public_wallet.html.twig', array(
+            'wallets' => $wallets
+        ));
+    }
+
+    /**
+     * @Route("/u/trade/wallets/{id}", name="trade_show")
+     * @Method({"GET"})
+     * @ParamConverter("tradingWallet", class="AppBundle:TradingWallet")
+     */
+    public function showAction(TradingWallet $tradingWallet, WalletManager $walletManager)
+    {
+        $session = $this->get('session');
+        $session->set('current_wallet_id', $tradingWallet->getId());
+
+        if (($this->getUser()->getId() !== $tradingWallet->getUser()->getId()) &&  $tradingWallet->getPublic() == 0) {
+            throw new AccessDeniedException('Portefeuille privé: Le portefeuille est privé et ne vous appartient pas');
+        }
+        $totalCurrencies = $walletManager->getTotalCurrencyWalletValue($tradingWallet);
+        return $this->render(':Trade:show.html.twig', array(
+            'tradingWallet' => $tradingWallet, 'totalCurrencies' => $totalCurrencies
+        ));
     }
 
     /**
@@ -74,14 +77,14 @@ class TradeController extends Controller
 
         $form = $this->createForm(TradingWalletType::class, $tradingWallet);
         $form->handleRequest($request);
-        $tradingWallet->setEuroWallet($this->createEuroWallet($em,$tradingWallet,$form["initialAmount"]->getData()));
+        $tradingWallet->setEuroWallet($this->createEuroWallet($em, $tradingWallet, $form["initialAmount"]->getData()));
 
         if ($form->isSubmitted() && $form->isValid()) {
-          $em->persist($tradingWallet);
-          $em->flush();
+            $em->persist($tradingWallet);
+            $em->flush();
 
-          $this->addFlash('success-message','Votre portefeuille a bien été crée !');
-          return $this->redirectToRoute('trade_index');
+            $this->addFlash('success-message', 'Votre portefeuille a bien été crée !');
+            return $this->redirectToRoute('trade_index');
         }
 
         return $this->render(':Trade:new.html.twig', array(
@@ -92,33 +95,35 @@ class TradeController extends Controller
     /**
      * Create a new euro wallet by default
      */
-     private function createEuroWallet($em,$tradingWallet,$amount){
-       $tradingWallet->setInitialAmount($amount);
+    private function createEuroWallet($em, $tradingWallet, $amount)
+    {
+        $tradingWallet->setInitialAmount($amount);
 
-       $euroWallet = new EuroWallet;
-       $euroWallet->setAmount($amount);
-       $euroWallet->setTradingWallet($tradingWallet);
+        $euroWallet = new EuroWallet;
+        $euroWallet->setAmount($amount);
+        $euroWallet->setTradingWallet($tradingWallet);
 
-       $em->persist($euroWallet);
-       return $euroWallet;
-     }
+        $em->persist($euroWallet);
+        return $euroWallet;
+    }
 
-     /**
-      * get ajax to remove wallet
-      * @Route("/u/trade/delete/{id}", name="trade_delete", options = { "expose" = true })
-      * @Method({"DELETE", "POST"})
-      * @ParamConverter("tradingWallet", class="AppBundle:TradingWallet")
-      */
-      public function deleteAction(TradingWallet $tradingWallet){
-        if($this->getUser()->getId() !== $tradingWallet->getUser()->getId()){
-          throw new AccessDeniedException('Access denied: It\'s not your wallet');
+    /**
+     * get ajax to remove wallet
+     * @Route("/u/trade/delete/{id}", name="trade_delete", options = { "expose" = true })
+     * @Method({"DELETE", "POST"})
+     * @ParamConverter("tradingWallet", class="AppBundle:TradingWallet")
+     */
+    public function deleteAction(TradingWallet $tradingWallet)
+    {
+        if ($this->getUser()->getId() !== $tradingWallet->getUser()->getId()) {
+            throw new AccessDeniedException('Access denied: It\'s not your wallet');
         }
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($tradingWallet);
         $em->flush();
 
-        $this->addFlash('success-message','Votre portefeuille a bien été supprimé !');
+        $this->addFlash('success-message', 'Votre portefeuille a bien été supprimé !');
         return $this->redirectToRoute('trade_index');
-      }
+    }
 }
