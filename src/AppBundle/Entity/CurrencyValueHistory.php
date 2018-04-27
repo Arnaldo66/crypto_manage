@@ -82,6 +82,13 @@ class CurrencyValueHistory
 
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="volume_usd_24h", type="float", nullable=true)
+     */
+    private $volumeUsd24h;
+
+    /**
      * Get id
      *
      * @return int
@@ -281,5 +288,29 @@ class CurrencyValueHistory
     public function getAverageEur()
     {
         return $this->averageEur;
+    }
+
+    /**
+     * Set volumeUsd24h
+     *
+     * @param float $volumeUsd24h
+     *
+     * @return CurrencyValueMoment
+     */
+    public function setVolumeUsd24h($volumeUsd24h)
+    {
+        $this->volumeUsd24h = $volumeUsd24h;
+
+        return $this;
+    }
+
+    /**
+     * Get volumeUsd24h
+     *
+     * @return float
+     */
+    public function getVolumeUsd24h()
+    {
+        return $this->volumeUsd24h;
     }
 }

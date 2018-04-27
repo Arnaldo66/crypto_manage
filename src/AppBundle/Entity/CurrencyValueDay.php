@@ -53,6 +53,13 @@ class CurrencyValueDay
     private $currency;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="volume_usd_24h", type="float", nullable=true)
+     */
+    private $volumeUsd24h;
+
+    /**
      * @var datetime
      *
      * @Gedmo\Timestampable(on="create")
@@ -188,5 +195,29 @@ class CurrencyValueDay
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Set volumeUsd24h
+     *
+     * @param float $volumeUsd24h
+     *
+     * @return CurrencyValueMoment
+     */
+    public function setVolumeUsd24h($volumeUsd24h)
+    {
+        $this->volumeUsd24h = $volumeUsd24h;
+
+        return $this;
+    }
+
+    /**
+     * Get volumeUsd24h
+     *
+     * @return float
+     */
+    public function getVolumeUsd24h()
+    {
+        return $this->volumeUsd24h;
     }
 }
