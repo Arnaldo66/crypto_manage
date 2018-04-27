@@ -94,6 +94,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
             $currencyValueDay->setPriceUsd($momentValue->getPriceUsd());
             $currencyValueDay->setPriceBtc($momentValue->getPriceBtc());
             $currencyValueDay->setPriceEur($momentValue->getPriceEur());
+            $currencyValueDay->setVolumeUsd24h($momentValue->getVolumeUsd24h());
 
             $em->persist($currencyValueDay);
         }
@@ -131,22 +132,23 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
             $currency->setPriceEur($value->price_eur);
             $currency->setPriceBtc($value->price_btc);
         }
-
+        $array_value = get_object_vars($value);
 
         $currencyValueMoment = new CurrencyValueMoment;
         $currencyValueMoment->setCurrency($currency);
-        $currencyValueMoment->setRank($value->rank);
-        $currencyValueMoment->setPriceUsd($value->price_usd);
-        $currencyValueMoment->setPriceBtc($value->price_btc);
-        $currencyValueMoment->setMarketCapUsd($value->market_cap_usd);
-        $currencyValueMoment->setAvailableSupply($value->available_supply);
-        $currencyValueMoment->setTotalSupply($value->total_supply);
-        $currencyValueMoment->setPercentChange1h($value->percent_change_1h);
-        $currencyValueMoment->setPercentChange24h($value->percent_change_24h);
-        $currencyValueMoment->setPercentChange7d($value->percent_change_7d);
-        $currencyValueMoment->setLastUpdated($value->last_updated);
-        $currencyValueMoment->setPriceEur($value->price_eur);
-        $currencyValueMoment->setMarketCapEur($value->percent_change_24h);
+        $currencyValueMoment->setRank($array_value['rank']);
+        $currencyValueMoment->setPriceUsd($array_value['price_usd']);
+        $currencyValueMoment->setPriceBtc($array_value['price_btc']);
+        $currencyValueMoment->setMarketCapUsd($array_value['market_cap_usd']);
+        $currencyValueMoment->setAvailableSupply($array_value['available_supply']);
+        $currencyValueMoment->setTotalSupply($array_value['total_supply']);
+        $currencyValueMoment->setPercentChange1h($array_value['percent_change_1h']);
+        $currencyValueMoment->setPercentChange24h($array_value['percent_change_24h']);
+        $currencyValueMoment->setPercentChange7d($array_value['percent_change_7d']);
+        $currencyValueMoment->setLastUpdated($array_value['last_updated']);
+        $currencyValueMoment->setPriceEur($array_value['price_eur']);
+        $currencyValueMoment->setMarketCapEur($array_value['percent_change_24h']);
+        $currencyValueMoment->setVolumeUsd24h($array_value['24h_volume_usd']);
         $em->persist($currencyValueMoment);
     }
 

@@ -23,6 +23,7 @@ class CurrencyValueDayRepository extends \Doctrine\ORM\EntityRepository
                             MAX(currency_value_day.price_eur) as max_euro,
                             MAX(currency_value_day.price_usd) as max_usd,
                             AVG(currency_value_day.price_usd) as avg_usd,
+                            AVG(currency_value_day.volume_usd_24h) as avg_usd_volume,
                             DATE_FORMAT(currency_value_day.created_at,"%Y-%m-%d") as date_day,
                             currency_id
                    FROM     currency_value_day
