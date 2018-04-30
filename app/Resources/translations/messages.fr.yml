@@ -49,7 +49,7 @@ lp_btn_see_wallet: "Portefeuilles publics"
 user: 'Utilisateur'
 profil: 'Profile'
 converter: 'Convertisseur'
-trading_simulation: 'Simulation de trading'
+trading: 'Trading'
 new: Nouveau
 my_wallets: 'Mes portefeuilles'
 public_wallet: 'Portefeuilles publics'

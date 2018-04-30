@@ -22,6 +22,7 @@ class CreateCurrencyValueHistoryCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
         $curday_repo = $em->getRepository('AppBundle:CurrencyValueDay');
         $values = $curday_repo->getHistoricalValueByDay();
+
         //create historical value
         foreach ($values as $value) {
             $this->createCurrencyValueHistory($em, $value);
@@ -46,6 +47,7 @@ class CreateCurrencyValueHistoryCommand extends ContainerAwareCommand
         $currencyValueHistory->setAverageUsd($value['avg_usd']);
         $currencyValueHistory->setAverageEur($value['avg_euro']);
         $currencyValueHistory->setDay(new \DateTime($value['date_day']));
+        $currencyValueHistory->setVolumeUsd24h($value['avg_usd_volume']);
         $currencyValueHistory->setCurrency($currency);
 
         $em->persist($currencyValueHistory);

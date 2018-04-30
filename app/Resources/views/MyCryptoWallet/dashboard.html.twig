@@ -1,7 +1,10 @@
 {% extends "::base.html.twig" %}
 
 {% block title_wrapper %}
-  <h2>Mes actifs</h2>
+    <div class="pull-right">
+        <a href="{{ path('my_crypto_new') }}" class="btn btn-primary"> {{ 'new'|trans }}</a>
+    </div>
+    <h2>Mes actifs</h2>
 {% endblock title_wrapper %}
 
 {% block body %}
@@ -18,7 +21,7 @@
                         <tr>
                           <th>Nom</th>
                           <th>Détails</th>
-                          <th>Supprimer</th>
+                          <!--- <th>Supprimer</th>--->
                         </tr>
                     </thead>
                     <tbody>
@@ -26,7 +29,7 @@
                           <tr class="odd gradeX">
                             <td>{{ crypto_wallet.name }}</td>
                             <td><a href="{{ path('my_crypto_show',{id:crypto_wallet.id}) }}">Détail</a></td>
-                            <td><p class="fa fa-times-circle" style="cursor:pointer;" data-toggle="modal" data-target="#removeWallet" data-id="{{ crypto_wallet.id }}"></p></td>
+                            <!--- <td><p class="fa fa-times-circle" style="cursor:pointer;" data-toggle="modal" data-target="#removeWallet" data-id="{#{ crypto_wallet.id }#}"></p></td> --->
                           </tr>
                         {% endfor %}
                     </tbody>
