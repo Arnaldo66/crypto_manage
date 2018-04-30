@@ -10,31 +10,19 @@
           <li {% if app.request.attributes.get('_route') == 'converter' %}class="active"{% endif %}>
             <a href="{{ path('converter')}}"><i class="fa fa-exchange fa-fw"></i><span class="nav-label">{{ 'converter'|trans }}</span></a>
           </li>
-          <li {% if app.request.attributes.get('_route') == 'trade_new' or app.request.attributes.get('_route') == 'trade_index' %}class="active"{% endif %}>
-            <a href="#"><i class="fa fa-euro fa-fw"></i><span class="nav-label">{{ 'trading_simulation'|trans }}</span><span class="fa arrow"></span></a>
-            <ul class="nav nav-second-level collapse">
-                <li {% if app.request.attributes.get('_route') == 'trade_new' %}class="active"{% endif %}>
-                    <a href="{{ path('trade_new') }}"> {{ 'new'|trans }}</a>
-                </li>
-                <li {% if app.request.attributes.get('_route') == 'trade_index' %}class="active"{% endif %}>
-                    <a href="{{ path('trade_index') }}"> {{ 'my_wallets'|trans }}</a>
-                </li>
-            </ul>
+
+          <li {% if app.request.attributes.get('_route') == 'trade_index' %}class="active"{% endif %}>
+              <a href="{{ path('trade_index')}}"><i class="fa fa-line-chart"></i><span class="nav-label">{{ 'trading'|trans }}</span></a>
           </li>
+
           <li {% if app.request.attributes.get('_route') == 'alert' %}class="active"{% endif %}>
             <a href="{{ path('alert') }}"><i class="fa fa-exclamation-circle fa-fw"></i><span class="nav-label">{{ 'my_alerts'|trans }}</span></a>
           </li>
-          <li {% if app.request.attributes.get('_route') == 'my_crypto_dashboard' or app.request.attributes.get('_route') == 'my_crypto_new' %}class="active"{% endif %}>
-            <a href="#"><i class="fa fa-euro fa-fw"></i><span class="nav-label">{{ 'my_crypto'|trans }}</span><span class="fa arrow"></span></a>
-            <ul class="nav nav-second-level collapse">
-                <li {% if app.request.attributes.get('_route') == 'my_crypto_new' %}class="active"{% endif %}>
-                    <a href="{{ path('my_crypto_new') }}"> {{ 'new'|trans }}</a>
-                </li>
-                <li {% if app.request.attributes.get('_route') == 'my_crypto_dashboard' %}class="active"{% endif %}>
-                    <a href="{{ path('my_crypto_dashboard') }}"> {{ 'my_wallets'|trans }}</a>
-                </li>
-            </ul>
+
+          <li {% if app.request.attributes.get('_route') == 'my_crypto_dashboard' %}class="active"{% endif %}>
+            <a href="{{ path('my_crypto_dashboard') }}"><i class="fa fa-euro fa-fw"></i><span class="nav-label">{{ 'my_crypto'|trans }}</span></a>
           </li>
+
           <li {% if app.request.attributes.get('_route') == 'trade_public' %}class="active"{% endif %}>
             <a href="{{ path('trade_public') }}"><i class="fa fa-eye"></i><span class="nav-label">{{ 'public_wallet'|trans }}</span></a>
           </li>

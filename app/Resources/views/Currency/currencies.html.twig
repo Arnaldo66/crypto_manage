@@ -143,12 +143,14 @@
 {% block local_javascripts %}
   <script>
   $(document).ready(function() {
-      $('#dataTables-example').DataTable({
+      var tableCurrencies = $('#dataTables-example').DataTable({
           responsive: true,
           "language":{
             "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"
           }
       });
+
+      tableCurrencies.order([6,'asc']).draw();
 
       $('#select-currency-value').on('change',function(e){
         showElementById('currency-value-',this.value, 'span');
