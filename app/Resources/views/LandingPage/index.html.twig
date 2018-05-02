@@ -87,18 +87,11 @@
                                 {% if currency.currencyValueMoment is not null %}
                                   {% set change_value = currency.currencyValueMoment.percentChange24h %}
                                 {% endif %}
-                                {% if change_value > 0 %}
-                                  {% set div_class_default = "text-navy" %}
-                                {% elseif change_value < 0 %}
-                                  {% set div_class_default = "text-danger" %}
-                                {% else %}
-                                  {% set div_class_default = "text-success" %}
-                                {% endif %}
                                 <tr>
                                   <td>{% if currency.image is not null %}<img src="{{ asset('images/currency-logo/32/' ~ currency.image ) }}">{% endif %}</td>
                                   <td><a href="{{ path('currency_show', {'slug': currency.slug }) }}">{{ currency.name }}</a></td>
                                   <td>€ {{ currency.priceEur|price }}</td>
-                                  <td><div id="percentage-change-1" class="{{ div_class_default }}">{{ change_value }} %</div></td>
+                                  <td>{{ change_value|value_percent|raw  }} </div></td>
                                 </tr>
                               {% endfor %}
                             </tbody>

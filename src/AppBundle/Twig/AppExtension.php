@@ -8,6 +8,7 @@ class AppExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFilter('price', array($this, 'priceFilter')),
+            new \Twig_SimpleFilter('value_percent', array($this, 'valuePercent')),
         );
     }
 
@@ -22,5 +23,22 @@ class AppExtension extends \Twig_Extension
         $price = number_format($number, $decimals, $decPoint, $thousandsSep);
 
         return $price;
+    }
+
+    //todo doing function and not use filter
+    public function valuePercent($value)
+    {
+        if($value > 0){
+            $class = "text-navy";
+            $level = "fa-level-up";
+        }elseif($value < 0){
+            $class = "text-danger";
+            $level =  "fa-level-down";
+        }else{
+            $class = "text-success";
+            $level =  "";
+        }
+
+        return '<div class="'.$class.'"<i class="fa '.$level.'"></i>'.$value.' %</div>';
     }
 }

@@ -18,7 +18,7 @@
 
 {% block body %}
   <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-12 hidden-xs">
         <div class="panel panel-default">
             <div class="panel-heading">
                 Valeurs par défaut:
@@ -27,18 +27,18 @@
               <div class="col-lg-2">
                 <label>Changement en %:
                   <select name="select-change" id="select-change" class="form-control input-sm" autocomplete="Off">
-                    <option value="1">24h</option>
-                    <option value="2">1h</option>
-                    <option value="3">7J</option>
+                    <option value="4">24h</option>
+                    <option value="5">1h</option>
+                    <option value="6">7J</option>
                   </select>
                 </label>
               </div>
               <div class="col-lg-2">
                 <label>Device:
                   <select name="select-currency-value" id="select-currency-value" class="form-control input-sm" autocomplete="Off">
-                    <option value="1">Euro €</option>
-                    <option value="2">Dollar $</option>
-                    <option value="3">Bitcoin</option>
+                    <option value="7">Euro €</option>
+                    <option value="8">Dollar $</option>
+                    <option value="9">Bitcoin</option>
                   </select>
                 </label>
               </div>
@@ -65,8 +65,15 @@
                           <th>Nom</th>
                           <th>Symbole</th>
                           <th>Market cap</th>
+
                           <th>Changement</th>
+                          <th>Changement</th>
+                          <th>Changement</th>
+
                           <th>valeur</th>
+                          <th>valeur</th>
+                          <th>valeur</th>
+
                           <th>Rank</th>
                         </tr>
                     </thead>
@@ -87,45 +94,29 @@
                               {% set change_value_seven = currency.currencyValueMoment.percentChange7d %}
                             {% endif %}
 
-                            {% if change_value_default > 0 %}
-                              {% set div_class_default = "text-navy" %}
-                              {% set level_default = "fa-level-up" %}
-                            {% elseif change_value_default < 0 %}
-                              {% set div_class_default = "text-danger" %}
-                              {% set level_default = "fa-level-down" %}
-                            {% else %}
-                              {% set div_class_default = "text-success" %}
-                              {% set level_default = "" %}
-                            {% endif %}
-
-                            {% if change_value_one > 0 %}
-                              {% set div_class_one = "text-navy" %}
-                              {% set level_one = "fa-level-up" %}
-                            {% elseif change_value_one < 0 %}
-                              {% set div_class_one = "text-danger" %}
-                              {% set level_one = "fa-level-down" %}
-                            {% else %}
-                              {% set div_class_one = "text-success" %}
-                              {% set level_one = "" %}
-                            {% endif %}
-
-                            {% if change_value_seven > 0 %}
-                              {% set div_class_seven = "text-navy" %}
-                              {% set level_seven = "fa-level-up" %}
-                            {% elseif change_value_seven < 0 %}
-                              {% set div_class_seven = "text-danger" %}
-                              {% set level_seven = "fa-level-down" %}
-                            {% else %}
-                              {% set div_class_seven = "text-success" %}
-                              {% set level_seven = "" %}
-                            {% endif %}
                             <td class="font-bold">
-                                <div id="percentage-change-1" class="{{ div_class_default }}"><i class="fa {{ level_default }}"></i> {{ change_value_default }} %</div>
-                                <div id="percentage-change-2" class="{{ div_class_one }} hidden"><i class="fa {{ level_one }}"></i> {{ change_value_one }} %</div>
-                                <div id="percentage-change-3" class="{{ div_class_seven }} hidden"><i class="fa {{ level_seven }}"></i> {{ change_value_seven }} %</div>
+                                {{ change_value_one|value_percent|raw  }} </div>
                             </td>
 
-                            <td><span id="currency-value-1">{{ currency.priceEur|price }} €</span><span class="hidden" id="currency-value-2">{{ currency.priceUsd|price }} $</span><span class="hidden" id="currency-value-3">{{ currency.priceBtc|price }} <i class="fa fa-btc"></i></span></td>
+                            <td class="font-bold">
+                                {{ change_value_seven|value_percent|raw  }} </div>
+                            </td>
+
+                            <td class="font-bold">
+                                {{ change_value_default|value_percent|raw  }} </div>
+                            </td>
+
+                            <td>
+                                <span>{{ currency.priceEur|price }} €</span>
+                            </td>
+
+                            <td>
+                                <span>{{ currency.priceUsd|price }} $</span>
+                            </td>
+
+                            <td>
+                                <span>{{ currency.priceBtc|price }} <i class="fa fa-btc"></i></span>
+                            </td>
                             <td>{{ currency.rank }}</td>
                           </tr>
                         {% endfor %}
@@ -142,29 +133,63 @@
 
 {% block local_javascripts %}
   <script>
+  //todo done responseive manually, create an twig extension to generate
   $(document).ready(function() {
       var tableCurrencies = $('#dataTables-example').DataTable({
-          responsive: true,
+          "columnDefs": [
+              {
+                  "targets": [4, 5, 8, 9],
+                  "visible": false
+              },
+          ],
+          "order":[
+              10,'asc'
+          ],
           "language":{
             "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"
           }
       });
 
-      tableCurrencies.order([6,'asc']).draw();
+      var width = $(window).width();
+
+      if(width > 800 && width < 960){
+         tableCurrencies.column(3).visible(false);
+      }
+
+      if(width > 500 && width <= 800){
+         tableCurrencies.column(1).visible(false);
+         tableCurrencies.column(3).visible(false);
+         tableCurrencies.column(5).visible(false);
+      }
+
+      if(width > 400 && width <= 500){
+         tableCurrencies.column(0).visible(false);
+         tableCurrencies.column(1).visible(false);
+         tableCurrencies.column(3).visible(false);
+         tableCurrencies.column(5).visible(false);
+      }
+
+      if(width <= 400){
+         tableCurrencies.column(0).visible(false);
+         tableCurrencies.column(1).visible(false);
+         tableCurrencies.column(3).visible(false);
+         tableCurrencies.column(5).visible(false);
+         tableCurrencies.column(10).visible(false);
+     }
 
       $('#select-currency-value').on('change',function(e){
-        showElementById('currency-value-',this.value, 'span');
+          tableCurrencies.column(7).visible(false);
+          tableCurrencies.column(8).visible(false);
+          tableCurrencies.column(9).visible(false);
+          tableCurrencies.column(this.value).visible(true);
       });
 
       $('#select-change').on('change',function(e){
-        showElementById('percentage-change-',this.value, 'div');
+         tableCurrencies.column(4).visible(false);
+         tableCurrencies.column(5).visible(false);
+         tableCurrencies.column(6).visible(false);
+         tableCurrencies.column(this.value).visible(true);
       });
-
-
-      function showElementById(element, id, type){
-        $( ""+type+"[id^='"+element+"']" ).addClass('hidden');
-        $( ""+type+"#"+element+id ).removeClass('hidden');
-      }
 
   });
   </script>
