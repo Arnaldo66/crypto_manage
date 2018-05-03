@@ -148,6 +148,21 @@ class Currency
      */
     private $graphCode;
 
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="max_supply", type="bigint", nullable=true)
+     */
+     private $maxSupply;
+
+     /**
+      * @var int
+      *
+      * @ORM\Column(name="circulating_supply", type="bigint", nullable=true)
+      */
+      private $circulatingSupply;
+
     /**
      * Constructor
      */
@@ -624,5 +639,53 @@ class Currency
     public function getGraphCode()
     {
         return $this->graphCode;
+    }
+
+    /**
+     * Set maxSupply
+     *
+     * @param integer $maxSupply
+     *
+     * @return Currency
+     */
+    public function setMaxSupply($maxSupply)
+    {
+        $this->maxSupply = $maxSupply;
+
+        return $this;
+    }
+
+    /**
+     * Get maxSupply
+     *
+     * @return integer
+     */
+    public function getMaxSupply()
+    {
+        return $this->maxSupply;
+    }
+
+    /**
+     * Set circulatingSupply
+     *
+     * @param integer $circulatingSupply
+     *
+     * @return Currency
+     */
+    public function setCirculatingSupply($circulatingSupply)
+    {
+        $this->circulatingSupply = $circulatingSupply;
+
+        return $this;
+    }
+
+    /**
+     * Get circulatingSupply
+     *
+     * @return integer
+     */
+    public function getCirculatingSupply()
+    {
+        return $this->circulatingSupply;
     }
 }

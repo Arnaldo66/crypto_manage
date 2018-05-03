@@ -132,8 +132,32 @@ fos_user:
 
 easy_admin:
     entities:
-        - AppBundle\Entity\Currency
-        - AppBundle\Entity\Contact
-        - AppBundle\Entity\User
-        - AppBundle\Entity\TradingWallet
-        - AppBundle\Entity\Article
+        Currency:
+            class: AppBundle\Entity\Currency
+            edit:
+                fields:
+                    - { property: 'name', type_options: { disabled: true } }
+                    - { property: 'symbol', type_options: { disabled: true } }
+                    - { property: 'uniqueName', type_options: { disabled: true } }
+                    - { property: 'rank', type_options: { disabled: true } }
+                    - history
+                    - maxSupply
+                    - circulatingSupply
+            list:
+                sort: ['rank', 'ASC']
+        Contact:
+            class: AppBundle\Entity\Contact
+            list:
+                sort: ['createdAt', 'ASC']
+        Article:
+            class: AppBundle\Entity\Article
+            list:
+                sort: ['id', 'ASC']
+        User:
+            class: AppBundle\Entity\User
+            list:
+                sort: ['id', 'ASC']
+        TradingWallet:
+            class: AppBundle\Entity\TradingWallet
+            list:
+                sort: ['id', 'ASC']
