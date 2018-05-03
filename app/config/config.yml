@@ -141,8 +141,6 @@ easy_admin:
                     - { property: 'uniqueName', type_options: { disabled: true } }
                     - { property: 'rank', type_options: { disabled: true } }
                     - history
-                    - maxSupply
-                    - circulatingSupply
             list:
                 sort: ['rank', 'ASC']
         Contact:
