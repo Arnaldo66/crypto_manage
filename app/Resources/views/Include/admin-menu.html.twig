@@ -1,22 +1,8 @@
 {% if is_granted('ROLE_ADMIN') %}
   <li>
-    <a href="#"><i class="fa fa-wrench fa-fw"></i><span class="nav-label">Administration</span><span class="fa arrow"></span></a>
-    <ul class="nav nav-second-level collapse">
+
       <li>
-        <a href="{{ path('admin_users') }}"> Gestion des utilisateurs</a>
+          <a href="{{ path('easyadmin')}}"><i class="fa fa-wrench fa-fw"></i><span class="nav-label">Administration</span></a>
       </li>
-      <li>
-        <a href="{{ path('admin_wallets') }}"> Gestion des portefeuilles</a>
-      </li>
-      <li>
-        <a href="{{ path('admin_currencies') }}"> Gestion des crypto-Monnaie</a>
-      </li>
-      <li>
-        <a href="{{ path('admin_contacts') }}"> Gestion des contacts</a>
-      </li>
-      <li>
-        <a href="{{ path('admin_new_article') }}"> Créer un article</a>
-      </li>
-    </ul>
   </li>
 {% endif %}

@@ -129,3 +129,11 @@ fos_user:
     from_email:
         address: "admin@e-goldenboy.com"
         sender_name: "e-goldenboy"
+
+easy_admin:
+    entities:
+        - AppBundle\Entity\Currency
+        - AppBundle\Entity\Contact
+        - AppBundle\Entity\User
+        - AppBundle\Entity\TradingWallet
+        - AppBundle\Entity\Article
