@@ -4,7 +4,6 @@ crypto_manage
 A Symfony project created on August 23, 2017
 
 TODO:
-  - implemente easyAdmin (create spécifique view. Best price, best capacity, best ratio)
   - implemente stop loose en leverage
   - get all burst
   - stop loose + take profit
@@ -28,7 +27,6 @@ TODO:
   - change trade entity and controller to wallet.
   - test better cron
   - Add and amelioration test performances
-  - upgrade symfony 3.4
 
   INSTALLATION
   - min version php 5.5.9

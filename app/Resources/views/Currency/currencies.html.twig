@@ -95,15 +95,15 @@
                             {% endif %}
 
                             <td class="font-bold">
+                                {{ change_value_default|value_percent|raw  }} </div>
+                            </td>
+
+                            <td class="font-bold">
                                 {{ change_value_one|value_percent|raw  }} </div>
                             </td>
 
                             <td class="font-bold">
                                 {{ change_value_seven|value_percent|raw  }} </div>
-                            </td>
-
-                            <td class="font-bold">
-                                {{ change_value_default|value_percent|raw  }} </div>
                             </td>
 
                             <td>
@@ -138,7 +138,7 @@
       var tableCurrencies = $('#dataTables-example').DataTable({
           "columnDefs": [
               {
-                  "targets": [4, 5, 8, 9],
+                  "targets": [5, 6, 8, 9],
                   "visible": false
               },
           ],
