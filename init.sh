@@ -5,9 +5,7 @@ if [ -d "web/images/currency-logo" ]; then
 fi
 echo 'Preparing database && test database:'
 php bin/console doctrine:database:create
-php bin/console doctrine:database:create -e test
 php bin/console doctrine:schema:update --force
-php bin/console doctrine:schema:update --force -e test
 php bin/console init:fill-params-table
 
 echo 'Get all currencies && logo: could take 5 mn ..'

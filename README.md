@@ -4,25 +4,20 @@ crypto_manage
 A Symfony project created on August 23, 2017
 
 TODO:
-  - implemente stop loose en leverage
-  - get all burst
-  - stop loose + take profit
+  - New version of trading module(stop loose, leverage, fees, take profit, no bust)
   - fiscalité + historique page + export
   - New detail wallet page
   - do best google work (microformat ...)
-  - Test view (title, description)
-  - do page mining, page faucet with affiliation.
   - multilanguage - french - english - spanish (Voir comment faire au mieux SEO ?)
   - Create a widget with 10 interesting crypto. This widget is parametrable by user on his account
   - do some tutorial to create account coinbase, kraken, litebit
   - do a page for darknet
   - do a page for mining if I understand some day
-  - Becareful ! limit the functionality. Not to much(alert, simulation, information is enought)
+  - remove converter => 301 home
   - do API working
   - do application mobile(ionic)
   - google+ && facebook
   - symfony workflow state machine to process order
-    check real currency and not amout if he change with js && change total with this value
   - create separate command and launch it by here check price alerts ? or listener ? Observer ?
   - change trade entity and controller to wallet.
   - test better cron
