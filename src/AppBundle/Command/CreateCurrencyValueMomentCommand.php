@@ -131,6 +131,8 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
             $currency->setPriceUsd($value->price_usd);
             $currency->setPriceEur($value->price_eur);
             $currency->setPriceBtc($value->price_btc);
+            $currency->setMaxSupply($value->max_supply);
+            $currency->setCirculatingSupply(intVal($value->total_supply));
         }
         $array_value = get_object_vars($value);
 
