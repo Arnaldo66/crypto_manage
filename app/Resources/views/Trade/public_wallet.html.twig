@@ -37,7 +37,7 @@
                               <td>{{ wallet.user.username }}</td>
                               <td>{{ wallet.initialAmount }}</td>
                               <td>{{ (wallet.euroWallet.amount + totalWallet)|price }}</td>
-                              <td><span class='hide'>{{ wallet.createdAt|date }}</span>{{ wallet.createdAt|date("d/m/Y h:m:s")  }}</td>
+                              <td><span class='hide'>{{ wallet.createdAt|date("Y/m/d h:m:s") }}</span>{{ wallet.createdAt|date("d/m/Y h:m:s")  }}</td>
                               {% set balance = (wallet.euroWallet.amount + totalWallet - wallet.initialAmount)|price %}
                               {% if balance > 0 %}
                                 {% set div_class_default = "text-navy" %}
