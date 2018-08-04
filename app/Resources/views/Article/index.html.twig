@@ -29,9 +29,6 @@
                             <th>Titre</th>
                             <th>Création</th>
                             <th>&nbsp;</th>
-                            {% if is_granted('ROLE_ADMIN') %}
-                              <th>Modifier</th>
-                            {% endif %}
                           </tr>
                       </thead>
                       <tbody>
@@ -40,9 +37,6 @@
                               <td>{{ article.title }}</td>
                               <td>{{ article.createdAt|date('d/m/Y') }}</td>
                               <td><a href="{{ path('article_show', {'slug': article.slug }) }}">Lire</a></td>
-                              {% if is_granted('ROLE_ADMIN') %}
-                                <td class="text-center"><a href="{{ path('admin_update_article',{ 'id': article.id }) }}"><i class="fa fa-pencil"></i>&nbsp;</a></td>
-                              {% endif %}
                             </tr>
                           {% endfor %}
                       </tbody>
