@@ -14,7 +14,7 @@ use AppBundle\Entity\CurrencyValueDay;
 class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
 {
     // add validation verification before flush entity
-
+    private $test = 0;
     protected function configure()
     {
         $this
@@ -26,35 +26,45 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $client = new \GuzzleHttp\Client();
-        $res = $client->request('GET', 'https://api.coinmarketcap.com/v2/ticker/?convert=EUR&limit=2000');
+        $start = 1;
+        $size = 100;
+        $end = 1;
+        $output_message = 'KO';
         $em = $this->getContainer()->get('doctrine')->getManager();
-
         //insert old value in table currencyValueDay
         $this->createCurrencyValueDay($em);
-
         //destroy all value
         $this->truncateTable($em);
 
-        $output_message = 'KO';
-        //test if the request is valid and with good content
-        if ($res->getStatusCode() == '200' && $res->getHeaderLine('content-type') == 'application/json') {
-            $body = json_decode($res->getBody());
-            foreach ($body->data as $key => $value) {
-                $this->createCurrencyValueMoment($em, $value);
+        for($start = 1; $start <= $end; $start+=$size){
+            $res = $client->request('GET', 'https://api.coinmarketcap.com/v2/ticker/?convert=EUR&limit='.$size.'&start='.$start);
+            if($end === 1){
+                $end = json_decode($res->getBody())->metadata->num_cryptocurrencies;
             }
-            $em->flush();
-            $output_message = 'OK';
+            //test if the request is valid and with good content
+            if ($res->getStatusCode() == '200' && $res->getHeaderLine('content-type') == 'application/json') {
+                $body = json_decode($res->getBody());
+                foreach ($body->data as $key => $value) {
+                    $this->test++;
+                    $this->createCurrencyValueMoment($em, $value);
+                }
+                $em->flush();
+                $output_message = 'OK';
+            }
+
+            $res = $client->request('GET', 'https://api.coinmarketcap.com/v2/ticker/?convert=BTC&limit='.$size.'&start='.$start);
+            if ($res->getStatusCode() == '200' && $res->getHeaderLine('content-type') == 'application/json') {
+                $body = json_decode($res->getBody());
+                foreach ($body->data as $key => $value) {
+                    $this->updateBtcPrice($em, $value);
+                }
+                $em->flush();
+                $output_message = 'OK BTC';
+            }
         }
 
-        $res = $client->request('GET', 'https://api.coinmarketcap.com/v2/ticker/?convert=BTC&limit=2000');
-        if ($res->getStatusCode() == '200' && $res->getHeaderLine('content-type') == 'application/json') {
-            $body = json_decode($res->getBody());
-            foreach ($body->data as $key => $value) {
-                $this->updateBtcPrice($em, $value);
-            }
-            $em->flush();
-            $output_message = 'OK BTC';
-        }
+
+
 
 
         $alerts = $em->getRepository('AppBundle:Alert')->findAll();
