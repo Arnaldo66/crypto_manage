@@ -26,7 +26,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $client = new \GuzzleHttp\Client();
-        $res = $client->request('GET', 'https://api.coinmarketcap.com/v1/ticker/?convert=EUR&limit=2000');
+        $res = $client->request('GET', 'https://api.coinmarketcap.com/v2/ticker/?convert=EUR&limit=2000');
         $em = $this->getContainer()->get('doctrine')->getManager();
 
         //insert old value in table currencyValueDay
@@ -39,12 +39,23 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
         //test if the request is valid and with good content
         if ($res->getStatusCode() == '200' && $res->getHeaderLine('content-type') == 'application/json') {
             $body = json_decode($res->getBody());
-            foreach ($body as $key => $value) {
+            foreach ($body->data as $key => $value) {
                 $this->createCurrencyValueMoment($em, $value);
             }
             $em->flush();
             $output_message = 'OK';
         }
+
+        $res = $client->request('GET', 'https://api.coinmarketcap.com/v2/ticker/?convert=BTC&limit=2000');
+        if ($res->getStatusCode() == '200' && $res->getHeaderLine('content-type') == 'application/json') {
+            $body = json_decode($res->getBody());
+            foreach ($body->data as $key => $value) {
+                $this->updateBtcPrice($em, $value);
+            }
+            $em->flush();
+            $output_message = 'OK BTC';
+        }
+
 
         $alerts = $em->getRepository('AppBundle:Alert')->findAll();
         foreach ($alerts as $alert) {
@@ -111,46 +122,63 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
         $connection->executeUpdate($platform->getTruncateTableSQL('currency_value_moment', true));
     }
 
+    //update btc price
+    private function updateBtcPrice($em, $value)
+    {
+        $currency = $em->getRepository('AppBundle:Currency')->findOneByUniqueName($value->website_slug);
+        if ($currency !== null) {
+            $value = get_object_vars($value);
+            $btc = get_object_vars($value['quotes']->BTC);
+
+            $currency->setPriceBtc($btc['price']);
+            $moment = $em->getRepository('AppBundle:CurrencyValueMoment')->findOneByCurrency($currency);
+            if ($moment !== null) {
+                $moment->setPriceBtc($btc['price']);
+            }
+        }
+    }
+
     //Create new Currency if not exist. Base on currency name
     private function createCurrencyValueMoment($em, $value)
     {
-        $currency = $em->getRepository('AppBundle:Currency')->findOneByUniqueName($value->id);
+        $currency = $em->getRepository('AppBundle:Currency')->findOneByUniqueName($value->website_slug);
+        $value = get_object_vars($value);
+        $usd = get_object_vars($value['quotes']->USD);
+        $euro = get_object_vars($value['quotes']->EUR);
 
         //create currency if not exists
         if ($currency === null) {
             $currency = new Currency;
-            $currency->setName($value->name);
-            $currency->setUniqueName($value->id);
-            $currency->setSymbol($value->symbol);
-            $currency->setImage($this->createImage($value));
-            $currency->setPriceUsd($value->price_usd);
-            $currency->setPriceEur($value->price_eur);
-            $currency->setRank($value->rank);
+            $currency->setName($value['name']);
+            $currency->setUniqueName($value['website_slug']);
+            $currency->setSymbol($value['symbol']);
+            $currency->setPriceUsd($usd['price']);
+            $currency->setPriceEur($euro['price']);
+            $currency->setRank($value['rank']);
             $em->persist($currency);
         } else {
-            $currency->setPriceUsd($value->price_usd);
-            $currency->setPriceEur($value->price_eur);
-            $currency->setPriceBtc($value->price_btc);
-            $currency->setMaxSupply($value->max_supply);
-            $currency->setCirculatingSupply(intVal($value->total_supply));
+            $currency->setPriceUsd($usd['price']);
+            $currency->setPriceEur($euro['price']);
+            $currency->setMaxSupply($value['max_supply']);
+            $currency->setCirculatingSupply($value['total_supply']);
         }
-        $array_value = get_object_vars($value);
 
         $currencyValueMoment = new CurrencyValueMoment;
         $currencyValueMoment->setCurrency($currency);
-        $currencyValueMoment->setRank($array_value['rank']);
-        $currencyValueMoment->setPriceUsd($array_value['price_usd']);
-        $currencyValueMoment->setPriceBtc($array_value['price_btc']);
-        $currencyValueMoment->setMarketCapUsd($array_value['market_cap_usd']);
-        $currencyValueMoment->setAvailableSupply($array_value['available_supply']);
-        $currencyValueMoment->setTotalSupply($array_value['total_supply']);
-        $currencyValueMoment->setPercentChange1h($array_value['percent_change_1h']);
-        $currencyValueMoment->setPercentChange24h($array_value['percent_change_24h']);
-        $currencyValueMoment->setPercentChange7d($array_value['percent_change_7d']);
-        $currencyValueMoment->setLastUpdated($array_value['last_updated']);
-        $currencyValueMoment->setPriceEur($array_value['price_eur']);
-        $currencyValueMoment->setMarketCapEur($array_value['percent_change_24h']);
-        $currencyValueMoment->setVolumeUsd24h($array_value['24h_volume_usd']);
+        $currencyValueMoment->setRank($value['rank']);
+        $currencyValueMoment->setPriceUsd($usd['price']);
+        $currencyValueMoment->setMarketCapUsd($usd['market_cap']);
+        $currencyValueMoment->setAvailableSupply($value['total_supply']);
+        $currencyValueMoment->setTotalSupply($value['total_supply']);
+        $currencyValueMoment->setPercentChange1h($usd['percent_change_1h']);
+        $currencyValueMoment->setPercentChange24h($usd['percent_change_24h']);
+        $currencyValueMoment->setPercentChange7d($usd['percent_change_7d']);
+        $currencyValueMoment->setVolumeUsd24h($usd['volume_24h']);
+        $currencyValueMoment->setLastUpdated($value['last_updated']);
+
+        $currencyValueMoment->setPriceEur($euro['price']);
+        $currencyValueMoment->setMarketCapEur($euro['market_cap']);
+
         $em->persist($currencyValueMoment);
     }
 
