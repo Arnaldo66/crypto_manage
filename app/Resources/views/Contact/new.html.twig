@@ -1,12 +1,12 @@
 {% extends "::base.html.twig" %}
 
 {% block title %}
-  <title>Contactez-nous - e-goldenboy.com</title>
+  <title>{{ 'contact_title'|trans }}</title>
 {% endblock title %}
 
 
 {% block title_wrapper %}
-  <h2>Contactez-nous</h2>
+  <h2>{{ 'contact_h2'|trans }}</h2>
 {% endblock title_wrapper %}
 
 {% block body %}
@@ -15,7 +15,7 @@
       {{ form_start(form) }}
 
         <div class="form-group">
-          <label>Nom</label>
+          <label>{{ 'contact_form_name'|trans }}</label>
           {% if form_errors(form.name) %}
             <span class="error">{{ form_errors(form.name) }}</span>
           {% endif %}
@@ -23,7 +23,7 @@
         </div>
 
         <div class="form-group">
-          <label>Email</label>
+          <label>{{ 'contact_form_email'|trans }}</label>
           {% if form_errors(form.email) %}
             <span class="error">{{ form_errors(form.email) }}</span>
           {% endif %}
@@ -31,7 +31,7 @@
         </div>
 
         <div class="form-group">
-          <label>Message</label>
+          <label>{{ 'contact_form_message'|trans }}</label>
           {% if form_errors(form.message) %}
             <span class="error">{{ form_errors(form.message) }}</span>
           {% endif %}
@@ -39,7 +39,7 @@
         </div>
 
         {{ form_widget(form) }}
-        <button type="submit" id="btn-create-contact" class="btn btn-default">Envoyer</button>
+        <button type="submit" id="btn-create-contact" class="btn btn-default">{{ 'contact_form_button'|trans }}</button>
       {{ form_end(form) }}
     </div>
   </div>

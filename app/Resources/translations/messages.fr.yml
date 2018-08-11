@@ -36,6 +36,14 @@ article_tab_date: 'Création'
 article_tab_read: 'Lire'
 article_page_post_title: '- e-goldenboy.com'
 
+#contact
+contact_title: 'Contactez-nous - e-goldenboy.com'
+contact_h2: 'Contactez-nous'
+contact_form_name: 'Nom'
+contact_form_email: 'Email'
+contact_form_message: 'Message'
+contact_form_button: 'Envoyer'
+
 # menu landing page
 home: 'Accueil'
 concept: 'concept'
