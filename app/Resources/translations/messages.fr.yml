@@ -1,3 +1,32 @@
+#SEO
+description: 'E-goldenboy affiche le cours en temps réel du bitcoin et des autres crypto-monnaies. Notre outil vous permet de faire de la simulation de trading et de mettre en place des alertes de hausse ou de baisse du cours.'
+
+#Alert
+alert_title: 'Créer une alerte - e-goldenboy.com'
+alert_h2: 'Créer une alerte'
+alert_form_crypto: 'Crypto-monnaie:'
+alert_form_price: 'Prix'
+alert_form_type: 'Type'
+alert_form_button: 'Label'
+alert_type_buy: 'Achat'
+alert_type_sell: 'vente'
+
+alert_page_title: 'Mes alertes - e-goldenboy.com'
+alert_page_seo_description: "Module d'alerte du site e-goldenboy.com. Permet d'être prévenu lorsqu'une crypto-monnaie atteint le seuil que vous lui avez fixé."
+alert_page_create_alert: 'Créer une alerte'
+alert_page_actuals: 'Mes alertes en cours'
+alert_id: "Id"
+alert_price: "Prix"
+alert_type: "Type"
+alert_monney: "Monnaie"
+alert_delete: "Supprimer"
+
+alert_modal_title: "Suppression d'alerte"
+alert_modal_question: 'Etes-vous sûr de vouloir supprimer votre alerte ?'
+alert_modal_question_two: 'La suppression est définitive'
+alert_button_close: 'Annuler'
+alert_button_confirm: 'Confirmer'
+
 # menu landing page
 home: 'Accueil'
 concept: 'concept'
