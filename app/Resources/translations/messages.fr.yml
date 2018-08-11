@@ -27,6 +27,15 @@ alert_modal_question_two: 'La suppression est définitive'
 alert_button_close: 'Annuler'
 alert_button_confirm: 'Confirmer'
 
+#articles
+article_title: 'Liste des articles - e-goldenboy.com'
+article_seo_description: "Listes complète de tous les articles de e-goldenboy.com au sujets des bitcoins, altcoins mais aussi de tout l'univers des crypto-monnaies"
+article_panel_title: 'Liste des tous les articles sur le bitcoin, les altcoins et le monde des crypto-monnaies'
+article_tab_title: 'Titre'
+article_tab_date: 'Création'
+article_tab_read: 'Lire'
+article_page_post_title: '- e-goldenboy.com'
+
 # menu landing page
 home: 'Accueil'
 concept: 'concept'
