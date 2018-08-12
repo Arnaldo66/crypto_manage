@@ -44,6 +44,31 @@ contact_form_email: 'Email'
 contact_form_message: 'Message'
 contact_form_button: 'Envoyer'
 
+#currency
+currency_dashboard_title: 'Liste de toutes les crypto-monnaies - e-goldenboy.com'
+currency_title: 'Tableau de bord - e-goldenboy.com'
+currency_dashboard_seo_description: 'e-goldenboy.com liste toutes les crypto-monnaies existantes et affiche les cours en temps réel.'
+currency_dashboard_description: 'Tableau de bord du site e-goldenboy.com, liste des 100 premières crypto-monnaies(bitcoin, ethereum etc ...) selon leur capitalisation de marché.'
+currency_change_title: 'Valeurs par défaut:'
+currency_percent_change: 'Changement en %:'
+currency_change_device: 'Devise'
+
+currency_tab_logo: 'Logo'
+currency_tab_name: 'Nom'
+currency_tab_symbol: 'Symbole'
+currency_tab_market_cap: 'Market cap'
+currency_tab_change: 'Changement'
+currency_tab_value: 'Valeur'
+currency_tab_rank: 'Rank'
+
+currency_show_classment: 'Classement'
+currency_show_symbol: 'Symbole'
+currency_show_price_dollar: 'Prix en $'
+currency_show_price_euro: 'Prix en €'
+currency_show_percentage_1_hour: 'Pourcentage changement 1h'
+currency_show_percentage_24_hour: Pourcentage changement 24h
+currency_show_percentage_1_week: 'Pourcentage changement 7J'
+
 # menu landing page
 home: 'Accueil'
 concept: 'concept'
