@@ -4,6 +4,7 @@ crypto_manage
 A Symfony project created on August 23, 2017
 
 TODO:
+  - contact coinmarket cap for new api
   - New version of trading module(stop loose, leverage, fees, take profit, no bust)
   - fiscalité + historique page + export
   - New detail wallet page
@@ -22,16 +23,3 @@ TODO:
   - change trade entity and controller to wallet.
   - test better cron
   - Add and amelioration test performances
-
-  INSTALLATION
-  - min version php 5.5.9
-  - mysql && sqlite3
-  - composer
-  - phpunit
-
-  - git clone git@github.com:Arnaldo66/crypto_manage.git
-  - cd crypto_manage && composer install
-  - create app/config/paramameter.yml file with you information
-  - create phpunit.xml file from phpunit.xml.dist
-  - bash init.sh
-  - php bin/console server:run
