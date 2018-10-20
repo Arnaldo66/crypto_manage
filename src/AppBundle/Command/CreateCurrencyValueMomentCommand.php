@@ -14,7 +14,6 @@ use AppBundle\Entity\CurrencyValueDay;
 class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
 {
     // add validation verification before flush entity
-    private $test = 0;
     protected function configure()
     {
         $this
@@ -45,7 +44,6 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
             if ($res->getStatusCode() == '200' && $res->getHeaderLine('content-type') == 'application/json') {
                 $body = json_decode($res->getBody());
                 foreach ($body->data as $key => $value) {
-                    $this->test++;
                     $this->createCurrencyValueMoment($em, $value);
                 }
                 $em->flush();
@@ -62,10 +60,6 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
                 $output_message = 'OK BTC';
             }
         }
-
-
-
-
 
         $alerts = $em->getRepository('AppBundle:Alert')->findAll();
         foreach ($alerts as $alert) {
