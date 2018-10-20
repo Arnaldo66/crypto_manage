@@ -1,3 +1,74 @@
+#SEO
+description: 'E-goldenboy affiche le cours en temps réel du bitcoin et des autres crypto-monnaies. Notre outil vous permet de faire de la simulation de trading et de mettre en place des alertes de hausse ou de baisse du cours.'
+
+#Alert
+alert_title: 'Créer une alerte - e-goldenboy.com'
+alert_h2: 'Créer une alerte'
+alert_form_crypto: 'Crypto-monnaie:'
+alert_form_price: 'Prix'
+alert_form_type: 'Type'
+alert_form_button: 'Label'
+alert_type_buy: 'Achat'
+alert_type_sell: 'vente'
+
+alert_page_title: 'Mes alertes - e-goldenboy.com'
+alert_page_seo_description: "Module d'alerte du site e-goldenboy.com. Permet d'être prévenu lorsqu'une crypto-monnaie atteint le seuil que vous lui avez fixé."
+alert_page_create_alert: 'Créer une alerte'
+alert_page_actuals: 'Mes alertes en cours'
+alert_id: "Id"
+alert_price: "Prix"
+alert_type: "Type"
+alert_monney: "Monnaie"
+alert_delete: "Supprimer"
+
+alert_modal_title: "Suppression d'alerte"
+alert_modal_question: 'Etes-vous sûr de vouloir supprimer votre alerte ?'
+alert_modal_question_two: 'La suppression est définitive'
+alert_button_close: 'Annuler'
+alert_button_confirm: 'Confirmer'
+
+#articles
+article_title: 'Liste des articles - e-goldenboy.com'
+article_seo_description: "Listes complète de tous les articles de e-goldenboy.com au sujets des bitcoins, altcoins mais aussi de tout l'univers des crypto-monnaies"
+article_panel_title: 'Liste des tous les articles sur le bitcoin, les altcoins et le monde des crypto-monnaies'
+article_tab_title: 'Titre'
+article_tab_date: 'Création'
+article_tab_read: 'Lire'
+article_page_post_title: '- e-goldenboy.com'
+
+#contact
+contact_title: 'Contactez-nous - e-goldenboy.com'
+contact_h2: 'Contactez-nous'
+contact_form_name: 'Nom'
+contact_form_email: 'Email'
+contact_form_message: 'Message'
+contact_form_button: 'Envoyer'
+
+#currency
+currency_dashboard_title: 'Liste de toutes les crypto-monnaies - e-goldenboy.com'
+currency_title: 'Tableau de bord - e-goldenboy.com'
+currency_dashboard_seo_description: 'e-goldenboy.com liste toutes les crypto-monnaies existantes et affiche les cours en temps réel.'
+currency_dashboard_description: 'Tableau de bord du site e-goldenboy.com, liste des 100 premières crypto-monnaies(bitcoin, ethereum etc ...) selon leur capitalisation de marché.'
+currency_change_title: 'Valeurs par défaut:'
+currency_percent_change: 'Changement en %:'
+currency_change_device: 'Devise'
+
+currency_tab_logo: 'Logo'
+currency_tab_name: 'Nom'
+currency_tab_symbol: 'Symbole'
+currency_tab_market_cap: 'Market cap'
+currency_tab_change: 'Changement'
+currency_tab_value: 'Valeur'
+currency_tab_rank: 'Rank'
+
+currency_show_classment: 'Classement'
+currency_show_symbol: 'Symbole'
+currency_show_price_dollar: 'Prix en $'
+currency_show_price_euro: 'Prix en €'
+currency_show_percentage_1_hour: 'Pourcentage changement 1h'
+currency_show_percentage_24_hour: Pourcentage changement 24h
+currency_show_percentage_1_week: 'Pourcentage changement 7J'
+
 # menu landing page
 home: 'Accueil'
 concept: 'concept'

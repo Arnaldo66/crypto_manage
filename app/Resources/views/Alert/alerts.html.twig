@@ -1,21 +1,21 @@
 {% extends "::base.html.twig" %}
 
 {% block title %}
-  <title>Mes alertes - e-goldenboy.com</title>
+  <title>{{ 'alert_page_title'|trans }}</title>
 {% endblock title %}
 
 {% block meta %}
-  <meta name="description" content="Module d'alerte du site e-goldenboy.com. Permet d'être prévenu lorsqu'une crypto-monnaie atteint le seuil que vous lui avez fixé." />
+  <meta name="description" content="{{ 'alert_page_seo_description'|trans }}" />
 {% endblock meta %}
 
 {% block title_wrapper %}
-  <h2>Mes alertes en cours</h2>
+  <h2>{{ 'alert_page_actuals'|trans }}</h2>
 {% endblock title_wrapper %}
 
 {% block body %}
   <div class="row">
       <div class="col-lg-3 new-alert">
-        <a class="btn btn-primary" href="{{ path('alert_new') }}">Créer une alerte</a>
+        <a class="btn btn-primary" href="{{ path('alert_new') }}">{{ 'alert_page_create_alert'|trans }}</a>
       </div>
       <div class="col-lg-12">
           <div class="panel panel-default">
@@ -24,11 +24,11 @@
                   <table width="100%" class="table table-striped table-bordered table-hover" id="data-tables-alerts">
                       <thead>
                           <tr>
-                            <th>id</th>
-                            <th>Prix</th>
-                            <th>Achat</th>
-                            <th>Monnaie</th>
-                            <th>Supprimer</th>
+                            <th>{{ 'alert_id'|trans }}</th>
+                            <th>{{ 'alert_price'|trans }}</th>
+                            <th>{{ 'alert_type'|trans }}</th>
+                            <th>{{ 'alert_monney'|trans }}</th>
+                            <th>{{ 'alert_delete'|trans }}</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -36,7 +36,7 @@
                             <tr class="odd gradeX">
                               <td>{{ alert.id }}</td>
                               <td>{{ alert.price|price }}</td>
-                              <td>{% if alert.buy %}Achat{% else %}Vente{% endif %}</td>
+                              <td>{% if alert.buy %}{{ 'alert_type_buy'|trans }}{% else %}{{ 'alert_type_sell'|trans }}{% endif %}</td>
                               <td>{{ alert.currency.name }}</td>
                                 <td><p class="fa fa-times-circle" style="cursor:pointer;" data-toggle="modal" data-target="#removeAlert" data-id="{{ alert.id }}"></p></td>
                             </tr>
@@ -55,19 +55,19 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Suppression d'alerte</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{ 'alert_modal_title'|trans }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <form action="" method="POST">
           <div class="modal-body">
-            Etes-vous sûr de vouloir supprimer votre alerte ?<br/>
-            La suppression est définitive
+            {{ 'alert_modal_question'|trans }}<br/>
+            {{ 'alert_modal_question_two'|trans }}
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-            <button type="submit" class="btn btn-primary">Confirmer</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'alert_button_close'|trans }}</button>
+            <button type="submit" class="btn btn-primary">{{ 'alert_button_confirm'|trans }}</button>
           </div>
         </form>
       </div>
@@ -80,8 +80,6 @@
 {% block local_javascripts %}
   <script>
   $(document).ready(function() {
-
-
       $('#removeAlert').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var id = button.data('id');
