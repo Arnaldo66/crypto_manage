@@ -39,7 +39,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
         foreach ($arrayMonney as $monney) {
             $res = $client->request(
                 'GET',
-                'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=1&convert='.$monney
+                'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=5000&convert='.$monney
             );
             if ($res->getStatusCode() == '200') {
                 $body = json_decode($res->getBody());
