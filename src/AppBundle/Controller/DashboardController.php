@@ -22,4 +22,13 @@ class DashboardController extends Controller
             'currencies' => $currencies, 'dashboard' => 1
         ));
     }
+
+    /**
+     * @Route("/.well-known/brave-rewards-verification.txt", name="braveidentification")
+     * @Method({"GET"})
+     */
+    public function braveAction()
+    {
+        return $this->render(':Brave:index.html.twig');
+    }
 }
