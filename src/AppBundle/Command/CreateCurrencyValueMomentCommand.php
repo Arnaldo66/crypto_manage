@@ -182,27 +182,6 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
     }
 
 
-    //create image from distant img
-    private function createImage($value)
-    {
-        $size = array('32','64');
-        $folder = $this->getContainer()->get('kernel')->getRootDir().'/../web/images/currency-logo';
-        $this->createLogoFolder($folder, $size);
-        $filename = $value->id.'.png';
-
-        if ($this->getContainer()->get('kernel')->getEnvironment() !== 'test') {
-            foreach ($size as $value) {
-                $new_folder = $folder .'/'. $value;
-                try {
-                    file_put_contents($new_folder.'/'.$filename, file_get_contents('https://files.coinmarketcap.com/static/img/coins/'.$value.'x'.$value.'/'.$filename));
-                } catch (\ErrorException $e) {
-                    return null;
-                }
-            }
-        }
-        return $filename;
-    }
-
     //create folder
     private function createLogoFolder($folder, $size)
     {
