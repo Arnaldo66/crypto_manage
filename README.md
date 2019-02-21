@@ -23,3 +23,5 @@ TODO:
   - change trade entity and controller to wallet.
   - test better cron
   - Add and amelioration test performances
+
+  https://brave.com/ego075
