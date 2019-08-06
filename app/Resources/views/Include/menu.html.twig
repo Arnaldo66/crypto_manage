@@ -7,9 +7,6 @@
           <li {% if app.request.attributes.get('_route') == 'dashboard' %}class="active"{% endif %}>
               <a href="{{ path('dashboard')}}"><i class="fa fa-home fa-fw"></i><span class="nav-label">{{ 'home'|trans }}</span></a>
           </li>
-          <li {% if app.request.attributes.get('_route') == 'converter' %}class="active"{% endif %}>
-            <a href="{{ path('converter')}}"><i class="fa fa-exchange fa-fw"></i><span class="nav-label">{{ 'converter'|trans }}</span></a>
-          </li>
 
           <li {% if app.request.attributes.get('_route') == 'trade_index' %}class="active"{% endif %}>
               <a href="{{ path('trade_index')}}"><i class="fa fa-line-chart"></i><span class="nav-label">{{ 'trading'|trans }}</span></a>
