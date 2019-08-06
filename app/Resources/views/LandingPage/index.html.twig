@@ -60,11 +60,6 @@
                     <p>{{ 'lp_feature_actual_course_text'|trans }}</p>
                     <a href="{{ path('dashboard')}}" class="btn btn-primary">{{ 'lp_feature_actual_course_info'|trans }}</a>
                 </div>
-                <div class="m-t-lg">
-                    <i class="fa fa-bar-chart features-icon"></i>
-                    <h2>{{ 'lp_feature_simulator_title'|trans }}</h2>
-                    <p>{{ 'lp_feature_simulator_text'|trans }}</p>
-                </div>
             </div>
             <div class="col-md-6 text-center  wow zoomIn">
                 <div class="ibox float-e-margins">
@@ -103,16 +98,10 @@
                 </div>
             </div>
             <div class="col-md-3 text-center wow fadeInRight">
-                <div>
-                    <i class="fa fa-envelope features-icon"></i>
-                    <h2>{{ 'lp_feature_converter_title'|trans }}</h2>
-                    <p>{{ 'lp_feature_converter_text'|trans }}</p>
-                    <a href="{{ path('converter')}}" class="btn btn-primary">{{ 'converter'|trans }}</a>
-                </div>
                 <div class="m-t-lg">
-                    <i class="fa fa-google features-icon"></i>
-                    <h2>{{ 'lp_feature_alert_title'|trans }}</h2>
-                    <p>{{ 'lp_feature_alert_text'|trans }}</p>
+                    <i class="fa fa-bar-chart features-icon"></i>
+                    <h2>{{ 'lp_feature_simulator_title'|trans }}</h2>
+                    <p>{{ 'lp_feature_simulator_text'|trans }}</p>
                 </div>
             </div>
         </div>
@@ -120,7 +109,7 @@
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
                 <h1>{{ 'lp_feature_trading_test_title'|trans }}</h1>
-                <p>{{ 'lp_feature_trading_test_text'|trans }}</p>
+                <p>{{ 'lp_feature_trading_test_text'|trans|raw }}</p>
             </div>
         </div>
         <div class="row features-block">
@@ -147,7 +136,7 @@
                     <div class="navy-line"></div>
                     <h1>{{ 'lp_team'|trans }}</h1>
                     <p>
-                      {{ 'lp_team_response'|trans }}<br/>
+                      {{ 'lp_team_response'|trans|raw }}<br/>
                     </p>
                 </div>
             </div>
@@ -166,11 +155,11 @@
                 <div class="col-lg-12 text-center">
                     <div class="navy-line"></div>
                     <h1>{{ 'lp_feature_help_us_title'|trans }}</h1>
-                    <p>{{ 'lp_feature_help_us_text'|trans }}</p>
+                    <p>{{ 'lp_feature_help_us_text'|trans|raw }}</p>
                 </div>
             </div>
             <div class="row">
-                {#{ include('Include/donation.html.twig') }#}
+                {{ include('Include/donation.html.twig') }}
             </div>
         </div>
     </section>
