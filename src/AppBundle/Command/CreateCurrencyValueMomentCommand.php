@@ -13,6 +13,11 @@ use AppBundle\Entity\CurrencyValueDay;
 
 class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
 {
+    const API_ENDPOINT='https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=1000&convert=';
+    private $client;
+
+
+
     // add validation verification before flush entity
     protected function configure()
     {
@@ -20,27 +25,29 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
         ->setName('cron:create-currency-value-moment')
         ->setDescription('Fill database with details of best currency in the market at the moment')
         ->setHelp('This command fill table currency_value_moment. Launch by cron 1 time by 5 minutes.');
+
+        $this->client = new \GuzzleHttp\Client(
+            [
+                'headers' => [
+                    'X-CMC_PRO_API_KEY' => '9ebb619c-129f-4534-95a4-f0fc8a5f01d4'
+                ]
+            ]
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $client = new \GuzzleHttp\Client(['headers' => ['X-CMC_PRO_API_KEY' => '9ebb619c-129f-4534-95a4-f0fc8a5f01d4']]);
-        $start = 1;
-        $size = 100;
-        $end = 1;
         $output_message = 'KO';
         $em = $this->getContainer()->get('doctrine')->getManager();
         //insert old value in table currencyValueDay
         $this->createCurrencyValueDay($em);
         //destroy all value
         $this->truncateTable($em);
+        $this->resetRank($em);
 
         $arrayMonney = ['USD', 'EUR', 'BTC'];
         foreach ($arrayMonney as $monney) {
-            $res = $client->request(
-                'GET',
-                'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=5000&convert='.$monney
-            );
+            $res = $this->client->request('GET', self::API_ENDPOINT . $monney);
             if ($res->getStatusCode() == '200') {
                 $body = json_decode($res->getBody());
                 foreach ($body->data as $key => $value) {
@@ -54,10 +61,11 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
         $alerts = $em->getRepository('AppBundle:Alert')->findAll();
         foreach ($alerts as $alert) {
             $priceEuro = $alert->getCurrency()->getPriceEur();
-            if (($priceEuro <= $alert->getPrice() && $alert->getBuy()) || ($priceEuro >= $alert->getPrice() && !$alert->getBuy())) {
-                $alert->setCanDelete(1);
-                $this->sendAlertEmail($alert);
-                $em->remove($alert);
+            if (($priceEuro <= $alert->getPrice() && $alert->getBuy()) ||
+                ($priceEuro >= $alert->getPrice() && !$alert->getBuy())) {
+                    $alert->setCanDelete(1);
+                    $this->sendAlertEmail($alert);
+                    $em->remove($alert);
             }
         }
         //remove all can delete alert
@@ -116,14 +124,25 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
         $connection->executeUpdate($platform->getTruncateTableSQL('currency_value_moment', true));
     }
 
+    private function resetRank($em)
+    {
+        $connection = $em->getConnection();
+        $query = (' update currency set rank = 1001
+                    where not exists(
+                        select * from currency_value_moment where currency.id = currency_value_moment.currency_id)
+        ');
+        $connection->executeUpdate($query);
+    }
+
     //Create new Currency if not exist. Base on currency name
     private function createCurrencyValueMoment($em, $value, $monney)
     {
         $currency = $em->getRepository('AppBundle:Currency')->findOneByUniqueName($value->slug);
         $value = get_object_vars($value);
+
         if ($monney == 'USD') {
             $dataCurrency = get_object_vars($value['quote']->USD);
-        } elseif ($monney == 'EUR'){
+        } elseif ($monney == 'EUR') {
             $dataCurrency = get_object_vars($value['quote']->EUR);
         } else {
             $dataCurrency = get_object_vars($value['quote']->BTC);
@@ -144,11 +163,12 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
                 ->findOneByCurrency($currency);
             if ($monney == 'USD') {
                 $currency->setPriceUsd($dataCurrency['price']);
-            } elseif ($monney == 'EUR'){
+            } elseif ($monney == 'EUR') {
                 $currency->setPriceEur($dataCurrency['price']);
             } else {
                 $currency->setPriceBtc($dataCurrency['price']);
             }
+            $currency->setRank($value['cmc_rank']);
             $currency->setMaxSupply($value['max_supply']);
             $currency->setCirculatingSupply($value['total_supply']);
         }
@@ -156,10 +176,9 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
         if ($currencyValueMoment === null) {
             $currencyValueMoment = new CurrencyValueMoment;
             $currencyValueMoment->setCurrency($currency);
-            $currencyValueMoment->setRank($value['cmc_rank']);
             $currencyValueMoment->setAvailableSupply($value['total_supply']);
             $currencyValueMoment->setTotalSupply($value['total_supply']);
-            $currencyValueMoment->setLastUpdated($value['last_updated']);
+            $currencyValueMoment->setLastUpdated(time());
         }
 
         if ($monney == 'USD') {
@@ -169,33 +188,15 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
             $currencyValueMoment->setPercentChange7d($dataCurrency['percent_change_7d']);
             $currencyValueMoment->setVolumeUsd24h($dataCurrency['volume_24h']);
             $currencyValueMoment->setPriceUsd($dataCurrency['price']);
-        }elseif ($monney == 'EUR'){
+        } elseif ($monney == 'EUR') {
             $currencyValueMoment->setPriceEur($dataCurrency['price']);
             $currencyValueMoment->setMarketCapEur($dataCurrency['market_cap']);
-        }else{
+        } else {
             $currencyValueMoment->setPriceBtc($dataCurrency['price']);
         }
-
+        $currencyValueMoment->setRank($value['cmc_rank']);
 
 
         $em->persist($currencyValueMoment);
-    }
-
-
-    //create folder
-    private function createLogoFolder($folder, $size)
-    {
-        $fs = new Filesystem();
-
-        foreach ($size as $value) {
-            $new_folder = $folder .'/'. $value;
-            try {
-                if (!$fs->exists($new_folder)) {
-                    $fs->mkdir($new_folder);
-                }
-            } catch (IOExceptionInterface $e) {
-                throw new \Exception("An error occurred while creating your directory at ".$e->getPath());
-            }
-        }
     }
 }
