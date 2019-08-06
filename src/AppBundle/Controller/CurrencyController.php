@@ -19,7 +19,7 @@ class CurrencyController extends Controller
     {
         $currencies = $this->getDoctrine()->getManager()
                           ->getRepository('AppBundle:Currency')
-                          ->findAll();
+                          ->findBy([], array('rank'=>'ASC'), 1000);
         return $this->render(':Currency:currencies.html.twig', array(
             'currencies' => $currencies, 'dashboard' => 0
         ));

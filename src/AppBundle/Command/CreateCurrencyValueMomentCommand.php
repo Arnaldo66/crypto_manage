@@ -13,6 +13,11 @@ use AppBundle\Entity\CurrencyValueDay;
 
 class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
 {
+    const API_ENDPOINT='https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=1000&convert=';
+    private $client;
+
+
+
     // add validation verification before flush entity
     protected function configure()
     {
@@ -20,54 +25,47 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
         ->setName('cron:create-currency-value-moment')
         ->setDescription('Fill database with details of best currency in the market at the moment')
         ->setHelp('This command fill table currency_value_moment. Launch by cron 1 time by 5 minutes.');
+
+        $this->client = new \GuzzleHttp\Client(
+            [
+                'headers' => [
+                    'X-CMC_PRO_API_KEY' => '9ebb619c-129f-4534-95a4-f0fc8a5f01d4'
+                ]
+            ]
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $client = new \GuzzleHttp\Client();
-        $start = 1;
-        $size = 100;
-        $end = 1;
         $output_message = 'KO';
         $em = $this->getContainer()->get('doctrine')->getManager();
         //insert old value in table currencyValueDay
         $this->createCurrencyValueDay($em);
         //destroy all value
         $this->truncateTable($em);
+        $this->resetRank($em);
 
-        for($start = 1; $start <= $end; $start+=$size){
-            $res = $client->request('GET', 'https://api.coinmarketcap.com/v2/ticker/?convert=EUR&limit='.$size.'&start='.$start);
-            if($end === 1){
-                $end = json_decode($res->getBody())->metadata->num_cryptocurrencies;
-            }
-            //test if the request is valid and with good content
-            if ($res->getStatusCode() == '200' && $res->getHeaderLine('content-type') == 'application/json') {
+        $arrayMonney = ['USD', 'EUR', 'BTC'];
+        foreach ($arrayMonney as $monney) {
+            $res = $this->client->request('GET', self::API_ENDPOINT . $monney);
+            if ($res->getStatusCode() == '200') {
                 $body = json_decode($res->getBody());
                 foreach ($body->data as $key => $value) {
-                    $this->createCurrencyValueMoment($em, $value);
+                    $this->createCurrencyValueMoment($em, $value, $monney);
                 }
                 $em->flush();
                 $output_message = 'OK';
-            }
-
-            $res = $client->request('GET', 'https://api.coinmarketcap.com/v2/ticker/?convert=BTC&limit='.$size.'&start='.$start);
-            if ($res->getStatusCode() == '200' && $res->getHeaderLine('content-type') == 'application/json') {
-                $body = json_decode($res->getBody());
-                foreach ($body->data as $key => $value) {
-                    $this->updateBtcPrice($em, $value);
-                }
-                $em->flush();
-                $output_message = 'OK BTC';
             }
         }
 
         $alerts = $em->getRepository('AppBundle:Alert')->findAll();
         foreach ($alerts as $alert) {
             $priceEuro = $alert->getCurrency()->getPriceEur();
-            if (($priceEuro <= $alert->getPrice() && $alert->getBuy()) || ($priceEuro >= $alert->getPrice() && !$alert->getBuy())) {
-                $alert->setCanDelete(1);
-                $this->sendAlertEmail($alert);
-                $em->remove($alert);
+            if (($priceEuro <= $alert->getPrice() && $alert->getBuy()) ||
+                ($priceEuro >= $alert->getPrice() && !$alert->getBuy())) {
+                    $alert->setCanDelete(1);
+                    $this->sendAlertEmail($alert);
+                    $em->remove($alert);
             }
         }
         //remove all can delete alert
@@ -126,102 +124,79 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
         $connection->executeUpdate($platform->getTruncateTableSQL('currency_value_moment', true));
     }
 
-    //update btc price
-    private function updateBtcPrice($em, $value)
+    private function resetRank($em)
     {
-        $currency = $em->getRepository('AppBundle:Currency')->findOneByUniqueName($value->website_slug);
-        if ($currency !== null) {
-            $value = get_object_vars($value);
-            $btc = get_object_vars($value['quotes']->BTC);
-
-            $currency->setPriceBtc($btc['price']);
-            $moment = $em->getRepository('AppBundle:CurrencyValueMoment')->findOneByCurrency($currency);
-            if ($moment !== null) {
-                $moment->setPriceBtc($btc['price']);
-            }
-        }
+        $connection = $em->getConnection();
+        $query = (' update currency set rank = 1001
+                    where not exists(
+                        select * from currency_value_moment where currency.id = currency_value_moment.currency_id)
+        ');
+        $connection->executeUpdate($query);
     }
 
     //Create new Currency if not exist. Base on currency name
-    private function createCurrencyValueMoment($em, $value)
+    private function createCurrencyValueMoment($em, $value, $monney)
     {
-        $currency = $em->getRepository('AppBundle:Currency')->findOneByUniqueName($value->website_slug);
+        $currency = $em->getRepository('AppBundle:Currency')->findOneByUniqueName($value->slug);
         $value = get_object_vars($value);
-        $usd = get_object_vars($value['quotes']->USD);
-        $euro = get_object_vars($value['quotes']->EUR);
 
+        if ($monney == 'USD') {
+            $dataCurrency = get_object_vars($value['quote']->USD);
+        } elseif ($monney == 'EUR') {
+            $dataCurrency = get_object_vars($value['quote']->EUR);
+        } else {
+            $dataCurrency = get_object_vars($value['quote']->BTC);
+        }
+
+        $currencyValueMoment = null;
         //create currency if not exists
         if ($currency === null) {
             $currency = new Currency;
             $currency->setName($value['name']);
             $currency->setUniqueName($value['website_slug']);
             $currency->setSymbol($value['symbol']);
-            $currency->setPriceUsd($usd['price']);
-            $currency->setPriceEur($euro['price']);
-            $currency->setRank($value['rank']);
+            $currency->setPriceUsd($dataCurrency['price']);
+            $currency->setRank($value['cmc_rank']);
             $em->persist($currency);
         } else {
-            $currency->setPriceUsd($usd['price']);
-            $currency->setPriceEur($euro['price']);
+            $currencyValueMoment = $em->getRepository('AppBundle:CurrencyValueMoment')
+                ->findOneByCurrency($currency);
+            if ($monney == 'USD') {
+                $currency->setPriceUsd($dataCurrency['price']);
+            } elseif ($monney == 'EUR') {
+                $currency->setPriceEur($dataCurrency['price']);
+            } else {
+                $currency->setPriceBtc($dataCurrency['price']);
+            }
+            $currency->setRank($value['cmc_rank']);
             $currency->setMaxSupply($value['max_supply']);
             $currency->setCirculatingSupply($value['total_supply']);
         }
 
-        $currencyValueMoment = new CurrencyValueMoment;
-        $currencyValueMoment->setCurrency($currency);
-        $currencyValueMoment->setRank($value['rank']);
-        $currencyValueMoment->setPriceUsd($usd['price']);
-        $currencyValueMoment->setMarketCapUsd($usd['market_cap']);
-        $currencyValueMoment->setAvailableSupply($value['total_supply']);
-        $currencyValueMoment->setTotalSupply($value['total_supply']);
-        $currencyValueMoment->setPercentChange1h($usd['percent_change_1h']);
-        $currencyValueMoment->setPercentChange24h($usd['percent_change_24h']);
-        $currencyValueMoment->setPercentChange7d($usd['percent_change_7d']);
-        $currencyValueMoment->setVolumeUsd24h($usd['volume_24h']);
-        $currencyValueMoment->setLastUpdated($value['last_updated']);
+        if ($currencyValueMoment === null) {
+            $currencyValueMoment = new CurrencyValueMoment;
+            $currencyValueMoment->setCurrency($currency);
+            $currencyValueMoment->setAvailableSupply($value['total_supply']);
+            $currencyValueMoment->setTotalSupply($value['total_supply']);
+            $currencyValueMoment->setLastUpdated(time());
+        }
 
-        $currencyValueMoment->setPriceEur($euro['price']);
-        $currencyValueMoment->setMarketCapEur($euro['market_cap']);
+        if ($monney == 'USD') {
+            $currencyValueMoment->setMarketCapUsd($dataCurrency['market_cap']);
+            $currencyValueMoment->setPercentChange1h($dataCurrency['percent_change_1h']);
+            $currencyValueMoment->setPercentChange24h($dataCurrency['percent_change_24h']);
+            $currencyValueMoment->setPercentChange7d($dataCurrency['percent_change_7d']);
+            $currencyValueMoment->setVolumeUsd24h($dataCurrency['volume_24h']);
+            $currencyValueMoment->setPriceUsd($dataCurrency['price']);
+        } elseif ($monney == 'EUR') {
+            $currencyValueMoment->setPriceEur($dataCurrency['price']);
+            $currencyValueMoment->setMarketCapEur($dataCurrency['market_cap']);
+        } else {
+            $currencyValueMoment->setPriceBtc($dataCurrency['price']);
+        }
+        $currencyValueMoment->setRank($value['cmc_rank']);
+
 
         $em->persist($currencyValueMoment);
-    }
-
-
-    //create image from distant img
-    private function createImage($value)
-    {
-        $size = array('32','64');
-        $folder = $this->getContainer()->get('kernel')->getRootDir().'/../web/images/currency-logo';
-        $this->createLogoFolder($folder, $size);
-        $filename = $value->id.'.png';
-
-        if ($this->getContainer()->get('kernel')->getEnvironment() !== 'test') {
-            foreach ($size as $value) {
-                $new_folder = $folder .'/'. $value;
-                try {
-                    file_put_contents($new_folder.'/'.$filename, file_get_contents('https://files.coinmarketcap.com/static/img/coins/'.$value.'x'.$value.'/'.$filename));
-                } catch (\ErrorException $e) {
-                    return null;
-                }
-            }
-        }
-        return $filename;
-    }
-
-    //create folder
-    private function createLogoFolder($folder, $size)
-    {
-        $fs = new Filesystem();
-
-        foreach ($size as $value) {
-            $new_folder = $folder .'/'. $value;
-            try {
-                if (!$fs->exists($new_folder)) {
-                    $fs->mkdir($new_folder);
-                }
-            } catch (IOExceptionInterface $e) {
-                throw new \Exception("An error occurred while creating your directory at ".$e->getPath());
-            }
-        }
     }
 }
