@@ -13,7 +13,7 @@ use AppBundle\Entity\CurrencyValueDay;
 
 class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
 {
-    const API_ENDPOINT='https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=1000&convert=';
+    const API_ENDPOINT='https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=100&convert=';
     private $client;
 
 
