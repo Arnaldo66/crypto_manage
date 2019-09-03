@@ -13,7 +13,7 @@ use AppBundle\Entity\CurrencyValueDay;
 
 class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
 {
-    const API_ENDPOINT='https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=100&convert=';
+    const API_ENDPOINT='https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=1000&convert=';
     private $client;
 
 
@@ -153,7 +153,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
         if ($currency === null) {
             $currency = new Currency;
             $currency->setName($value['name']);
-            $currency->setUniqueName($value['website_slug']);
+            $currency->setUniqueName($value['slug']);
             $currency->setSymbol($value['symbol']);
             $currency->setPriceUsd($dataCurrency['price']);
             $currency->setRank($value['cmc_rank']);
