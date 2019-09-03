@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle(),
             new AppBundle\AppBundle(),
+            new \Symfony\WebpackEncoreBundle\WebpackEncoreBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

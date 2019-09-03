@@ -159,3 +159,5 @@ easy_admin:
             class: AppBundle\Entity\TradingWallet
             list:
                 sort: ['id', 'ASC']
+webpack_encore:
+    output_path: "%kernel.root_dir%/../web/build/"

@@ -10,10 +10,10 @@
 
       <title>{{ 'general_title'|trans }}</title>
 
-      <meta name="description" content="{{ 'general_description'|trans }}" />
-      {% stylesheets '../app/Resources/public/css-landing/*' filter='cssrewrite' %}
-          <link rel="stylesheet" href="{{ asset_url }}" />
-      {% endstylesheets %}
+      {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
       <link rel="icon" type="image/x-icon" href="{{ asset('/images/favicon.ico') }}" />
 
       <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -200,9 +200,7 @@
     </section>
 
     {% block javascripts %}
-      {% javascripts '../app/Resources/public/js-landing/*' %}
-          <script src="{{ asset_url }}"></script>
-      {% endjavascripts %}
+      {{ encore_entry_script_tags('app') }}
     {% endblock %}
   </body>
 </html>
