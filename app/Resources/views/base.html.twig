@@ -15,9 +15,7 @@
         {% endblock meta %}
 
         {% block stylesheets %}
-            {% stylesheets '../app/Resources/public/css/*' filter='cssrewrite' %}
-                <link rel="stylesheet" href="{{ asset_url }}" />
-            {% endstylesheets %}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
         {% block local_stylesheets %}
         {% endblock %}

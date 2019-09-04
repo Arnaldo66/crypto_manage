@@ -11,8 +11,8 @@
       <title>{{ 'general_title'|trans }}</title>
 
       {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+            {{ encore_entry_link_tags('landing') }}
+      {% endblock %}
 
       <link rel="icon" type="image/x-icon" href="{{ asset('/images/favicon.ico') }}" />
 
@@ -200,7 +200,7 @@
     </section>
 
     {% block javascripts %}
-      {{ encore_entry_script_tags('app') }}
+      {{ encore_entry_script_tags('landing') }}
     {% endblock %}
   </body>
 </html>

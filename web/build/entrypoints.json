@@ -1,5 +1,14 @@
 {
   "entrypoints": {
+    "landing": {
+      "js": [
+        "/build/runtime.js",
+        "/build/landing.js"
+      ],
+      "css": [
+        "/build/landing.css"
+      ]
+    },
     "app": {
       "js": [
         "/build/runtime.js",
