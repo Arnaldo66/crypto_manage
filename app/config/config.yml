@@ -84,43 +84,6 @@ swiftmailer:
     password: '%mailer_password%'
     spool: { type: memory }
 
-# assetic configuration
-assetic:
-    debug:          '%kernel.debug%'
-    use_controller: '%kernel.debug%'
-    filters:
-        cssrewrite: ~
-    bundles:
-        - AppBundle
-    assets:
-        font-awesome-otf:
-            inputs: '%kernel.root_dir%/Resources/public/fonts/FontAwesome.otf'
-            output: 'fonts/FontAwesome.otf'
-        font-awesome-eot:
-            inputs: '%kernel.root_dir%/Resources/public/fonts/fontawesome-webfont.eot'
-            output: 'fonts/fontawesome-webfont.eot'
-        font-awesome-svg:
-            inputs: '%kernel.root_dir%/Resources/public/fonts/fontawesome-webfont.svg'
-            output: 'fonts/fontawesome-webfont.svg'
-        font-awesome-ttf:
-            inputs: '%kernel.root_dir%/Resources/public/fonts/fontawesome-webfont.ttf'
-            output: 'fonts/fontawesome-webfont.ttf'
-        font-awesome-woff:
-            inputs: '%kernel.root_dir%/Resources/public/fonts/fontawesome-webfont.woff'
-            output: 'fonts/fontawesome-webfont.woff'
-        font-awesome-woff2:
-            inputs: '%kernel.root_dir%/Resources/public/fonts/fontawesome-webfont.woff2'
-            output: 'fonts/fontawesome-webfont.woff2'
-        summernote-eot:
-            inputs: '%kernel.root_dir%/Resources/public/fonts/summernote.eot'
-            output: 'fonts/summernote.eot'
-        summernote-ttf:
-            inputs: '%kernel.root_dir%/Resources/public/fonts/summernote.ttf'
-            output: 'fonts/summernote.ttf'
-        summernote-woff:
-            inputs: '%kernel.root_dir%/Resources/public/fonts/summernote.woff'
-            output: 'fonts/summernote.woff'
-
 # fosuserbundle config
 fos_user:
     db_driver: orm
