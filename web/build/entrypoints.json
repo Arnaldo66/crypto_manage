@@ -2,20 +2,20 @@
   "entrypoints": {
     "landing": {
       "js": [
-        "/build/runtime.js",
-        "/build/landing.js"
+        "/build/runtime.df9c463a.js",
+        "/build/landing.6b3fd0f3.js"
       ],
       "css": [
-        "/build/landing.css"
+        "/build/landing.744cee4d.css"
       ]
     },
     "app": {
       "js": [
-        "/build/runtime.js",
-        "/build/app.js"
+        "/build/runtime.df9c463a.js",
+        "/build/app.045719bf.js"
       ],
       "css": [
-        "/build/app.css"
+        "/build/app.828ea851.css"
       ]
     }
   }

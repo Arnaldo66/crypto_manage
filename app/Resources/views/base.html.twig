@@ -16,6 +16,9 @@
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+            <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+            <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+
         {% endblock %}
         {% block local_stylesheets %}
         {% endblock %}
@@ -57,9 +60,13 @@
 
 
         {% block javascripts %}
-          {% javascripts '../app/Resources/public/js/*' %}
-              <script src="{{ asset_url }}"></script>
-          {% endjavascripts %}
+          {{ encore_entry_script_tags('app') }}
+          <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+          <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+          <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+
+
         {% endblock %}
 
         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
