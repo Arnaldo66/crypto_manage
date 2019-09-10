@@ -20,9 +20,7 @@
     {% block meta %}
     {% endblock meta %}
     {% block stylesheets %}
-        {% stylesheets '../app/Resources/public/css/*' filter='cssrewrite' %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
-        {% endstylesheets %}
+        {{ encore_entry_link_tags('app') }}
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('/images/favicon.ico') }}" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -55,10 +53,8 @@
         </div>
     </div>
 
-  {% block javascripts %}
-    {% javascripts '../app/Resources/public/js/*' %}
-        <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-  {% endblock %}
+    {% block javascripts %}
+      {{ encore_entry_script_tags('app') }}
+    {% endblock %}
   </body>
 </html>
