@@ -11,7 +11,8 @@ security:
 
     providers:
         database_users:
-            entity: { class: AppBundle\Entity\User, property: username }
+            entity:
+                class: AppBundle\Entity\User
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
