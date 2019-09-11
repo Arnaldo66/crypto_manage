@@ -79,7 +79,7 @@ class User implements UserInterface, \Serializable
         $this->tradingWallets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->alerts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->myCryptoWallets = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->roles = ['ROLE_USER'];
+        $this->roles = [];
     }
 
     public function getEmail()
@@ -131,8 +131,7 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        //TODO::change it soon
-        return ['ROLE_USER'];
+        return $this->roles;
     }
 
     public function eraseCredentials()
