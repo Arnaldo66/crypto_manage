@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -29,6 +30,12 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=255)
      */
     private $password;
+
+    /**
+     * @Assert\NotBlank
+     * @Assert\Length(max=4096)
+     */
+    private $plainPassword;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -56,17 +63,38 @@ class User implements UserInterface, \Serializable
      */
     private $myCryptoWallets;
 
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $roles;
+
     public function __construct()
     {
         $this->isActive = true;
         $this->tradingWallets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->alerts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->myCryptoWallets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->roles = ['ROLE_USER'];
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
 
     public function getUsername()
     {
         return $this->username;
+    }
+
+    public function setUsername($username)
+    {
+        $this->username = $username;
     }
 
     public function getSalt()
@@ -81,8 +109,24 @@ class User implements UserInterface, \Serializable
         return $this->password;
     }
 
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
+    }
+
     public function getRoles()
     {
+        //TODO::change it soon
         return ['ROLE_USER'];
     }
 

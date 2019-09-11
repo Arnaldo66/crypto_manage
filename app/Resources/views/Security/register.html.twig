@@ -1,0 +1,17 @@
+{% extends "::baseuser.html.twig" %}
+
+
+{% block fos_user_form_title %}
+    <h3 class="panel-title">Creéz un compte</h3>
+{% endblock fos_user_form_title %}
+
+{% block fos_user_content %}
+{{ form_start(form) }}
+    {{ form_row(form.username) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.plainPassword.first) }}
+    {{ form_row(form.plainPassword.second) }}
+
+    <button type="submit">Register!</button>
+{{ form_end(form) }}
+{% endblock fos_user_content %}

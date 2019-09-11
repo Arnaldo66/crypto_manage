@@ -9,11 +9,11 @@
             </li>
             <li>
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                  <a href="{{ path('fos_user_security_logout')}}">
+                  <a href="#">
                     <i class="fa fa-sign-out"></i> {{ 'logout'|trans }}
                   </a>
                 {% else %}
-                  <a href="{{ path('fos_user_security_login')}}">
+                  <a href="{{ path('login')}}">
                     <i class="fa fa-sign-in"></i> {{ 'login'|trans }}
                   </a>
                 {% endif %}
