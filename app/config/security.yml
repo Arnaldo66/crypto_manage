@@ -10,7 +10,7 @@ security:
         ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     providers:
-        database_users:
+        secured_area:
             entity:
                 class: AppBundle\Entity\User
 
@@ -20,13 +20,16 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        main:
+        secured_area:
             anonymous: ~
             form_login:
                 login_path: login
                 check_path: login
                 csrf_token_generator: security.csrf.token_manager
                 default_target_path: dashboard
+            logout:
+                path: /logout
+                target: /
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
