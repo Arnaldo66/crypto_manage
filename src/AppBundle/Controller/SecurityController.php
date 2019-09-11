@@ -21,4 +21,20 @@ class SecurityController extends Controller
             'error'         => $error,
          ]);
     }
+
+
+    public function sendEmailResetPassword()
+    {
+        return null;
+    }
+
+    public function resetPassword()
+    {
+        return null;
+    }
+
+    public function generatToken()
+    {
+        return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
+    }
 }

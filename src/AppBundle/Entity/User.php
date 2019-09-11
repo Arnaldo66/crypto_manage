@@ -35,6 +35,17 @@ class User implements UserInterface, \Serializable
      */
     private $password;
 
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $tokenResetPassword;
+
+    /**
+     * @ORM\Column(name="token_reset_password_send_at", type="datetime", nullable=true)
+     */
+    private $tokenResetPasswordSentAt;
+
     /**
      * @Assert\NotBlank
      * @Assert\Length(max=4096)
@@ -133,6 +144,28 @@ class User implements UserInterface, \Serializable
     {
         return $this->roles;
     }
+
+
+    public function getTokenResetPassword()
+    {
+        return $this->tokenResetPassword;
+    }
+
+    public function setTokenResetPassword($tokenResetPassword)
+    {
+        $this->tokenResetPassword = $tokenResetPassword;
+    }
+
+    public function getTokenResetPasswordSentAt()
+    {
+        return $this->tokenResetPasswordSentAt;
+    }
+
+    public function setTokenResetPasswordSentAt($tokenResetPasswordSentAt)
+    {
+        $this->tokenResetPasswordSentAt = $tokenResetPasswordSentAt;
+    }
+
 
     public function eraseCredentials()
     {
