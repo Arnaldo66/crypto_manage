@@ -84,15 +84,6 @@ swiftmailer:
     password: '%mailer_password%'
     spool: { type: memory }
 
-# fosuserbundle config
-fos_user:
-    db_driver: orm
-    firewall_name: main
-    user_class: AppBundle\Entity\User
-    from_email:
-        address: "admin@e-goldenboy.com"
-        sender_name: "e-goldenboy"
-
 easy_admin:
     entities:
         Currency:

@@ -25,3 +25,11 @@ TODO:
   - Add and amelioration test performances
 
   https://brave.com/ego075
+
+  - User:
+  Inscription
+  Connexion username or email
+  Mot de passe oublié
+  Remember me
+  Deconnexion
+  Template: login, connexion, mot de passe oublié (existe déjà)
