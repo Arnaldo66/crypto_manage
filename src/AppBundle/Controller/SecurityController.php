@@ -8,6 +8,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SecurityController extends Controller
 {
@@ -47,9 +48,9 @@ class SecurityController extends Controller
         ]);
     }
     /**
-     * @Route("/resetting/send-email", name="send_email_password")
+     * @Route("/resetting/send-email", name="send_email_password", methods={"POST"})
      */
-    public function sendingEmail(Request $request)
+    public function sendingEmail(Request $request, \Swift_Mailer $mailer)
     {
         $data = $request->request->all();
         if (!isset($data['_email'])) {
@@ -66,6 +67,24 @@ class SecurityController extends Controller
         $user->setTokenResetPassword($this->generatToken());
         $user->setTokenResetPasswordSentAt(new \DateTime());
         $entityManager->flush();
+
+        $url = $this->generateUrl(
+            'show_reset_password',
+            ['token' => $user->getTokenResetPassword()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
+        $message = (new \Swift_Message('Renouvellement de mot de passe'))
+           ->setFrom('admin@e-goldenboy.com')
+           ->setTo($email)
+           ->setBody(
+               'Veuillez cliquer sur le lien pour renouveller votre mot de passe<br/><br/>
+               Lien: ' . $url
+           );
+        $mailer->send($message);
+
+
+
 
         return $this->redirectToRoute('reseting_done');
     }
@@ -85,7 +104,7 @@ class SecurityController extends Controller
     }
 
     /**
-     * @Route("/resetting/reset/{token}", name="do_reset_password")
+     * @Route("/resetting/reset/{token}", name="do_reset_password", methods={"POST"})
      */
     public function doResetPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder, $token)
     {
