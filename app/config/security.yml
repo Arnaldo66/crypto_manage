@@ -27,6 +27,10 @@ security:
                 check_path: login
                 csrf_token_generator: security.csrf.token_manager
                 default_target_path: dashboard
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 604800
+                path:     /
             logout:
                 path: /logout
                 target: /
