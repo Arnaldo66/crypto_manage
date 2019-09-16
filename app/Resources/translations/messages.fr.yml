@@ -1,5 +1,5 @@
 #SEO
-description: 'E-goldenboy affiche le cours en temps réel du bitcoin et des autres crypto-monnaies. Notre outil vous permet de faire de la simulation de trading et de mettre en place des alertes de hausse ou de baisse du cours.'
+description: "E-goldenboy affiche le cours en temps réel du bitcoin et des autres crypto-monnaies. Notre outil vous permet de faire de la simulation de trading et de mettre en place des alertes de hausse ou de baisse du cours."
 
 #Alert
 alert_title: 'Créer une alerte - e-goldenboy.com'
@@ -77,18 +77,20 @@ contact: 'Contact'
 login: 'Connexion'
 logout: 'Déconnexion'
 account: 'Mon compte'
+
+
 # landing page text
 know_more: 'En savoir plus'
 contact_us: 'Contactez-nous'
 value: 'Valeur'
 crypto: 'Crypto'
 change: '24h change'
-see_course: 'Voir les cours'
 see_all_course: 'Voir tous les cours'
 see_course: 'Voir les cours'
 general_title: 'Bienvenue sur e-goldenboy.com'
 general_description: 'e-goldenboy.com affiche le cours en temps réel du bitcoin et des autres crypto-monnaies. Notre outil vous permet de faire de la simulation de trading et de mettre en place des alertes de hausse ou de baisse du cours.'
 all_right_reserved: 'Tous droits réservés'
+
 lp_title: 'Plateforme de<br/>simulation.<br />Trading de bitcoin<br />& altcoins'
 lp_feature_general_title: 'Simulation de trading<br/> <span class="navy"> Bitcoin et les 1000  premiers altcoins</span>'
 lp_feature_general_text: 'Entrainez-vous gratuitement à trader des bitcoins & altcoins'
