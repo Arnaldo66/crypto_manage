@@ -41,6 +41,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
         $this->resetRank($entityManager);
         $this->doProcessUpdatePrice($entityManager);
         $this->endLog($entityManager, $entity);
+        $output->writeln('ok');
     }
 
     private function doProcessUpdatePrice($entityManager)
