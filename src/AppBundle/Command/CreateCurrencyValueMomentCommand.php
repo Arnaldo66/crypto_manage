@@ -8,69 +8,327 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 use AppBundle\Entity\Currency;
+use AppBundle\Entity\Alert;
 use AppBundle\Entity\CurrencyValueMoment;
-use AppBundle\Entity\CurrencyValueDay;
+use AppBundle\Entity\UpdatePriceLogs;
 
 class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
 {
-    const API_ENDPOINT='https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=1000&convert=';
+    // TODO: get image when not exists
     private $client;
-
+    private $devise = ['usd', 'eur', 'btc'];
+    private $notGoodMatching;
+    private $pages = ['1', '2'];
 
 
     // add validation verification before flush entity
     protected function configure()
     {
         $this
-        ->setName('cron:create-currency-value-moment')
+        ->setName('cron:update-coin-value')
         ->setDescription('Fill database with details of best currency in the market at the moment')
         ->setHelp('This command fill table currency_value_moment. Launch by cron 1 time by 5 minutes.');
 
-        $this->client = new \GuzzleHttp\Client(
-            [
-                'headers' => [
-                    'X-CMC_PRO_API_KEY' => '9ebb619c-129f-4534-95a4-f0fc8a5f01d4'
-                ]
-            ]
-        );
+        $this->client = new \GuzzleHttp\Client();
+
+        $this->notGoodMatching =  [
+            'bitcoin-cash-sv' => 'bitcoin-sv'
+        ];
     }
 
+    //TODO: after some day refactor this class and put try catch bloc
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output_message = 'KO';
-        $em = $this->getContainer()->get('doctrine')->getManager();
-        //insert old value in table currencyValueDay
-        $this->createCurrencyValueDay($em);
-        //destroy all value
-        $this->truncateTable($em);
-        $this->resetRank($em);
+        $entityManager = $this->getContainer()->get('doctrine')->getManager();
+        //log one import OK by day
+        $entity = $this->beginLog($entityManager);
+        $this->truncateTable($entityManager);
+        $this->resetRank($entityManager);
+        $this->doProcessUpdatePrice($entityManager);
+        $this->endLog($entityManager, $entity);
+    }
 
-        $arrayMonney = ['USD', 'EUR', 'BTC'];
-        foreach ($arrayMonney as $monney) {
-            $res = $this->client->request('GET', self::API_ENDPOINT . $monney);
-            if ($res->getStatusCode() == '200') {
-                $body = json_decode($res->getBody());
-                foreach ($body->data as $key => $value) {
-                    $this->createCurrencyValueMoment($em, $value, $monney);
+    private function doProcessUpdatePrice($entityManager)
+    {
+        //max 100
+        foreach ($this->pages as $page) {
+            foreach ($this->devise as $devise) {
+                $allCoinsRequest = $this->client->request(
+                    'GET',
+                    'https://api.coingecko.com/api/v3/coins/markets?vs_currency='. $devise .'&page=' . $page
+                );
+                if ($allCoinsRequest->getStatusCode() == '200') {
+                    $allCoins = json_decode($allCoinsRequest->getBody());
+                    foreach ($allCoins as $key => $coin) {
+                        $this->createCurrencyValueMoment($entityManager, $coin, $devise);
+                    }
+                    $entityManager->flush();
                 }
-                $em->flush();
-                $output_message = 'OK';
             }
         }
 
-        $alerts = $em->getRepository('AppBundle:Alert')->findAll();
+        $alerts = $entityManager->getRepository(Alert::class)->findAll();
         foreach ($alerts as $alert) {
             $priceEuro = $alert->getCurrency()->getPriceEur();
             if (($priceEuro <= $alert->getPrice() && $alert->getBuy()) ||
                 ($priceEuro >= $alert->getPrice() && !$alert->getBuy())) {
                     $alert->setCanDelete(1);
                     $this->sendAlertEmail($alert);
-                    $em->remove($alert);
+                    $entityManager->remove($alert);
             }
         }
         //remove all can delete alert
-        $em->flush();
-        $output->writeln($output_message);
+        $entityManager->flush();
+    }
+
+    //TODO: remove it after first launch
+    private function coinmarketIdValue($coingeckoId)
+    {
+        switch ($coingeckoId) {
+            case 'binancecoin':
+                $coinmarketId = 'binance-coin';
+                break;
+            case 'leo-token':
+                $coinmarketId = 'unus-sed-leo';
+                break;
+            case 'holotoken':
+                $coinmarketId = 'holo';
+                break;
+            case 'bittorrent-2':
+                $coinmarketId = 'bittorrent';
+                break;
+            case 'bytecoin':
+                $coinmarketId = 'bytecoin-bcn';
+                break;
+            case 'quant-network':
+                $coinmarketId = 'quant';
+                break;
+            case 'metaverse-etp':
+                $coinmarketId = 'metaverse';
+                break;
+            case 'enjincoin':
+                $coinmarketId = 'enjin-coin';
+                break;
+            case 'golem':
+                $coinmarketId = 'golem-network-tokens';
+                break;
+            case 'neon-exchange':
+                $coinmarketId = 'nash-exchange';
+                break;
+            case 'zb-token':
+                $coinmarketId = 'zb';
+                break;
+            case 'digitex-futures-exchange':
+                $coinmarketId = 'digitex-futures';
+                break;
+            case 'bcv':
+                $coinmarketId = 'bitcapitalvendor';
+                break;
+            case 'nebulas':
+                $coinmarketId = 'nebulas-token';
+                break;
+            case 'quark-chain':
+                $coinmarketId = 'quarkchain';
+                break;
+            case 'solve-care':
+                $coinmarketId = 'solve';
+                break;
+            case 'ultrain':
+                $coinmarketId = 'ugas';
+                break;
+            case 'maximine':
+                $coinmarketId = 'maximine-coin';
+                break;
+            case 'dxchain':
+                $coinmarketId = 'dxchain-token';
+                break;
+            case 'fsn':
+                $coinmarketId = 'fusion';
+                break;
+            case 'gnosis':
+                $coinmarketId = 'gnosis-gno';
+                break;
+            case 'fetch-ai':
+                $coinmarketId = 'fetch';
+                break;
+            case 'crypto20':
+                $coinmarketId = 'c20';
+                break;
+            case 'iexec-rlc':
+                $coinmarketId = 'rlc';
+                break;
+            case 'kan':
+                $coinmarketId = 'bitkan';
+                break;
+            case 'reserve-rights-token':
+                $coinmarketId = 'reserve-rights';
+                break;
+            case 'karma-coin':
+                $coinmarketId = 'karma-eos';
+                break;
+            case 'constellation-labs':
+                $coinmarketId = 'constellation';
+                break;
+            case 'loki-network':
+                $coinmarketId = 'loki';
+                break;
+            case 'mediblocx':
+                $coinmarketId = 'MediBloc';
+                break;
+            case 'commerceblock-token':
+                $coinmarketId = 'commerceblock';
+                break;
+            case 'apollo':
+                $coinmarketId = 'apollo-currency';
+                break;
+            case 'b2b':
+                $coinmarketId = 'b2bx';
+                break;
+            case 'iris-network':
+                $coinmarketId = 'irisnet';
+                break;
+            case 'top-network':
+                $coinmarketId = 'top';
+                break;
+            case 'foam-protocol':
+                $coinmarketId = 'foam';
+                break;
+            case 'first-blood':
+                $coinmarketId = 'firstblood';
+                break;
+            case 'raiden-network':
+                $coinmarketId = 'raiden-network-token';
+                break;
+            case 'restart-energy':
+                $coinmarketId = 'restart-energy-mwat';
+                break;
+            case 'six-network':
+                $coinmarketId = 'six';
+                break;
+            case 'adex':
+                $coinmarketId = 'adx-net';
+                break;
+
+
+            default:
+                $coinmarketId = $coingeckoId;
+                break;
+        }
+
+        return $coinmarketId;
+    }
+
+    //TODO: do better organisation
+    private function createCurrencyValueMoment($entityManager, $value, $devise)
+    {
+        $currency = $entityManager->getRepository(Currency::class)->findOneByUniqueName($value->id);
+        if (isset($this->notGoodMatching[$value->id])) {
+            $id = $this->notGoodMatching[$value->id];
+            $currency->setUniqueName($currency->getUniqueName() . time());
+            $currency = $entityManager->getRepository(Currency::class)->findOneByUniqueName($id);
+        }
+
+        //TEMP have to delete this bloc some days after mep
+        if ($currency === null) {
+            $currency = $entityManager->getRepository(Currency::class)->findOneByUniqueName(
+                $this->coinmarketIdValue($value->id)
+            );
+        }
+        if ($currency === null) {
+            $currency = new Currency;
+            $currency->setName($value->name);
+            $currency->setUniqueName($value->id);
+            $currency->setSymbol($value->symbol);
+            $currency->setPriceUsd($value->current_price);
+            $currency->setRank($value->market_cap_rank);
+
+            $entityManager->persist($currency);
+        } else {
+            if ($devise === 'usd') {
+                $currency->setPriceUsd($value->current_price);
+            } elseif ($devise === 'eur') {
+                $currency->setPriceEur($value->current_price);
+            } else {
+                $currency->setPriceBtc($value->current_price);
+            }
+            $currency->setName($value->name);
+            $currency->setUniqueName($value->id);
+            $currency->setRank($value->market_cap_rank);
+            $currency->setMaxSupply($value->total_supply);
+            $currency->setCirculatingSupply($value->circulating_supply);
+        }
+
+        $currencyValueMoment = $entityManager->getRepository(CurrencyValueMoment::class)
+            ->findOneByCurrency($currency);
+
+        if ($currencyValueMoment === null) {
+            $currencyValueMoment = new CurrencyValueMoment;
+            $currencyValueMoment->setCurrency($currency);
+            $currencyValueMoment->setAvailableSupply($value->circulating_supply);
+            $currencyValueMoment->setTotalSupply($value->total_supply);
+            $currencyValueMoment->setLastUpdated(time());
+        }
+
+        $currencyValueMoment->setRank($value->market_cap_rank);
+
+        if ($devise === 'usd') {
+            $currencyValueMoment->setMarketCapUsd($value->market_cap);
+            $currencyValueMoment->setPercentChange24h($value->price_change_percentage_24h);
+            $currencyValueMoment->setPriceUsd($value->current_price);
+        } elseif ($devise === 'eur') {
+            $currencyValueMoment->setPriceEur($value->current_price);
+            $currencyValueMoment->setMarketCapEur($value->market_cap);
+        } else {
+            $currencyValueMoment->setPriceBtc($value->current_price);
+        }
+
+        $entityManager->persist($currencyValueMoment);
+    }
+
+
+    private function beginLog($entityManager)
+    {
+        $dateDay = new \DateTime();
+        $entity = $entityManager->getRepository(UpdatePriceLogs::class)->findOneBy(
+            [
+                'success' => true,
+                'createdAt' => $dateDay
+            ]
+        );
+
+        if ($entity === null) {
+            $entity = new UpdatePriceLogs();
+            $entity->setCreatedAt($dateDay);
+            $entity->setSuccess(false);
+
+            $entityManager->persist($entity);
+            $entityManager->flush();
+        }
+
+        return $entity;
+    }
+
+    private function endLog($entityManager, $entity)
+    {
+        $entity->setSuccess(true);
+        $entityManager->flush();
+    }
+
+    private function truncateTable($entityManager)
+    {
+        $connection = $entityManager->getConnection();
+        $platform   = $connection->getDatabasePlatform();
+        $connection->executeUpdate($platform->getTruncateTableSQL('currency_value_moment', true));
+    }
+
+    private function resetRank($entityManager)
+    {
+        $connection = $entityManager->getConnection();
+        $query = (' update currency set rank = 10000
+                    where not exists(
+                        select * from currency_value_moment where currency.id = currency_value_moment.currency_id)
+        ');
+        $connection->executeUpdate($query);
     }
 
     /**
@@ -95,108 +353,5 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
                'text/html'
            );
         $mailer->send($message);
-    }
-
-    //insert into CurrencyValueDay
-    private function createCurrencyValueDay($em)
-    {
-        $momentValues = $em->getRepository('AppBundle:CurrencyValueMoment')->findAll();
-        foreach ($momentValues as $momentValue) {
-            $currencyValueDay = new CurrencyValueDay;
-            $currencyValueDay->setCurrency($momentValue->getCurrency());
-            $currencyValueDay->setPriceUsd($momentValue->getPriceUsd());
-            $currencyValueDay->setPriceBtc($momentValue->getPriceBtc());
-            $currencyValueDay->setPriceEur($momentValue->getPriceEur());
-            $currencyValueDay->setVolumeUsd24h($momentValue->getVolumeUsd24h());
-
-            $em->persist($currencyValueDay);
-        }
-
-        $em->flush();
-    }
-
-
-    //truncate table currency_moment_value
-    private function truncateTable($em)
-    {
-        $connection = $em->getConnection();
-        $platform   = $connection->getDatabasePlatform();
-        $connection->executeUpdate($platform->getTruncateTableSQL('currency_value_moment', true));
-    }
-
-    private function resetRank($em)
-    {
-        $connection = $em->getConnection();
-        $query = (' update currency set rank = 1001
-                    where not exists(
-                        select * from currency_value_moment where currency.id = currency_value_moment.currency_id)
-        ');
-        $connection->executeUpdate($query);
-    }
-
-    //Create new Currency if not exist. Base on currency name
-    private function createCurrencyValueMoment($em, $value, $monney)
-    {
-        $currency = $em->getRepository('AppBundle:Currency')->findOneByUniqueName($value->slug);
-        $value = get_object_vars($value);
-
-        if ($monney == 'USD') {
-            $dataCurrency = get_object_vars($value['quote']->USD);
-        } elseif ($monney == 'EUR') {
-            $dataCurrency = get_object_vars($value['quote']->EUR);
-        } else {
-            $dataCurrency = get_object_vars($value['quote']->BTC);
-        }
-
-        $currencyValueMoment = null;
-        //create currency if not exists
-        if ($currency === null) {
-            $currency = new Currency;
-            $currency->setName($value['name']);
-            $currency->setUniqueName($value['slug']);
-            $currency->setSymbol($value['symbol']);
-            $currency->setPriceUsd($dataCurrency['price']);
-            $currency->setRank($value['cmc_rank']);
-            $em->persist($currency);
-        } else {
-            $currencyValueMoment = $em->getRepository('AppBundle:CurrencyValueMoment')
-                ->findOneByCurrency($currency);
-            if ($monney == 'USD') {
-                $currency->setPriceUsd($dataCurrency['price']);
-            } elseif ($monney == 'EUR') {
-                $currency->setPriceEur($dataCurrency['price']);
-            } else {
-                $currency->setPriceBtc($dataCurrency['price']);
-            }
-            $currency->setRank($value['cmc_rank']);
-            $currency->setMaxSupply($value['max_supply']);
-            $currency->setCirculatingSupply($value['total_supply']);
-        }
-
-        if ($currencyValueMoment === null) {
-            $currencyValueMoment = new CurrencyValueMoment;
-            $currencyValueMoment->setCurrency($currency);
-            $currencyValueMoment->setAvailableSupply($value['total_supply']);
-            $currencyValueMoment->setTotalSupply($value['total_supply']);
-            $currencyValueMoment->setLastUpdated(time());
-        }
-
-        if ($monney == 'USD') {
-            $currencyValueMoment->setMarketCapUsd($dataCurrency['market_cap']);
-            $currencyValueMoment->setPercentChange1h($dataCurrency['percent_change_1h']);
-            $currencyValueMoment->setPercentChange24h($dataCurrency['percent_change_24h']);
-            $currencyValueMoment->setPercentChange7d($dataCurrency['percent_change_7d']);
-            $currencyValueMoment->setVolumeUsd24h($dataCurrency['volume_24h']);
-            $currencyValueMoment->setPriceUsd($dataCurrency['price']);
-        } elseif ($monney == 'EUR') {
-            $currencyValueMoment->setPriceEur($dataCurrency['price']);
-            $currencyValueMoment->setMarketCapEur($dataCurrency['market_cap']);
-        } else {
-            $currencyValueMoment->setPriceBtc($dataCurrency['price']);
-        }
-        $currencyValueMoment->setRank($value['cmc_rank']);
-
-
-        $em->persist($currencyValueMoment);
     }
 }
