@@ -59,6 +59,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
                     $entityManager->flush();
                 }
             }
+            $entityManager->flush();
         }
 
         $alerts = $entityManager->getRepository(Alert::class)->findAll();
