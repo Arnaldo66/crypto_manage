@@ -17,8 +17,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
     // TODO: get image when not exists
     private $client;
     private $devise = ['usd', 'eur', 'btc'];
-    private $notGoodMatching;
-    private $pages = ['1', '2'];
+    private $pageLimit = 10;
 
 
     // add validation verification before flush entity
@@ -30,10 +29,6 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
         ->setHelp('This command fill table currency_value_moment. Launch by cron 1 time by 5 minutes.');
 
         $this->client = new \GuzzleHttp\Client();
-
-        $this->notGoodMatching =  [
-            'bitcoin-cash-sv' => 'bitcoin-sv'
-        ];
     }
 
     //TODO: after some day refactor this class and put try catch bloc
@@ -50,8 +45,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
 
     private function doProcessUpdatePrice($entityManager)
     {
-        //max 100
-        foreach ($this->pages as $page) {
+        for ($page = 1; $page <= $this->pageLimit; $page++) {
             foreach ($this->devise as $devise) {
                 $allCoinsRequest = $this->client->request(
                     'GET',
@@ -222,11 +216,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
     private function createCurrencyValueMoment($entityManager, $value, $devise)
     {
         $currency = $entityManager->getRepository(Currency::class)->findOneByUniqueName($value->id);
-        if (isset($this->notGoodMatching[$value->id])) {
-            $id = $this->notGoodMatching[$value->id];
-            $currency->setUniqueName($currency->getUniqueName() . time());
-            $currency = $entityManager->getRepository(Currency::class)->findOneByUniqueName($id);
-        }
+
 
         //TEMP have to delete this bloc some days after mep
         if ($currency === null) {
