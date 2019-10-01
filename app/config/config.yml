@@ -113,5 +113,9 @@ easy_admin:
             class: AppBundle\Entity\TradingWallet
             list:
                 sort: ['id', 'ASC']
+        Logs:
+            class: AppBundle\Entity\UpdatePriceLogs
+            list:
+                sort: ['id', 'DESC']
 webpack_encore:
     output_path: "%kernel.root_dir%/../web/build/"

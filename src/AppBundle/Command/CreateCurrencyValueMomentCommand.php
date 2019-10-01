@@ -25,7 +25,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-        ->setName('cron:create-currency-value-moment')
+        ->setName('cron:update-coin-value')
         ->setDescription('Fill database with details of best currency in the market at the moment')
         ->setHelp('This command fill table currency_value_moment. Launch by cron 1 time by 5 minutes.');
 
