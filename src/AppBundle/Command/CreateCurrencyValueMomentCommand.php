@@ -17,7 +17,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
     // TODO: get image when not exists
     private $client;
     private $devise = ['usd', 'eur', 'btc'];
-    private $pageLimit = 10;
+    private $pageLimit = 5;
 
 
     // add validation verification before flush entity
@@ -36,11 +36,11 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
     {
         $entityManager = $this->getContainer()->get('doctrine')->getManager();
         //log one import OK by day
-        $entity = $this->beginLog($entityManager);
+        //$entity = $this->beginLog($entityManager);
         $this->truncateTable($entityManager);
         $this->resetRank($entityManager);
         $this->doProcessUpdatePrice($entityManager);
-        $this->endLog($entityManager, $entity);
+        //$this->endLog($entityManager, $entity);
         $output->writeln('ok');
     }
 
