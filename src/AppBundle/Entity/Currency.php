@@ -154,14 +154,14 @@ class Currency
      *
      * @ORM\Column(name="max_supply", type="bigint", nullable=true)
      */
-     private $maxSupply;
+    private $maxSupply;
 
      /**
       * @var int
       *
       * @ORM\Column(name="circulating_supply", type="bigint", nullable=true)
       */
-      private $circulatingSupply;
+    private $circulatingSupply;
 
     /**
      * Constructor
@@ -517,8 +517,9 @@ class Currency
     /**
      * show currency name and value for converter
      */
-     public function getNameValue(){
-       return $this->getName().': '.round($this->getPriceEur(),3);
+     public function getNameValue()
+     {
+         return $this->getName().': '.round($this->getPriceEur(),3);
      }
 
     /**

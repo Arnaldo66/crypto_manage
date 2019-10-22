@@ -18,9 +18,12 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
     private $client;
     private $devise = ['usd', 'eur', 'btc'];
     private $pageLimit = 5;
+    private $indexNewImg = 0;
 
 
-    // add validation verification before flush entity
+    /**
+     * set Guzzle client
+     */
     protected function configure()
     {
         $this
@@ -31,20 +34,25 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
         $this->client = new \GuzzleHttp\Client();
     }
 
-    //TODO: after some day refactor this class and put try catch bloc
+    /**
+     * @param  InputInterface  $input
+     * @param  OutputInterface $output
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $entityManager = $this->getContainer()->get('doctrine')->getManager();
-        //log one import OK by day
-        //$entity = $this->beginLog($entityManager);
         $this->truncateTable($entityManager);
         $this->resetRank($entityManager);
         $this->doProcessUpdatePrice($entityManager);
-        //$this->endLog($entityManager, $entity);
+        $this->checkAlertReady($entityManager);
         $output->writeln('ok');
     }
 
-    private function doProcessUpdatePrice($entityManager)
+    /**
+     * Call coingecko api to update price or create new coin
+     * @param $entityManager
+     */
+    private function doProcessUpdatePrice($entityManager): void
     {
         for ($page = 1; $page <= $this->pageLimit; $page++) {
             foreach ($this->devise as $devise) {
@@ -62,7 +70,14 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
             }
             $entityManager->flush();
         }
+    }
 
+    /**
+     * Check alert and send email when alert is ready
+     * @param $entityManager
+     */
+    private function checkAlertReady($entityManager): void
+    {
         $alerts = $entityManager->getRepository(Alert::class)->findAll();
         foreach ($alerts as $alert) {
             $priceEuro = $alert->getCurrency()->getPriceEur();
@@ -73,9 +88,9 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
                     $entityManager->remove($alert);
             }
         }
-        //remove all can delete alert
         $entityManager->flush();
     }
+
 
     //TODO: do better organisation
     private function createCurrencyValueMoment($entityManager, $value, $devise)
@@ -105,6 +120,11 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
             $currency->setCirculatingSupply($value->circulating_supply);
         }
 
+        if ($this->indexNewImg < 20 && $currency->getImage() === null) {
+            $currency->setImage($this->createImage($currency));
+            $this->indexNewImg++;
+        }
+
         $currencyValueMoment = $entityManager->getRepository(CurrencyValueMoment::class)
             ->findOneByCurrency($currency);
 
@@ -132,43 +152,22 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
         $entityManager->persist($currencyValueMoment);
     }
 
-
-    private function beginLog($entityManager)
-    {
-        $dateDay = new \DateTime();
-        $entity = $entityManager->getRepository(UpdatePriceLogs::class)->findOneBy(
-            [
-                'success' => true,
-                'createdAt' => $dateDay
-            ]
-        );
-
-        if ($entity === null) {
-            $entity = new UpdatePriceLogs();
-            $entity->setCreatedAt($dateDay);
-            $entity->setSuccess(false);
-
-            $entityManager->persist($entity);
-            $entityManager->flush();
-        }
-
-        return $entity;
-    }
-
-    private function endLog($entityManager, $entity)
-    {
-        $entity->setSuccess(true);
-        $entityManager->flush();
-    }
-
-    private function truncateTable($entityManager)
+    /**
+     * Delete all data in currencyValueMoement before recreate it
+     * @param  $entityManager
+     */
+    private function truncateTable($entityManager): void
     {
         $connection = $entityManager->getConnection();
         $platform   = $connection->getDatabasePlatform();
         $connection->executeUpdate($platform->getTruncateTableSQL('currency_value_moment', true));
     }
 
-    private function resetRank($entityManager)
+    /**
+     * Put all data in rank to reorganize with api
+     * @param $entityManager
+     */
+    private function resetRank($entityManager): void
     {
         $connection = $entityManager->getConnection();
         $query = (' update currency set rank = 10000
@@ -181,7 +180,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
     /**
      * send email to user for alert
      */
-    private function sendAlertEmail($alert)
+    private function sendAlertEmail($alert): void
     {
         $mailer = $this->getContainer()->get('mailer');
         $type = "Achat";
@@ -200,5 +199,64 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
                'text/html'
            );
         $mailer->send($message);
+    }
+
+
+    /**
+     * Create Image from api
+     * @param  [type] $value [description]
+     */
+    private function createImage($value): string
+    {
+        try {
+            $result = $this->client->request(
+                'GET',
+                'https://api.coingecko.com/api/v3/coins/' . $value->getUniqueName() .
+                '?tickers=false&market_data=false&community_data=false&developer_data=false&sparkline=false'
+            );
+
+            if ($result->getStatusCode() == '200') {
+                $result = json_decode($result->getBody());
+                $result = $result->image;
+            }
+
+            $size = ['32','64'];
+            $folder = $this->getContainer()->get('kernel')->getRootDir().'/../web/images/currency-logo';
+            $this->createLogoFolder($folder, $size);
+            $filename = $value->getUniqueName() .'.png';
+
+            $new_folder = $folder .'/32';
+            file_put_contents(
+                $new_folder.'/'.$filename,
+                file_get_contents($result->thumb)
+            );
+
+            $new_folder = $folder .'/64';
+            file_put_contents(
+                $new_folder.'/'.$filename,
+                file_get_contents($result->small)
+            );
+        } catch (\Exception $execption) {
+            return null;
+        }
+
+
+        return $filename;
+    }
+
+    //create folder
+    private function createLogoFolder($folder, $size)
+    {
+        $fs = new Filesystem();
+        foreach ($size as $value) {
+            $new_folder = $folder .'/'. $value;
+            try {
+                if (!$fs->exists($new_folder)) {
+                    $fs->mkdir($new_folder);
+                }
+            } catch (IOExceptionInterface $e) {
+                throw new \Exception("An error occurred while creating your directory at ".$e->getPath());
+            }
+        }
     }
 }

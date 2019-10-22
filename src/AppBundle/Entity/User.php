@@ -93,6 +93,11 @@ class User implements UserInterface, \Serializable
         $this->roles = [];
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getEmail()
     {
         return $this->email;
