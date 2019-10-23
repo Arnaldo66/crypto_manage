@@ -296,4 +296,9 @@ class User implements UserInterface, \Serializable
     {
         return $this->myCryptoWallets;
     }
+
+    public function __toString()
+    {
+        return $this->getUsername();
+    }
 }
