@@ -65,6 +65,24 @@ class TradeController extends Controller
     }
 
     /**
+     * @Route("/u/trade/wallets/{id}/history", name="trade_show_order_history")
+     * @Method({"GET"})
+     * @ParamConverter("tradingWallet", class="AppBundle:TradingWallet")
+     */
+    public function showOrderHistory(TradingWallet $tradingWallet)
+    {
+        $session = $this->get('session');
+        $session->set('current_wallet_id', $tradingWallet->getId());
+        if (($this->getUser()->getId() !== $tradingWallet->getUser()->getId()) &&  $tradingWallet->getPublic() == 0) {
+            throw new AccessDeniedException('Portefeuille privé: Le portefeuille est privé et ne vous appartient pas');
+        }
+
+        return $this->render(':Trade:show_order.html.twig', [
+            'tradingWallet' => $tradingWallet
+        ]);
+    }
+
+    /**
      * @Route("/u/trade/new", name="trade_new")
      * @Method({"GET", "POST"})
      */
