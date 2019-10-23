@@ -1,0 +1,33 @@
+{% extends "::base.html.twig" %}
+
+{% block local_stylesheets %}
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
+{% block title_wrapper %}
+  <h2>Nouvel ordre:</h2>
+{% endblock title_wrapper %}
+
+{% block body %}
+  <div class="row">
+    <div class="col-lg-6">
+    {{ form_start(form) }}
+      <div class="form-group">
+        <label>Choisissez votre monnaie</label>
+        {{ form_widget(form.currency,{'attr':{'class':'form-control js-select-currency'}}) }}
+      </div>
+
+      <button type="submit" id="btn-create-order" class="btn btn-primary">Prochaine étape</button>
+    {{ form_end(form) }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block local_javascripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+  <script>
+  $(document).ready(function() {
+      $('.js-select-currency').select2();
+  });
+  </script>
+{% endblock %}

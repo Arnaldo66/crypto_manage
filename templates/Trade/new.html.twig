@@ -1,0 +1,51 @@
+{% extends "::base.html.twig" %}
+
+{% block title_wrapper %}
+  <h2>Crée un nouveau portefeuille</h2>
+{% endblock title_wrapper %}
+
+{% block body %}
+  <div class="row">
+    <div class="col-lg-6">
+      {{ form_start(form) }}
+
+        <div class="form-group">
+          <label>Libellé du portefeuille</label>
+          {% if form_errors(form.name) %}
+            <span class="error">{{ form_errors(form.name) }}</span>
+          {% endif %}
+          {{ form_widget(form.name,{'attr':{'class':'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+          {% if form_errors(form.initialAmount) %}
+            <span class="error">{{ form_errors(form.initialAmount) }}</span>
+          {% endif %}
+          <label>Montant du portefeuille €</label>
+          {{ form_widget(form.initialAmount,{'attr':{'class':'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+          {% if form_errors(form.public) %}
+            <span class="error">{{ form_errors(form.public) }}</span>
+          {% endif %}
+          <div class="radio">
+            <label>
+              {{ form_widget(form.public[0],{'attr':{'autocomplete':'off'}}) }}
+              Public
+            </label>
+          </div>
+
+          <div class="radio">
+            <label>
+              {{ form_widget(form.public[1],{'attr':{'autocomplete':'off'}}) }}
+              Privé
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" id="btn-create-trading" class="btn btn-primary">Créer le portefeuille</button>
+      {{ form_end(form) }}
+    </div>
+  </div>
+{% endblock %}

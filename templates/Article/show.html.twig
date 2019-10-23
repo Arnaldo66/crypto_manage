@@ -1,0 +1,27 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}
+  <title>{{ article.title }} {{ 'article_page_post_title'|trans }}</title>
+{% endblock title %}
+{% block meta %}
+  <meta name="description" content="{{ article.description }}" />
+{% endblock meta %}
+
+{% block title_wrapper %}
+  <h2>{{ article.title }}</h2>
+{% endblock title_wrapper %}
+
+{% block body %}
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          {{ article.subtitle }}
+        </div>
+        <div class="panel-body">
+          {{ article.description|raw }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

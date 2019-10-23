@@ -1,0 +1,121 @@
+{% extends "::base.html.twig" %}
+
+{% block title_wrapper %}
+  <h2>Nouvel ordre:</h2>
+  <p>
+    Valeur actuelle du {{ currency.name}}: {{ currency.priceEur|price }} €<br/>
+    Montant restant: {{ wallet.euroWallet.amount|price }} €
+  </p>
+{% endblock title_wrapper %}
+
+{% block body %}
+  {{ form_start(form) }}
+    <div class="row">
+      <div class="col-lg-6">
+        {% if form_errors(form.orderAction) %}
+          <span class="error">{{ form_errors(form.orderAction) }}</span>
+        {% endif %}
+        <div class="form-group">
+          <label>Action:</label>
+          <label class="radio-inline">
+              {{ form_widget(form.orderAction[1],{'attr':{'autocomplete':'off'}}) }}Achat
+          </label>
+          <label class="radio-inline">
+              {{ form_widget(form.orderAction[2],{'attr':{'autocomplete':'off'}}) }}Vente
+          </label>
+        </div>
+
+        {% if form_errors(form.orderMethod) %}
+          <span class="error">{{ form_errors(form.orderMethod) }}</span>
+        {% endif %}
+        <div class="form-group">
+          <label>Méthode:</label>
+          <label class="radio-inline">
+              {{ form_widget(form.orderMethod[1],{'attr':{'autocomplete':'off'}}) }}Market
+          </label>
+          <label class="radio-inline">
+              {{ form_widget(form.orderMethod[2],{'attr':{'autocomplete':'off'}}) }}Limit
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label>Portefeuille</label>
+          {{ form_widget(form.tradingWallet,{'attr':{'class':'form-control', 'autocomplete':'off'}}) }}
+        </div>
+
+        {% if form_errors(form.total) %}
+          <span class="error">{{ form_errors(form.total) }}</span>
+        {% endif %}
+        <div class="form-group input-group">
+            {{ form_widget(form.total,{'attr':{'class':'form-control', 'placeholder': 'Montant', 'autocomplete':'off'}}) }}
+            <span class="input-group-addon">€</span>
+        </div>
+
+        {% if form_errors(form.price) %}
+          <span class="error">{{ form_errors(form.price) }}</span>
+        {% endif %}
+        <div class="form-group input-group">
+            {% if errors == 0 %}
+              {{ form_widget(form.price,{'attr':{'class':'form-control', 'autocomplete':'off', 'placeholder': 'Prix', 'value': currency.priceEur, 'readonly': 'readonly' }}) }}
+            {% else %}
+              {% if entity.orderMethod.id == 1 %}
+                {{ form_widget(form.price,{'attr':{'class':'form-control', 'autocomplete':'off', 'placeholder': 'Prix', 'readonly': 'readonly' }}) }}
+              {% else %}
+                {{ form_widget(form.price,{'attr':{'class':'form-control', 'autocomplete':'off', 'placeholder': 'Prix'}}) }}
+              {% endif %}
+            {% endif %}
+            <span class="input-group-addon">€</span>
+        </div>
+
+        {% if form_errors(form.amount) %}
+          <span class="error">{{ form_errors(form.amount) }}</span>
+        {% endif %}
+        <div class="form-group input-group">
+            {{ form_widget(form.amount,{'attr':{'class':'form-control', 'placeholder': 'Nombre de devises', 'autocomplete':'off', 'readonly': 'readonly'}}) }}
+            <span class="input-group-addon">{{ currency.symbol }}</span>
+        </div>
+
+        <div class="invisible">
+            {{ form_widget(form.currency,{'attr':{'autocomplete':'off', 'readonly': 'readonly'}}) }}
+        </div>
+
+
+        <a href="{{ path('trade_order_new')}}" class="btn btn-primary"><< Retour</a>
+        <button type="submit" id="btn-finalise-order" class="btn btn-primary">Soumettre</button>
+      </div>
+    </div>
+  {{ form_end(form) }}
+{% endblock %}
+
+{% block local_javascripts %}
+  <script>
+    var initial_price = '{{ currency.priceEur }}';
+    $(document).ready(function() {
+      $('input[name="trading_order_next_step[orderMethod]"]:radio').change(function() {
+          if(this.value == 1){
+            $('#trading_order_next_step_price').attr("readonly","readonly").val(initial_price);
+          }else{
+            $('#trading_order_next_step_price').val('').removeAttr("readonly");
+          }
+      });
+
+      $('input#trading_order_next_step_total').change(function() {
+          var amout = this.value;
+          var price = initial_price;
+          if($('input#trading_order_next_step_orderMethod_2').is(":checked")){
+            price = $('#trading_order_next_step_price').val();
+          }
+          var newValue = amout / price;
+          $('#trading_order_next_step_amount').removeAttr("readonly").val(newValue).attr("readonly","readonly");
+      })
+
+      $('input#trading_order_next_step_price').change(function() {
+          var amout = $('#trading_order_next_step_total').val();
+          var price = this.value;
+          var newValue = amout / price;
+          $('#trading_order_next_step_amount').removeAttr("readonly").val(newValue).attr("readonly","readonly");
+      })
+
+    });
+  </script>
+{% endblock %}

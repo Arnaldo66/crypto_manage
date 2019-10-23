@@ -1,0 +1,8 @@
+{% if is_granted('ROLE_ADMIN') %}
+  <li>
+
+      <li>
+          <a href="{{ path('easyadmin')}}"><i class="fa fa-wrench fa-fw"></i><span class="nav-label">Administration</span></a>
+      </li>
+  </li>
+{% endif %}
