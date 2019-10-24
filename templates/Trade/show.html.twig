@@ -1,4 +1,4 @@
-{% extends "::base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title_wrapper %}
   <h2>Portefeuille {% if tradingWallet.public %}public{% else %}privé{% endif %}: <b>{{ tradingWallet.name }}</b> crée le {{ tradingWallet.createdAt|date('d/m/Y') }} pour un montant initial de {{ tradingWallet.initialAmount }} €</h2>

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use App\Entity\MyCryptoWallet;
-use App\Form\Type\MyCryptoWalletType;
+use App\Form\MyCryptoWalletType;
 
 class MyCryptoWalletController extends Controller
 {

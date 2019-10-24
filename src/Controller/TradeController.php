@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use App\Form\Type\TradingWalletType;
+use App\Form\TradingWalletType;
 use App\Entity\TradingWallet;
 use App\Entity\EuroWallet;
 use App\Service\WalletManager;

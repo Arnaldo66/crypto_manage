@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
-use App\Form\Type\ContactType;
+use App\Form\ContactType;
 use App\Entity\Contact;
 
 class ContactController extends Controller
@@ -31,7 +31,7 @@ class ContactController extends Controller
             $this->addFlash('success-message', 'Votre message a bien été envoyé');
             return $this->redirectToRoute('contact');
         }
-        return $this->render(':Contact:new.html.twig', array(
+        return $this->render('Contact/new.html.twig', array(
           'form'=>$form->createView()
         ));
     }

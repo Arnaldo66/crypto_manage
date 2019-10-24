@@ -20,7 +20,7 @@ class CurrencyController extends Controller
         $currencies = $this->getDoctrine()->getManager()
                           ->getRepository('App:Currency')
                           ->findBy([], array('rank'=>'ASC'), 1000);
-        return $this->render(':Currency:currencies.html.twig', array(
+        return $this->render('Currency/currencies.html.twig', array(
             'currencies' => $currencies, 'dashboard' => 0
         ));
     }
@@ -32,7 +32,7 @@ class CurrencyController extends Controller
      */
     public function showAction(Currency $currency)
     {
-        return $this->render(':Currency:show.html.twig', array(
+        return $this->render('Currency/show.html.twig', array(
           'currency' => $currency
         ));
     }

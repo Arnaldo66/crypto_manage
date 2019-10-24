@@ -1,4 +1,49 @@
 {
+    "facebook/webdriver": {
+        "version": "1.7.1"
+    },
+    "friendsofsymfony/jsrouting-bundle": {
+        "version": "2.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.3",
+            "ref": "a9f2e49180f75cdc71ae279a929c4b2e0638de84"
+        },
+        "files": [
+            "config/routes/fos_js_routing.yaml"
+        ]
+    },
+    "nikic/php-parser": {
+        "version": "v4.2.4"
+    },
+    "symfony/browser-kit": {
+        "version": "v4.3.5"
+    },
+    "symfony/css-selector": {
+        "version": "v4.3.5"
+    },
+    "symfony/dom-crawler": {
+        "version": "v4.3.5"
+    },
+    "symfony/http-client": {
+        "version": "v4.3.5"
+    },
+    "symfony/http-client-contracts": {
+        "version": "v1.1.7"
+    },
+    "symfony/maker-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
+        }
+    },
+    "symfony/panther": {
+        "version": "v0.5.2"
+    },
     "symfony/phpunit-bridge": {
         "version": "4.3",
         "recipe": {
@@ -14,5 +59,17 @@
             "phpunit.xml.dist",
             "tests/.gitignore"
         ]
+    },
+    "symfony/process": {
+        "version": "v4.3.5"
+    },
+    "symfony/serializer": {
+        "version": "v4.3.5"
+    },
+    "symfony/var-dumper": {
+        "version": "v4.3.5"
+    },
+    "willdurand/jsonp-callback-validator": {
+        "version": "v1.1.0"
     }
 }

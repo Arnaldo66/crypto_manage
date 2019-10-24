@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-use App\Form\Type\TradingOrderFirstStepType;
-use App\Form\Type\TradingOrderNextStepType;
+use App\Form\TradingOrderFirstStepType;
+use App\Form\TradingOrderNextStepType;
 use App\Entity\TradingOrder;
 use App\Service\WalletManager;
 

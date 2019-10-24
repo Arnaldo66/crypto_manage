@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use App\Entity\MyCryptoWallet;
 use App\Entity\MyCryptoWalletDetail;
-use App\Form\Type\MyCryptoWalletDetailType;
+use App\Form\MyCryptoWalletDetailType;
 
 class MyCryptoWalletDetailController extends Controller
 {

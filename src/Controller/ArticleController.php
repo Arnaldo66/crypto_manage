@@ -29,7 +29,7 @@ class ArticleController extends Controller
             )->findBy(array('visible' => '1'));
         }
 
-        return $this->render(':Article:index.html.twig', array(
+        return $this->render('Article/index.html.twig', array(
             'articles' => $articles
         ));
     }
@@ -41,7 +41,7 @@ class ArticleController extends Controller
      */
     public function showAction(Article $article)
     {
-        return $this->render(':Article:show.html.twig', array(
+        return $this->render('Article/show.html.twig', array(
           'article' => $article
         ));
     }
