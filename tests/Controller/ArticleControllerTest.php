@@ -16,6 +16,9 @@ class ArticleControllerTest extends PantherTestCase
 
     public function testShow()
     {
-        $this->markTestIncomplete();
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/articles/test');
+
+        $this->assertResponseIsSuccessful();
     }
 }

@@ -16,6 +16,9 @@ class CurrencyControllerTest extends PantherTestCase
 
     public function testShow()
     {
-        $this->markTestIncomplete();
+        $client = static::createClient();
+        $crawler = $client->request('GET', 'crypto-monnaies/bitcoin');
+
+        $this->assertResponseIsSuccessful();
     }
 }

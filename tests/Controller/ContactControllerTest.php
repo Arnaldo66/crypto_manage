@@ -19,6 +19,6 @@ class ContactControllerTest extends PantherTestCase
         $form['contact[message]'] = 'Hello boy';
 
         $crawler = $client->submit($form);
-        $this->assertResponseIsSuccessful();
+        $this->assertResponseRedirects('/contact', 302);
     }
 }
