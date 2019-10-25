@@ -20,7 +20,7 @@ class MyCryptoWalletController extends Controller
     public function indexAction()
     {
         $cryptoWallets = $this->getUser()->getMyCryptoWallets();
-        return $this->render(':MyCryptoWallet:dashboard.html.twig', array(
+        return $this->render('MyCryptoWallet/dashboard.html.twig', array(
             'crypto_wallets' => $cryptoWallets
         ));
     }
@@ -44,7 +44,7 @@ class MyCryptoWalletController extends Controller
             $this->addFlash('success-message', 'Votre portefeuille de suivi a bien été crée');
             return $this->redirectToRoute('my_crypto_dashboard');
         }
-        return $this->render(':MyCryptoWallet:new.html.twig', array(
+        return $this->render('MyCryptoWallet/new.html.twig', array(
             'form' => $form->createView()
         ));
     }
@@ -55,7 +55,7 @@ class MyCryptoWalletController extends Controller
      */
     public function showAction(MyCryptoWallet $myCryptoWallet)
     {
-        return $this->render(':MyCryptoWallet:show.html.twig', array(
+        return $this->render('MyCryptoWallet/show.html.twig', array(
           'myCryptoWallet' => $myCryptoWallet
         ));
     }

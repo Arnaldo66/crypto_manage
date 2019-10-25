@@ -42,7 +42,7 @@ class MyCryptoWalletDetailController extends Controller
             ));
         }
 
-        return $this->render(':MyCryptoWalletDetail:new.html.twig', array(
+        return $this->render('MyCryptoWalletDetail/new.html.twig', array(
             'form'=> $form->createView()
         ));
     }
