@@ -48,7 +48,7 @@ class AlertController extends Controller
             return $this->redirectToRoute('alert');
         }
 
-        return $this->render(':Alert:new.html.twig', array(
+        return $this->render('Alert/new.html.twig', array(
             'form' => $form->createView()
         ));
     }
