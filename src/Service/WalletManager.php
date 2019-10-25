@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 
+use App\Entity\OrderStatus;
 use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entity\CurrencyWallet;
@@ -14,7 +15,6 @@ class WalletManager
     private $order_sell;
     private $order_market;
     private $order_limit;
-    private $order_status_ok;
     private $em;
 
     public function __construct(
@@ -23,7 +23,6 @@ class WalletManager
       $order_status_pending = 2,
       $order_sell = 2,
       $order_market = 1,
-      $order_status_ok = 1,
       $order_limit = 2
     ) {
         $this->em = $em;
@@ -31,7 +30,6 @@ class WalletManager
         $this->order_status_pending = $order_status_pending;
         $this->order_sell = $order_sell;
         $this->order_market = $order_market;
-        $this->order_status_ok = $order_status_ok;
         $this->order_limit = $order_limit;
     }
 
@@ -59,21 +57,22 @@ class WalletManager
     */
     public function canFinaliseOrder(TradingOrder $tradeOrder)
     {
-        if ($tradeOrder->getOrderAction()->getId() == $this->order_buy) {
-            // achat: total >= montant euro wallet && order pending ?
-            $totalOrderPending = $this->getTotalWalletPending($tradeOrder->getTradingWallet(), $this->em);
-            $totalWallet = $tradeOrder->getTradingWallet()->getEuroWallet()->getAmount() - $totalOrderPending;
-            if ($totalWallet < $tradeOrder->getTotal()) {
-                return array("success"=>false, "message"=>"Vous n'avez pas les fonds nécessaires");
-            }
-        } else {
+        if ($tradeOrder->getOrderAction()->getId() == $this->order_sell) {
             // vente: exists wallet && amount >= trader order amount
             $wallet = $this->em->getRepository("App:CurrencyWallet")->findOneBy(array(
                 'tradingWallet' => $tradeOrder->getTradingWallet(),
                 'currency' => $tradeOrder->getCurrency()
             ));
+
             $amoutWallet = $wallet->getAmount() - $this->getAmountCurrencyWalletPending($tradeOrder, $this->em);
             if ($wallet === null || $amoutWallet < $tradeOrder->getAmount()) {
+                return array("success"=>false, "message"=>"Vous n'avez pas les fonds nécessaires");
+            }
+        } else {
+            // achat: total >= montant euro wallet && order pending ?
+            $totalOrderPending = $this->getTotalWalletPending($tradeOrder->getTradingWallet(), $this->em);
+            $totalWallet = $tradeOrder->getTradingWallet()->getEuroWallet()->getAmount() - $totalOrderPending;
+            if ($totalWallet < $tradeOrder->getTotal()) {
                 return array("success"=>false, "message"=>"Vous n'avez pas les fonds nécessaires");
             }
         }
@@ -147,11 +146,11 @@ class WalletManager
     private function getStatus(TradingOrder $tradeOrder)
     {
         if ($tradeOrder->getOrderMethod()->getId() == $this->order_market || $tradeOrder->getOrderStatus() !== null) {
-            $status = $this->order_status_ok;
+            $status = 'Validé';
         } else {
-            $status = $this->order_status_pending;
+            $status = 'En cours';
         }
-        return $this->em->getRepository("App:OrderStatus")->find($status);
+        return $this->em->getRepository(OrderStatus::class)->findOneByName($status);
     }
 
     /**

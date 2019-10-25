@@ -2,18 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\OrderStatus;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
 use App\Form\TradingOrderFirstStepType;
 use App\Form\TradingOrderNextStepType;
 use App\Entity\TradingOrder;
 use App\Service\WalletManager;
+use App\Entity\OrderAction;
+use App\Entity\OrderMethod;
 
 class TradingOrderController extends Controller
 {
@@ -29,7 +30,7 @@ class TradingOrderController extends Controller
           'method' => 'POST',
         ));
 
-        return $this->render(':TradingOrder:new-first-step.html.twig', array(
+        return $this->render('TradingOrder/new-first-step.html.twig', array(
           'form'=> $form->createView()
         ));
     }
@@ -43,8 +44,8 @@ class TradingOrderController extends Controller
         $tradeOrder = new TradingOrder;
         $form = $this->createForm(TradingOrderFirstStepType::class, $tradeOrder);
         $form->handleRequest($request);
-
         $currency = $tradeOrder->getCurrency();
+
         if ($currency === null) {
             $this->addFlash('error-message', 'Veuillez renseigner une crypto-monnaie');
             return $this->redirectToRoute('trade_order_new');
@@ -52,18 +53,19 @@ class TradingOrderController extends Controller
 
         if ($form->isSubmitted()) {
             $em = $this->getDoctrine()->getManager();
-            $orderAction = $em->getRepository('App:OrderAction')->find(1);
-            $orderMethod = $em->getRepository('App:OrderMethod')->find(1);
+            $orderAction = $em->getRepository(OrderAction::class)->findOneByName('Achat');
+            $orderMethod = $em->getRepository(OrderMethod::class)->findOneByName('Market');
             $tradeOrder->setOrderAction($orderAction);
             $tradeOrder->setOrderMethod($orderMethod);
-            $wallet = $this->getSessionWallet();
 
+            $wallet = $this->getSessionWallet();
             $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array(
                 'wallet' => $wallet,
                 'action' => $this->generateUrl('trade_order_new_final_step'),
                 'method' => 'POST',
             ));
-            return $this->render(':TradingOrder:new-next-step.html.twig', array(
+
+            return $this->render('TradingOrder/new-next-step.html.twig', array(
                 'form'=> $form->createView(), 'currency' => $currency,
                 'wallet' =>$wallet, 'errors'=> 0
             ));
@@ -102,7 +104,7 @@ class TradingOrderController extends Controller
                 $errors = 1;
             }
         }
-        return $this->render(':TradingOrder:new-next-step.html.twig', array(
+        return $this->render('TradingOrder/new-next-step.html.twig', array(
             'form'=> $form->createView(), 'currency' => $tradeOrder->getCurrency(),
             'wallet' => $tradeOrder->getTradingWallet(), 'errors'=> $errors, 'entity' => $tradeOrder
         ));
@@ -129,7 +131,7 @@ class TradingOrderController extends Controller
      */
     public function deleteAction(TradingOrder $tradingOrder)
     {
-        if ($tradingOrder->getOrderStatus()->getId() != $this->getParameter('order_status_pending')) {
+        if ($tradingOrder->getOrderStatus()->getName() !== 'En cours') {
             throw new AccessDeniedException('Access denied: It\'s not possible to cancel this order');
         }
 
@@ -138,8 +140,8 @@ class TradingOrderController extends Controller
         }
 
         $em = $this->getDoctrine()->getManager();
-        $status = $em->getRepository('App:orderStatus')
-            ->find($this->getParameter('order_status_abort'));
+        $status = $em->getRepository(OrderStatus::class)
+            ->findOneByName('Annulé');
         $tradingOrder->setOrderStatus($status);
         $em->flush();
 

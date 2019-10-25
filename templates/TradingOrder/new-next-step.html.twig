@@ -16,26 +16,14 @@
           <span class="error">{{ form_errors(form.orderAction) }}</span>
         {% endif %}
         <div class="form-group">
-          <label>Action:</label>
-          <label class="radio-inline">
-              {{ form_widget(form.orderAction[1],{'attr':{'autocomplete':'off'}}) }}Achat
-          </label>
-          <label class="radio-inline">
-              {{ form_widget(form.orderAction[2],{'attr':{'autocomplete':'off'}}) }}Vente
-          </label>
+            {{ form_widget(form.orderAction,{'attr':{'autocomplete':'off'}}) }}
         </div>
 
         {% if form_errors(form.orderMethod) %}
           <span class="error">{{ form_errors(form.orderMethod) }}</span>
         {% endif %}
         <div class="form-group">
-          <label>Méthode:</label>
-          <label class="radio-inline">
-              {{ form_widget(form.orderMethod[1],{'attr':{'autocomplete':'off'}}) }}Market
-          </label>
-          <label class="radio-inline">
-              {{ form_widget(form.orderMethod[2],{'attr':{'autocomplete':'off'}}) }}Limit
-          </label>
+            {{ form_widget(form.orderMethod,{'attr':{'autocomplete':'off'}}) }}
         </div>
 
         <div class="form-group">
