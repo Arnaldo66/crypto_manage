@@ -2,20 +2,18 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use App\Form\AlertType;
 use App\Entity\Alert;
 
-class AlertController extends Controller
+class AlertController extends AbstractController
 {
     /**
-     * @Route("/u/alerts", name="alert")
-     * @Method({"GET"})
+     * @Route("/u/alerts", name="alert", methods={"GET"})
      */
     public function alertsAction()
     {
@@ -28,8 +26,7 @@ class AlertController extends Controller
     }
 
     /**
-     * @Route("/u/alerts/new", name="alert_new")
-     * @Method({"GET", "POST"})
+     * @Route("/u/alerts/new", name="alert_new", methods={"GET|POST"})
      */
     public function newAction(Request $request)
     {
@@ -55,8 +52,7 @@ class AlertController extends Controller
 
     /**
      * get ajax to remove alert
-     * @Route("/u/alert/delete/{id}", name="alerte_delete", options = { "expose" = true })
-     * @Method({"DELETE", "POST"})
+     * @Route("/u/alert/delete/{id}", name="alerte_delete", options = { "expose" = true }, methods={"DELETE", "POST"})
      * @ParamConverter("alert", class="App:Alert")
      */
     public function deleteAction(Alert $alert)
