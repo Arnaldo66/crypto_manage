@@ -15,6 +15,7 @@
     },
     "require": {
         "php": ">=7.2",
+        "easycorp/easyadmin-bundle": "^2.3",
         "friendsofsymfony/jsrouting-bundle": "^2.4",
         "guzzlehttp/guzzle": "^6.3",
         "sensio/framework-extra-bundle": "^5.5",

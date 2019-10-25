@@ -89,7 +89,7 @@ class User implements UserInterface, \Serializable
         $this->tradingWallets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->alerts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->myCryptoWallets = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->roles = [];
+        $this->roles = ['ROLE_USER'];
     }
 
     public function getId()

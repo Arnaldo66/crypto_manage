@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-
 use App\Form\AlertType;
 use App\Entity\Alert;
 
@@ -23,7 +22,7 @@ class AlertController extends Controller
         $alerts = $this->getDoctrine()->getManager()
                   ->getRepository('App:Alert')
                   ->findBy(array('user'=>$this->getUser()));
-        return $this->render(':Alert:alerts.html.twig', array(
+        return $this->render('Alert/alerts.html.twig', array(
             'alerts' => $alerts
         ));
     }

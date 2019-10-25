@@ -18,9 +18,10 @@ class SecurityController extends Controller
     public function loginAction(AuthenticationUtils $authenticationUtils)
     {
          $error = $authenticationUtils->getLastAuthenticationError();
+
          $lastUsername = $authenticationUtils->getLastUsername();
 
-         return $this->render(':Security:login.html.twig', [
+         return $this->render('Security/login.html.twig', [
             'last_username' => $lastUsername,
             'error'         => $error,
          ]);
@@ -31,7 +32,7 @@ class SecurityController extends Controller
      */
     public function sendEmailResetPassword()
     {
-        return $this->render(':Security:reset_password.html.twig', ['message' => '']);
+        return $this->render('Security/reset_password.html.twig', ['message' => '']);
     }
 
     /**
@@ -39,7 +40,7 @@ class SecurityController extends Controller
      */
     public function messageAfterEmail()
     {
-        return $this->render(':Security:reseted_password.html.twig', [
+        return $this->render('Security/reseted_password.html.twig', [
             'message' => "Un e-mail a été envoyé.<br/>
             Il contient un lien sur lequel il vous faudra cliquer
             pour réinitialiser votre mot de passe.<br/><br/>
@@ -61,7 +62,7 @@ class SecurityController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
         $user = $entityManager->getRepository('App\Entity\User')->findOneByEmail($email);
         if ($user === null) {
-            return $this->render(':Security:reset_password.html.twig', ['message' => "Cet email n'existe pas."]);
+            return $this->render('Security/reset_password.html.twig', ['message' => "Cet email n'existe pas."]);
         }
 
         $user->setTokenResetPassword($this->generatToken());
@@ -100,7 +101,7 @@ class SecurityController extends Controller
         if ($user === null) {
             throw $this->createNotFoundException("Ce token n'existe n'est pas valide");
         }
-        return $this->render(':Security:password_to_reset.html.twig', ['message' => "", 'token' => $token]);
+        return $this->render('Security/password_to_reset.html.twig', ['message' => "", 'token' => $token]);
     }
 
     /**
@@ -125,14 +126,14 @@ class SecurityController extends Controller
         $password2 = $data['password2'];
 
         if ($password1 !== $password2) {
-            return $this->render(':Security:password_to_reset.html.twig', [
+            return $this->render('Security/password_to_reset.html.twig', [
                 'message' => "Les mots de passe ne sont pas identiques",
                 'token' => $token
             ]);
         }
 
         if (iconv_strlen($password1) < 8) {
-            return $this->render(':Security:password_to_reset.html.twig', [
+            return $this->render('Security/password_to_reset.html.twig', [
                 'message' => "Le mot de passe doit faire au moins 8 caractères",
                 'token' => $token
             ]);
@@ -144,7 +145,7 @@ class SecurityController extends Controller
 
         $entityManager->flush();
 
-        return $this->render(':Security:password_changed.html.twig', [
+        return $this->render('Security/password_changed.html.twig', [
             'message' => "Votre password a été modifié<br/>
             Veuillez vous connecter"
         ]);
