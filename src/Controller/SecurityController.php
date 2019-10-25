@@ -65,7 +65,7 @@ class SecurityController extends Controller
             return $this->render('Security/reset_password.html.twig', ['message' => "Cet email n'existe pas."]);
         }
 
-        $user->setTokenResetPassword($this->generatToken());
+        $user->setTokenResetPassword($this->generateToken());
         $user->setTokenResetPasswordSentAt(new \DateTime());
         $entityManager->flush();
 
@@ -152,7 +152,7 @@ class SecurityController extends Controller
     }
 
 
-    public function generatToken()
+    public function generateToken()
     {
         return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
     }

@@ -19,12 +19,12 @@ class WalletManager
 
     public function __construct(
       EntityManagerInterface $em,
-      $order_buy,
-      $order_status_pending,
-      $order_sell,
-      $order_market,
-      $order_status_ok,
-      $order_limit
+      $order_buy = 1,
+      $order_status_pending = 2,
+      $order_sell = 2,
+      $order_market = 1,
+      $order_status_ok = 1,
+      $order_limit = 2
     ) {
         $this->em = $em;
         $this->order_buy = $order_buy;

@@ -26,7 +26,7 @@ class TradeController extends Controller
     {
         $wallets = $this->getUser()->getTradingWallets();
 
-        return $this->render(':Trade:index.html.twig', array(
+        return $this->render('Trade/index.html.twig', array(
             'wallets' => $wallets
         ));
     }
@@ -40,7 +40,7 @@ class TradeController extends Controller
         $em = $this->getDoctrine()->getManager();
         $wallets = $em->getRepository('App:TradingWallet')->findBy(array('public'=>1));
 
-        return $this->render(':Trade:public_wallet.html.twig', array(
+        return $this->render('Trade/public_wallet.html.twig', array(
             'wallets' => $wallets
         ));
     }
@@ -59,7 +59,7 @@ class TradeController extends Controller
             throw new AccessDeniedException('Portefeuille privé: Le portefeuille est privé et ne vous appartient pas');
         }
         $totalCurrencies = $walletManager->getTotalCurrencyWalletValue($tradingWallet);
-        return $this->render(':Trade:show.html.twig', array(
+        return $this->render('Trade/show.html.twig', array(
             'tradingWallet' => $tradingWallet, 'totalCurrencies' => $totalCurrencies
         ));
     }
@@ -77,7 +77,7 @@ class TradeController extends Controller
             throw new AccessDeniedException('Portefeuille privé: Le portefeuille est privé et ne vous appartient pas');
         }
 
-        return $this->render(':Trade:show_order.html.twig', [
+        return $this->render('Trade/show_order.html.twig', [
             'tradingWallet' => $tradingWallet
         ]);
     }
@@ -105,7 +105,7 @@ class TradeController extends Controller
             return $this->redirectToRoute('trade_index');
         }
 
-        return $this->render(':Trade:new.html.twig', array(
+        return $this->render('Trade/new.html.twig', array(
             'form' => $form->createView()
         ));
     }

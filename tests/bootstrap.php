@@ -7,6 +7,13 @@ if (isset($_ENV['BOOTSTRAP_CLEAR_CACHE_ENV'])) {
         $_ENV['BOOTSTRAP_CLEAR_CACHE_ENV'],
         __DIR__
     ));
+    echo 'Fixtures load' . PHP_EOL;
+    passthru(sprintf(
+        'php "%s/../bin/console" doctrine:fixtures:load --env=%s --no-interaction',
+        __DIR__,
+        $_ENV['BOOTSTRAP_CLEAR_CACHE_ENV']
+    ));
+
     // echo 'Database drop' . PHP_EOL;
     // passthru(sprintf(
     //     'php "%s/../bin/console" doctrine:database:drop --env=%s --if-exists --force',
