@@ -2,18 +2,16 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Entity\Currency;
 
-class CurrencyController extends Controller
+class CurrencyController extends AbstractController
 {
 
     /**
-     * @Route("/toutes-les-crypto-monnaies", name="currencies")
-     * @Method({"GET"})
+     * @Route("/toutes-les-crypto-monnaies", name="currencies", methods={"GET"})
      */
     public function currenciesAction()
     {
@@ -26,8 +24,7 @@ class CurrencyController extends Controller
     }
 
     /**
-     * @Route("/crypto-monnaies/{slug}", name="currency_show")
-     * @Method({"GET"})
+     * @Route("/crypto-monnaies/{slug}", name="currency_show", methods={"GET"})
      * @ParamConverter("currency", class="App:Currency")
      */
     public function showAction(Currency $currency)

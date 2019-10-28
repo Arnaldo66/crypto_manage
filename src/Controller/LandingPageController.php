@@ -2,16 +2,13 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
-class LandingPageController extends Controller
+class LandingPageController extends AbstractController
 {
     /**
-     * @Route("", name="landing-page")
-     * @Method({"GET"})
+     * @Route("", name="landing-page", methods={"GET"})
      */
     public function indexAction()
     {

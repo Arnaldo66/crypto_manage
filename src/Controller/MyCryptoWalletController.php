@@ -2,20 +2,18 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use App\Entity\MyCryptoWallet;
 use App\Form\MyCryptoWalletType;
 
-class MyCryptoWalletController extends Controller
+class MyCryptoWalletController extends AbstractController
 {
     /**
-     * @Route("/u/my-crypto/dashboard", name="my_crypto_dashboard")
-     * @Method({"GET"})
+     * @Route("/u/my-crypto/dashboard", name="my_crypto_dashboard", methods={"GET"})
      */
     public function indexAction()
     {
@@ -26,8 +24,7 @@ class MyCryptoWalletController extends Controller
     }
 
     /**
-     * @Route("/u/my-crypto/new", name="my_crypto_new")
-     * @Method({"GET", "POST"})
+     * @Route("/u/my-crypto/new", name="my_crypto_new", methods={"GET|POST"})
      */
     public function newAction(Request $request)
     {
@@ -50,7 +47,7 @@ class MyCryptoWalletController extends Controller
     }
 
     /**
-     * @Route("/u/my-crypto/{id}", name="my_crypto_show")
+     * @Route("/u/my-crypto/{id}", name="my_crypto_show", methods={"GET"})
      * @ParamConverter("myCryptoWallet", class="App:MyCryptoWallet")
      */
     public function showAction(MyCryptoWallet $myCryptoWallet)

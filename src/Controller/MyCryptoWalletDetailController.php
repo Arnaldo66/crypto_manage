@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -13,12 +12,11 @@ use App\Entity\MyCryptoWallet;
 use App\Entity\MyCryptoWalletDetail;
 use App\Form\MyCryptoWalletDetailType;
 
-class MyCryptoWalletDetailController extends Controller
+class MyCryptoWalletDetailController extends AbstractController
 {
     /**
-     * @Route("/u/my-crypto-detail/{id}/new" , name="my_crypto_detail_new")
+     * @Route("/u/my-crypto-detail/{id}/new" , name="my_crypto_detail_new", methods={"GET|POST"})
      * @ParamConverter("myCryptoWallet", class="App:MyCryptoWallet")
-     * @Method({"GET", "POST"})
      */
     public function newAction(MyCryptoWallet $myCryptoWallet, Request $request)
     {
@@ -48,7 +46,7 @@ class MyCryptoWalletDetailController extends Controller
     }
 
     /**
-     * @Route("/u/my-crypto-detail/delete/{id}", name="my_crypto_detail_delete", options = { "expose" = true })
+     * @Route("/u/my-crypto-detail/delete/{id}", name="my_crypto_detail_delete", options = { "expose" = true }, methods={"DELETE"})
      * @ParamConverter("myCryptoWalletDetail", class="App:MyCryptoWalletDetail")
      */
     public function deleteAction(MyCryptoWalletDetail $walletDetail)

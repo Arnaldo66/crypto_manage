@@ -2,25 +2,21 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 use App\Form\TradingWalletType;
 use App\Entity\TradingWallet;
 use App\Entity\EuroWallet;
 use App\Service\WalletManager;
 
-class TradeController extends Controller
+class TradeController extends AbstractController
 {
     /**
-     * @Route("/u/trade/wallets", name="trade_index")
-     * @Method({"GET"})
+     * @Route("/u/trade/wallets", name="trade_index", methods={"GET"})
      */
     public function indexAction()
     {
@@ -32,8 +28,7 @@ class TradeController extends Controller
     }
 
     /**
-     * @Route("/portefeuilles-publics", name="trade_public")
-     * @Method({"GET"})
+     * @Route("/portefeuilles-publics", name="trade_public", methods={"GET"})
      */
     public function publicWalletAction()
     {
@@ -46,8 +41,7 @@ class TradeController extends Controller
     }
 
     /**
-     * @Route("/u/trade/wallets/{id}", name="trade_show")
-     * @Method({"GET"})
+     * @Route("/u/trade/wallets/{id}", name="trade_show", methods={"GET"})
      * @ParamConverter("tradingWallet", class="App:TradingWallet")
      */
     public function showAction(TradingWallet $tradingWallet, WalletManager $walletManager)
@@ -65,8 +59,7 @@ class TradeController extends Controller
     }
 
     /**
-     * @Route("/u/trade/wallets/{id}/history", name="trade_show_order_history")
-     * @Method({"GET"})
+     * @Route("/u/trade/wallets/{id}/history", name="trade_show_order_history", methods={"GET"})
      * @ParamConverter("tradingWallet", class="App:TradingWallet")
      */
     public function showOrderHistory(TradingWallet $tradingWallet)
@@ -83,8 +76,7 @@ class TradeController extends Controller
     }
 
     /**
-     * @Route("/u/trade/new", name="trade_new")
-     * @Method({"GET", "POST"})
+     * @Route("/u/trade/new", name="trade_new", methods={"GET|POST"})
      */
     public function newAction(Request $request)
     {
@@ -127,8 +119,7 @@ class TradeController extends Controller
 
     /**
      * get ajax to remove wallet
-     * @Route("/u/trade/delete/{id}", name="trade_delete", options = { "expose" = true })
-     * @Method({"DELETE", "POST"})
+     * @Route("/u/trade/delete/{id}", name="trade_delete", options = { "expose" = true }, methods={"DELETE|POST"})
      * @ParamConverter("tradingWallet", class="App:TradingWallet")
      */
     public function deleteAction(TradingWallet $tradingWallet)

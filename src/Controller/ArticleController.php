@@ -2,18 +2,16 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use App\Entity\Article;
 
-class ArticleController extends Controller
+class ArticleController extends AbstractController
 {
     /**
-     * @Route("/articles", name="article_list")
-     * @Method({"GET"})
+     * @Route("/articles", name="article_list", methods={"GET"})
      */
     public function indexAction()
     {
@@ -35,8 +33,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/articles/{slug}", name="article_show")
-     * @Method({"GET"})
+     * @Route("/articles/{slug}", name="article_show", methods={"GET"})
      * @ParamConverter("article", class="App:Article")
      */
     public function showAction(Article $article)

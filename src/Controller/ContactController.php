@@ -2,19 +2,17 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 use App\Form\ContactType;
 use App\Entity\Contact;
 
-class ContactController extends Controller
+class ContactController extends AbstractController
 {
     /**
-     * @Route("/contact", name="contact")
-     * @Method({"GET", "POST"})
+     * @Route("/contact", name="contact", methods={"GET|POST"})
      */
     public function newAction(Request $request)
     {
@@ -41,7 +39,8 @@ class ContactController extends Controller
      */
     private function sendContactEmail($contact)
     {
-        $mailer = $this->get('mailer');
+        //TODO: get mailer
+        /*$mailer = $this->get('mailer');
         $message = (new \Swift_Message('Contact form email'))
         ->setFrom($contact->getEmail())
         ->setTo('admin@e-goldenboy.com')
@@ -49,6 +48,6 @@ class ContactController extends Controller
             $contact->getMessage(),
             'text/html'
         );
-        $mailer->send($message);
+        $mailer->send($message);*/
     }
 }

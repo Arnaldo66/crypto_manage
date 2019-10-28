@@ -3,9 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\OrderStatus;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -16,11 +15,10 @@ use App\Service\WalletManager;
 use App\Entity\OrderAction;
 use App\Entity\OrderMethod;
 
-class TradingOrderController extends Controller
+class TradingOrderController extends AbstractController
 {
     /**
-     * @Route("/u/trade/order/new", name="trade_order_new")
-     * @Method({"GET"})
+     * @Route("/u/trade/order/new", name="trade_order_new", methods={"GET"})
      */
     public function newAction()
     {
@@ -36,8 +34,7 @@ class TradingOrderController extends Controller
     }
 
     /**
-     * @Route("/u/trade/order/new/next-step", name="trade_order_new_next_step")
-     * @Method({"POST"})
+     * @Route("/u/trade/order/new/next-step", name="trade_order_new_next_step", methods={"POST"})
      */
     public function newNextStepAction(Request $request)
     {
@@ -73,8 +70,7 @@ class TradingOrderController extends Controller
     }
 
     /**
-     * @Route("/u/trade/order/new/final-step", name="trade_order_new_final_step")
-     * @Method({"POST"})
+     * @Route("/u/trade/order/new/final-step", name="trade_order_new_final_step", methods={"POST"})
      */
     public function newFinalStepAction(Request $request, WalletManager $walletManager)
     {
@@ -125,8 +121,7 @@ class TradingOrderController extends Controller
 
     /**
       * get ajax to cancel order
-      * @Route("/u/trade/order/cancel/{id}", name="trade_order_cancel", options = { "expose" = true })
-      * @Method({"PUT", "POST"})
+      * @Route("/u/trade/order/cancel/{id}", name="trade_order_cancel", options = { "expose" = true }, methods={"PUT|POST|DELETE"})
       * @ParamConverter("tradingOrder", class="App:TradingOrder")
      */
     public function deleteAction(TradingOrder $tradingOrder)

@@ -2,16 +2,13 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
-class DashboardController extends Controller
+class DashboardController extends AbstractController
 {
     /**
-     * @Route("/tableau-de-bord", name="dashboard")
-     * @Method({"GET"})
+     * @Route("/tableau-de-bord", name="dashboard", methods={"GET"})
      */
     public function indexAction()
     {
@@ -24,8 +21,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * @Route("/.well-known/brave-rewards-verification.txt", name="braveidentification")
-     * @Method({"GET"})
+     * @Route("/.well-known/brave-rewards-verification.txt", name="braveidentification", methods={"GET"})
      */
     public function braveAction()
     {
