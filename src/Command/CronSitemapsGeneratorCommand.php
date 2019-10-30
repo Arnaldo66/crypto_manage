@@ -2,16 +2,29 @@
 
 namespace App\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
+use App\Entity\Article;
+use App\Entity\Currency;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
-class CronSitemapsGeneratorCommand extends ContainerAwareCommand
+class CronSitemapsGeneratorCommand extends Command
 {
+    private $manager;
+    private $params;
+
+    public function __construct(ObjectManager $manager, ParameterBagInterface $params)
+    {
+        $this->manager = $manager;
+        $this->params = $params;
+
+        parent::__construct();
+    }
+
+
     protected function configure()
     {
         $this
@@ -23,25 +36,24 @@ class CronSitemapsGeneratorCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $em = $this->getContainer()->get('doctrine')->getManager();
-        $file = $this->getContainer()->get('kernel')->getRootDir().'/../web/sitemaps.xml';
+        $file = $this->params->get('kernel.project_dir') . '/public/sitemaps.xml';
 
-        $fs = new Filesystem();
-        if (!$fs->exists($file)) {
-            $fs->touch($file);
+        $fileSystem = new Filesystem();
+        if (!$fileSystem->exists($file)) {
+            $fileSystem->touch($file);
         }
 
-        $xml = $this->createXmlData($em);
-        $fs->dumpFile($file, $xml->asXML());
+        $xml = $this->createXmlData();
+        $fileSystem->dumpFile($file, $xml->asXML());
 
         $output->writeln('Command result.');
     }
 
-    private function createXmlData($em)
+    private function createXmlData()
     {
         $data = $this->xmlHeader();
         $data .= $this->createStaticLink();
-        $data .= $this->createDynamicLink($em);
+        $data .= $this->createDynamicLink();
         $data .= '</urlset>';
         return simplexml_load_string($data);
     }
@@ -58,22 +70,20 @@ class CronSitemapsGeneratorCommand extends ContainerAwareCommand
               <url><loc>https://e-goldenboy.com/tableau-de-bord</loc><changefreq>daily</changefreq><priority>1</priority></url>
               <url><loc>https://e-goldenboy.com/login</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
               <url><loc>https://e-goldenboy.com/register/</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-              <url><loc>https://e-goldenboy.com/convertisseur</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
               <url><loc>https://e-goldenboy.com/contact</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-              <url><loc>https://e-goldenboy.com/premiers-pas</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
               <url><loc>https://e-goldenboy.com/portefeuilles-publics</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
               <url><loc>https://www.e-goldenboy.com/toutes-les-crypto-monnaies</loc><changefreq>daily</changefreq><priority>0.9</priority></url>\r";
     }
 
-    private function createDynamicLink($em)
+    private function createDynamicLink()
     {
         $data = '';
-        $articles = $em->getRepository('App:Article')->findAll();
+        $articles = $this->manager->getRepository(Article::class)->findAll();
         foreach ($articles as $value) {
             $data .= "<url><loc>https://e-goldenboy.com/articles/".$value->getSlug()."</loc><changefreq>daily</changefreq><priority>1</priority></url>\r";
         }
 
-        $currencies = $em->getRepository('App:Currency')->findAll();
+        $currencies = $this->manager->getRepository(Currency::class)->findBy([], ['rank' => 'ASC'], 1000);
         foreach ($currencies as $value) {
             $data .= "<url><loc>https://e-goldenboy.com/crypto-monnaies/".$value->getSlug()."</loc><changefreq>daily</changefreq><priority>1</priority></url>\r";
         }

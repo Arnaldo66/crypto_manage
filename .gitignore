@@ -30,6 +30,7 @@
 /.env.*.local
 /public/bundles/
 /public/images/coin-logo
+/public/sitemaps.xml
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
