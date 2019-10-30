@@ -45,7 +45,7 @@
                       <tbody>
                             {% for tradingOrder in tradingWallet.tradingOrders %}
                               <tr class="odd gradeX">
-                                <td><img  src="{{ asset('images/currency-logo/32/' ~ tradingOrder.currency.image) }}" ></td>
+                                <td><img  src="{{ asset('images/coin-logo/thumb/' ~ tradingOrder.currency.image) }}" ></td>
                                 <td><a href="{{ path('currency_show',{'slug': tradingOrder.currency.slug}) }}">{{ tradingOrder.currency.name }}</a></td>
                                 <td>{{ tradingOrder.createdAt|date('d/m/Y') }}</td>
                                 <td>{{ tradingOrder.orderAction.name }}</td>

@@ -15,7 +15,6 @@ use App\Entity\CurrencyValueMoment;
 
 class CreateCurrencyValueMomentCommand extends Command
 {
-    // TODO: get image when not exists
     private $client;
     private $devise = ['usd', 'eur', 'btc'];
     private $pageLimit = 5;
@@ -226,35 +225,24 @@ class CreateCurrencyValueMomentCommand extends Command
                 '?tickers=false&market_data=false&community_data=false&developer_data=false&sparkline=false'
             );
 
-
-
-
             if ($result->getStatusCode() == '200') {
                 $result = json_decode($result->getBody());
-                $result = $result->image;
+                $result = json_decode(json_encode($result->image), true);
             }
-            dump($result);
-            die();
-            dump($this->params->get('kernel.project_dir'));
-            die();
 
-            $size = ['32','64'];
-            $folder = $this->getContainer()->get('kernel')->getRootDir().'/../web/images/currency-logo';
-            $this->createLogoFolder($folder, $size);
+            $formats = ['thumb','small', 'large'];
+            $folder = $this->params->get('kernel.project_dir') . '/public/images/coin-logo';
+            $this->createLogoFolder($formats, $folder);
             $filename = $value->getUniqueName() .'.png';
+            foreach ($formats as $format) {
+                $formatFolder = $folder . '/' . $format;
+                file_put_contents(
+                    $formatFolder.'/'.$filename,
+                    file_get_contents($result[$format])
+                );
+            }
 
-            $new_folder = $folder .'/32';
-            file_put_contents(
-                $new_folder.'/'.$filename,
-                file_get_contents($result->thumb)
-            );
-
-            $new_folder = $folder .'/64';
-            file_put_contents(
-                $new_folder.'/'.$filename,
-                file_get_contents($result->small)
-            );
-        } catch (\Exception $execption) {
+        } catch (\Exception $exception) {
             return null;
         }
 
@@ -262,18 +250,33 @@ class CreateCurrencyValueMomentCommand extends Command
         return $filename;
     }
 
-    //create folder
-    private function createLogoFolder($folder, $size)
+    /**
+     * @param array  $format
+     * @param string $folder
+     *
+     * @throws \Exception
+     */
+    private function createLogoFolder(array $format, string $folder): void
     {
-        $fs = new Filesystem();
-        foreach ($size as $value) {
-            $new_folder = $folder .'/'. $value;
-            try {
-                if (!$fs->exists($new_folder)) {
-                    $fs->mkdir($new_folder);
+        $filesystem = new Filesystem();
+
+
+        try {
+            if(!$filesystem->exists($folder)) {
+                $filesystem->mkdir($folder);
+            }
+        } catch (IOExceptionInterface $exception) {
+            throw new \Exception("An error occurred while creating your directory at ".$exception->getPath());
+        }
+
+        foreach ($format as $value) {
+            $formatFolder = $folder .'/'. $value;
+            if (!$filesystem->exists($formatFolder)) {
+                try {
+                    $filesystem->mkdir($formatFolder);
+                } catch (IOExceptionInterface $exception) {
+                    throw new \Exception("An error occurred while creating your directory at ".$exception->getPath());
                 }
-            } catch (IOExceptionInterface $e) {
-                throw new \Exception("An error occurred while creating your directory at ".$e->getPath());
             }
         }
     }

@@ -37,7 +37,7 @@
                       {% for currencyWallet in tradingWallet.currencyWallets %}
                         {% set total = (currencyWallet.currency.priceEur * currencyWallet.amount) %}
                         <tr class="gradeX">
-                          <td><img  src="{{ asset('images/currency-logo/32/' ~ currencyWallet.currency.image) }}" ></td>
+                          <td><img  src="{{ asset('images/coin-logo/thumb/' ~ currencyWallet.currency.image) }}" ></td>
                           <td><a href="{{ path('currency_show',{'slug': currencyWallet.currency.slug}) }}">{{ currencyWallet.currency.name }}</a></td>
                           <td>{{ currencyWallet.currency.priceEur|price }} €</td>
                           <td>{{ currencyWallet.amount|round(2, 'floor') }}</td>

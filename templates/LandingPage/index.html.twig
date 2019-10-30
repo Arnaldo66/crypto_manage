@@ -83,7 +83,7 @@
                                   {% set change_value = currency.currencyValueMoment.percentChange24h %}
                                 {% endif %}
                                 <tr>
-                                  <td>{% if currency.image is not null %}<img src="{{ asset('images/currency-logo/32/' ~ currency.image ) }}">{% endif %}</td>
+                                  <td>{% if currency.image is not null %}<img src="{{ asset('images/coin-logo/thumb/' ~ currency.image ) }}">{% endif %}</td>
                                   <td><a href="{{ path('currency_show', {'slug': currency.slug }) }}">{{ currency.name }}</a></td>
                                   <td>€ {{ currency.priceEur|price }}</td>
                                   <td>{{ change_value|value_percent|raw  }} </div></td>
