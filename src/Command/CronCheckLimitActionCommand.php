@@ -2,15 +2,28 @@
 
 namespace App\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
+use App\Entity\TradingOrder;
+use Symfony\Component\Console\Command\Command;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use App\Service\WalletManager;
 
-class CronCheckLimitActionCommand extends ContainerAwareCommand
+class CronCheckLimitActionCommand extends Command
 {
+    private $manager;
+    private $walletManager;
+    private $orderStatusPending =  2;
+
+    public function __construct(ObjectManager $manager, WalletManager $walletManager)
+    {
+        $this->manager = $manager;
+        $this->walletManager = $walletManager;
+
+        parent::__construct();
+    }
+
+
     protected function configure()
     {
         $this
@@ -22,14 +35,12 @@ class CronCheckLimitActionCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $em = $this->getContainer()->get('doctrine')->getManager();
-        $walletManager = $this->getContainer()->get(WalletManager::class);
-        $orderStatus = $this->getContainer()->getParameter('order_status_pending');
-
-        $tradeOrders = $em->getRepository('App:TradingOrder')->findBy(array('orderStatus'=>$orderStatus));
+        $tradeOrders = $this->manager->getRepository(TradingOrder::class)->findBy([
+            'orderStatus' => $this->orderStatusPending
+        ]);
         foreach ($tradeOrders as $tradeOrder) {
             if ($tradeOrder->getPrice() >= $tradeOrder->getCurrency()->getPriceEur()) {
-                $walletManager->finaliseOrder($tradeOrder, 1);
+                $this->walletManager->finaliseOrder($tradeOrder, 1);
             }
         }
         $output->writeln('OK');
