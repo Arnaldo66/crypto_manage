@@ -2,25 +2,35 @@
 
 namespace App\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-
 use App\Entity\Currency;
 use App\Entity\Alert;
 use App\Entity\CurrencyValueMoment;
-use App\Entity\UpdatePriceLogs;
 
-class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
+class CreateCurrencyValueMomentCommand extends Command
 {
     // TODO: get image when not exists
     private $client;
     private $devise = ['usd', 'eur', 'btc'];
     private $pageLimit = 5;
     private $indexNewImg = 0;
+    private $manager;
+    private $params;
 
+
+    public function __construct(ObjectManager $manager, ParameterBagInterface $params)
+    {
+        $this->manager = $manager;
+        $this->params = $params;
+
+        parent::__construct();
+    }
 
     /**
      * set Guzzle client
@@ -41,11 +51,10 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $entityManager = $this->getContainer()->get('doctrine')->getManager();
-        $this->truncateTable($entityManager);
-        $this->resetRank($entityManager);
-        $this->doProcessUpdatePrice($entityManager);
-        $this->checkAlertReady($entityManager);
+        $this->truncateTable($this->manager);
+        $this->resetRank($this->manager);
+        $this->doProcessUpdatePrice($this->manager);
+        $this->checkAlertReady($this->manager);
         $output->writeln('ok');
     }
 
@@ -53,7 +62,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
      * Call coingecko api to update price or create new coin
      * @param $entityManager
      */
-    private function doProcessUpdatePrice($entityManager): void
+    private function doProcessUpdatePrice(ObjectManager $entityManager): void
     {
         for ($page = 1; $page <= $this->pageLimit; $page++) {
             foreach ($this->devise as $devise) {
@@ -77,9 +86,9 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
      * Check alert and send email when alert is ready
      * @param $entityManager
      */
-    private function checkAlertReady($entityManager): void
+    private function checkAlertReady(ObjectManager $entityManager): void
     {
-        $alerts = $entityManager->getRepository(Alert::class)->findAll();
+        /*$alerts = $entityManager->getRepository(Alert::class)->findAll();
         foreach ($alerts as $alert) {
             $priceEuro = $alert->getCurrency()->getPriceEur();
             if (($priceEuro <= $alert->getPrice() && $alert->getBuy()) ||
@@ -89,12 +98,12 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
                     $entityManager->remove($alert);
             }
         }
-        $entityManager->flush();
+        $entityManager->flush();*/
     }
 
 
     //TODO: do better organisation
-    private function createCurrencyValueMoment($entityManager, $value, $devise)
+    private function createCurrencyValueMoment(ObjectManager $entityManager, $value, $devise)
     {
         $currency = $entityManager->getRepository(Currency::class)->findOneByUniqueName($value->id);
         if ($currency === null) {
@@ -157,7 +166,7 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
      * Delete all data in currencyValueMoement before recreate it
      * @param  $entityManager
      */
-    private function truncateTable($entityManager): void
+    private function truncateTable(ObjectManager $entityManager): void
     {
         $connection = $entityManager->getConnection();
         $platform   = $connection->getDatabasePlatform();
@@ -204,10 +213,11 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
 
 
     /**
-     * Create Image from api
-     * @param  [type] $value [description]
+     * @param $value
+     *
+     * @return string|null
      */
-    private function createImage($value): string
+    private function createImage($value): ?string
     {
         try {
             $result = $this->client->request(
@@ -216,10 +226,17 @@ class CreateCurrencyValueMomentCommand extends ContainerAwareCommand
                 '?tickers=false&market_data=false&community_data=false&developer_data=false&sparkline=false'
             );
 
+
+
+
             if ($result->getStatusCode() == '200') {
                 $result = json_decode($result->getBody());
                 $result = $result->image;
             }
+            dump($result);
+            die();
+            dump($this->params->get('kernel.project_dir'));
+            die();
 
             $size = ['32','64'];
             $folder = $this->getContainer()->get('kernel')->getRootDir().'/../web/images/currency-logo';
