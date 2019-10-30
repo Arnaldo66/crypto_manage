@@ -29,7 +29,6 @@
 /.env.local.php
 /.env.*.local
 /public/bundles/
-/public/bundles/images/coin-logo/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
