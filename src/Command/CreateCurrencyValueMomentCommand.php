@@ -21,12 +21,14 @@ class CreateCurrencyValueMomentCommand extends Command
     private $indexNewImg = 0;
     private $manager;
     private $params;
+    private $mailer;
 
 
-    public function __construct(ObjectManager $manager, ParameterBagInterface $params)
+    public function __construct(ObjectManager $manager, ParameterBagInterface $params, \Swift_Mailer $mailer)
     {
         $this->manager = $manager;
         $this->params = $params;
+        $this->mailer = $mailer;
 
         parent::__construct();
     }
@@ -87,7 +89,7 @@ class CreateCurrencyValueMomentCommand extends Command
      */
     private function checkAlertReady(ObjectManager $entityManager): void
     {
-        /*$alerts = $entityManager->getRepository(Alert::class)->findAll();
+        $alerts = $entityManager->getRepository(Alert::class)->findAll();
         foreach ($alerts as $alert) {
             $priceEuro = $alert->getCurrency()->getPriceEur();
             if (($priceEuro <= $alert->getPrice() && $alert->getBuy()) ||
@@ -97,7 +99,7 @@ class CreateCurrencyValueMomentCommand extends Command
                     $entityManager->remove($alert);
             }
         }
-        $entityManager->flush();*/
+        $entityManager->flush();
     }
 
 
@@ -191,7 +193,6 @@ class CreateCurrencyValueMomentCommand extends Command
      */
     private function sendAlertEmail($alert): void
     {
-        $mailer = $this->getContainer()->get('mailer');
         $type = "Achat";
         if ($alert->getBuy() == 0) {
             $type = "Vente";
@@ -207,7 +208,7 @@ class CreateCurrencyValueMomentCommand extends Command
                Valeur actuelle: '.$alert->getCurrency()->getPriceEur(),
                'text/html'
            );
-        $mailer->send($message);
+        $this->mailer->send($message);
     }
 
 
