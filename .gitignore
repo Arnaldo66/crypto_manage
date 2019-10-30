@@ -29,6 +29,7 @@
 /.env.local.php
 /.env.*.local
 /public/bundles/
+/public/images/currency-logo
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
