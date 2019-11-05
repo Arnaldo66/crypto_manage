@@ -149,6 +149,12 @@ class User implements UserInterface, \Serializable
         return $this->roles;
     }
 
+    //TODO: remove it for add method afeter mep
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+    }
+
 
     public function getTokenResetPassword()
     {
