@@ -46,7 +46,7 @@ class CronSitemapsGeneratorCommand extends Command
         $xml = $this->createXmlData();
         $fileSystem->dumpFile($file, $xml->asXML());
 
-        $output->writeln('Command result.');
+        $output->writeln('OK');
     }
 
     private function createXmlData()

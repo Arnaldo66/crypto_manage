@@ -14,6 +14,8 @@ use App\Entity\OrderStatus;
 
 class InitFillParamsTableCommand extends ContainerAwareCommand
 {
+
+    //TODO: remove it
     protected function configure()
     {
         $this
