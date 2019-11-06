@@ -11,6 +11,17 @@ use App\Entity\Contact;
 
 class ContactController extends AbstractController
 {
+
+    /**
+     * @var \Swift_Mailer
+     */
+    private $mailer;
+
+    public function __construct(\Swift_Mailer $mailer)
+    {
+        $this->mailer = $mailer;
+    }
+
     /**
      * @Route("/contact", name="contact", methods={"GET|POST"})
      */
@@ -39,8 +50,6 @@ class ContactController extends AbstractController
      */
     private function sendContactEmail($contact)
     {
-        //TODO: get mailer
-        /*$mailer = $this->get('mailer');
         $message = (new \Swift_Message('Contact form email'))
         ->setFrom($contact->getEmail())
         ->setTo('admin@e-goldenboy.com')
@@ -48,6 +57,6 @@ class ContactController extends AbstractController
             $contact->getMessage(),
             'text/html'
         );
-        $mailer->send($message);*/
+        $this->mailer->send($message);
     }
 }
