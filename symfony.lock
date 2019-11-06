@@ -1,0 +1,109 @@
+{
+    "doctrine/data-fixtures": {
+        "version": "v1.3.2"
+    },
+    "doctrine/doctrine-fixtures-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "fc52d86631a6dfd9fdf3381d0b7e3df2069e51b3"
+        },
+        "files": [
+            "src/App/DataFixtures/AppFixtures.php"
+        ]
+    },
+    "easycorp/easyadmin-bundle": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "0a51040a43c6f2172a3a0135cd15daf2043905d7"
+        },
+        "files": [
+            "config/packages/easy_admin.yaml",
+            "config/routes/easy_admin.yaml"
+        ]
+    },
+    "facebook/webdriver": {
+        "version": "1.7.1"
+    },
+    "friendsofsymfony/jsrouting-bundle": {
+        "version": "2.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.3",
+            "ref": "a9f2e49180f75cdc71ae279a929c4b2e0638de84"
+        },
+        "files": [
+            "config/routes/fos_js_routing.yaml"
+        ]
+    },
+    "nikic/php-parser": {
+        "version": "v4.2.4"
+    },
+    "pagerfanta/pagerfanta": {
+        "version": "v2.1.3"
+    },
+    "symfony/browser-kit": {
+        "version": "v4.3.5"
+    },
+    "symfony/css-selector": {
+        "version": "v4.3.5"
+    },
+    "symfony/dom-crawler": {
+        "version": "v4.3.5"
+    },
+    "symfony/expression-language": {
+        "version": "v4.3.5"
+    },
+    "symfony/http-client": {
+        "version": "v4.3.5"
+    },
+    "symfony/http-client-contracts": {
+        "version": "v1.1.7"
+    },
+    "symfony/maker-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
+        }
+    },
+    "symfony/panther": {
+        "version": "v0.5.2"
+    },
+    "symfony/phpunit-bridge": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "b0582341f1df39aaf3a9a866cdbe49937da35984"
+        },
+        "files": [
+            ".env.test",
+            "bin/phpunit",
+            "config/bootstrap.php",
+            "phpunit.xml.dist",
+            "tests/.gitignore"
+        ]
+    },
+    "symfony/process": {
+        "version": "v4.3.5"
+    },
+    "symfony/serializer": {
+        "version": "v4.3.5"
+    },
+    "symfony/var-dumper": {
+        "version": "v4.3.5"
+    },
+    "willdurand/jsonp-callback-validator": {
+        "version": "v1.1.0"
+    }
+}

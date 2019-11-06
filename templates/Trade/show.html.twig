@@ -1,0 +1,97 @@
+{% extends "base.html.twig" %}
+
+{% block title_wrapper %}
+  <h2>Portefeuille {% if tradingWallet.public %}public{% else %}privé{% endif %}: <b>{{ tradingWallet.name }}</b> crée le {{ tradingWallet.createdAt|date('d/m/Y') }} pour un montant initial de {{ tradingWallet.initialAmount }} €</h2>
+{% endblock title_wrapper %}
+
+{% block body %}
+
+  <div class="row">
+    <div class="col-lg-12">
+        {% set owner = 0 %}
+        {% if tradingWallet.user.id == app.user.id %}
+          {% set owner = 1 %}
+          <p class="pull-right">
+            <a href="{{ path('trade_show_order_history', { 'id': tradingWallet.id })}}" class="btn btn-primary ">Voir les ordres</a>
+            <a href="{{ path('trade_order_new')}}" class="btn btn-primary">Nouvel ordre</a>
+          </p>
+        {% endif %}
+    </div>
+  </div>
+
+  <div class="row">
+      <div class="col-lg-12">
+          <div class="panel-body">
+              <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-wallets">
+                <thead>
+                    <tr>
+                      <th>Logo</th>
+                      <th>Nom</th>
+                      <th>Valeur actuelle</th>
+                      <th>Solde</th>
+                      <th>Valeur totale</th>
+                    </tr>
+                </thead>
+                  <tbody>
+                    {% set totalCrypto = 0 %}
+                      {% for currencyWallet in tradingWallet.currencyWallets %}
+                        {% set total = (currencyWallet.currency.priceEur * currencyWallet.amount) %}
+                        <tr class="gradeX">
+                          <td><img  src="{{ asset('images/coin-logo/thumb/' ~ currencyWallet.currency.image) }}" ></td>
+                          <td><a href="{{ path('currency_show',{'slug': currencyWallet.currency.slug}) }}">{{ currencyWallet.currency.name }}</a></td>
+                          <td>{{ currencyWallet.currency.priceEur|price }} €</td>
+                          <td>{{ currencyWallet.amount|round(2, 'floor') }}</td>
+                          <td>{{ total|price }}</td>
+                        </tr>
+                        {% set totalCrypto = totalCrypto + total %}
+                      {% endfor %}
+                      <tr class="gradeX">
+                          <td colspan="3"></td>
+                          <td>Total crypto en €:</td>
+                          <td>{{ totalCrypto|price }}</td>
+                      </tr>
+                      <tr class="gradeX">
+                          <td colspan="3"></td>
+                          <td>Total restant en €:</td>
+                          <td>{{ tradingWallet.euroWallet.amount|price }}</td>
+                      </tr>
+                      {% set balance = totalCrypto + tradingWallet.euroWallet.amount - tradingWallet.initialAmount %}
+                      <tr class="gradeX">
+                          <td colspan="3"></td>
+                          <td>Gain en €</td>
+                          <td>
+                              {% if balance == 0 %}
+                                <span class="text-success">{{ balance }}</span>
+                              {% elseif balance > 0 %}
+                                <span class="text-navy">{{ balance|price }}</span>
+                              {% else %}
+                                <span class="text-danger">{{ balance|price }}</span>
+                              {% endif %}
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <!-- /.col-lg-12 -->
+  </div>
+{% endblock %}
+
+
+{% block local_javascripts %}
+  <script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.16/sorting/datetime-moment.js"></script>
+  <script>
+  $(document).ready(function() {
+      $('#dataTables-wallets').DataTable({
+          "responsive": true,
+          "paging": false,
+          "searching": false,
+          "ordering": false,
+          "info": false,
+          "language":{
+            "url": url
+          }
+      });
+  });
+  </script>
+{% endblock %}

@@ -1,0 +1,134 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+  <title>Détail d'un suivi d'actif - e-goldenboy.com</title>
+{% endblock title %}
+
+{% block title_wrapper %}
+  <h2>Détail d'un portefeuille d'actifs</h2>
+{% endblock title_wrapper %}
+
+{% block body %}
+<div class="row">
+  <div class="col-md-10 text-center  wow zoomIn">
+      <div class="ibox float-e-margins">
+          <div class="ibox-content">
+              <table class="table table-striped text-left">
+                  <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>{{ 'crypto'|trans }}</th>
+                        <th>{{ 'unit_price'|trans }}</th>
+                        <th>{{ 'amount'|trans }}</th>
+                        <th>{{ 'total'|trans }}</th>
+                        <th>{{ 'change'|trans }}</th>
+                        <th>{{ 'delete'|trans }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% set total_actif = 0 %}
+                    {% set total_change = 0 %}
+                    {% set index = 0 %}
+                    {% for detail in myCryptoWallet.details %}
+                        {% set total_actif =  total_actif + detail.amount * detail.currency.priceEur %}
+                        {% set change_value_default = 0 %}
+                        {% if detail.currency.currencyValueMoment is not null %}
+                            {% set change_value_default = detail.currency.currencyValueMoment.percentChange24h %}
+                            {% set index = index + 1 %}
+                            {% set total_change = total_change + change_value_default %}
+                        {% endif %}
+                        {% if change_value_default > 0 %}
+                          {% set div_class_default = "text-navy" %}
+                          {% set level_default = "fa-level-up" %}
+                        {% elseif change_value_default < 0 %}
+                          {% set div_class_default = "text-danger" %}
+                          {% set level_default = "fa-level-down" %}
+                        {% else %}
+                          {% set div_class_default = "text-success" %}
+                          {% set level_default = "" %}
+                        {% endif %}
+                        <tr>
+                            <td>
+                                <img  src="{{ asset('images/coin-logo/thumb/' ~ detail.currency.image) }}" >
+                            </td>
+                            <td>
+                                <a href="{{ path('currency_show', { slug: detail.currency.slug }) }}">{{ detail.currency.name }}</a>
+                            </td>
+                            <td>{{ detail.currency.priceEur|price }} €</td>
+                            <td>{{ detail.amount }}</td>
+                            <td>{{ (detail.amount * detail.currency.priceEur)|price }} €</td>
+                            <td class="font-bold">
+                                <div id="percentage-change-1" class="{{ div_class_default }}"><i class="fa {{ level_default }}"></i>{{ change_value_default }} %</div>
+                            </td>
+                            <td>
+                                <p class="fa fa-times-circle" style="cursor:pointer;" data-toggle="modal" data-target="#removeDetail" data-id="{{ detail.id }}"></p>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    {% set total_percent_change = 0 %}
+                    {% if index > 0 %}
+                        {% set total_percent_change = total_change / index %}
+                    {% endif %}
+                    {% if total_percent_change > 0 %}
+                      {% set div_class_default = "text-navy" %}
+                      {% set level_default = "fa-level-up" %}
+                    {% elseif total_percent_change < 0 %}
+                      {% set div_class_default = "text-danger" %}
+                      {% set level_default = "fa-level-down" %}
+                    {% else %}
+                      {% set div_class_default = "text-success" %}
+                      {% set level_default = "" %}
+                    {% endif %}
+                    <tr>
+                        <td colspan="3">&nbsp</td>
+                        <td align="right">Total:</td>
+                        <td>{{ total_actif|price }} €</td>
+                        <td colspan="2" class="font-bold">
+                            <div id="percentage-change-1" class="{{ div_class_default }}"><i class="fa {{ level_default }}"></i>{{ total_percent_change }} %</div>
+                        </td>
+                    </tr>
+                  </tbody>
+              </table>
+            <a class="btn btn-default" href="{{ path('my_crypto_detail_new', {id: myCryptoWallet.id})}}" role="button">Ajouter</a>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal fade" id="removeDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Supprimer de votre portefeuille</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="" method="POST">
+        <div class="modal-body">
+          Etes-vous sûr de vouloir supprimer cet actif de votre portefeuille ?<br/>
+          La suppression est définitive
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-primary">Confirmer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block local_javascripts %}
+  <script>
+  $(document).ready(function() {
+
+
+      $('#removeDetail').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('id');
+        $(this).find('form').attr('action', Routing.generate('my_crypto_detail_delete', { id: id }));
+      })
+  });
+  </script>
+{% endblock %}

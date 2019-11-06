@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+  <title>{{ 'contact_title'|trans }}</title>
+{% endblock title %}
+
+
+{% block title_wrapper %}
+  <h2>{{ 'contact_h2'|trans }}</h2>
+{% endblock title_wrapper %}
+
+{% block body %}
+  <div class="row">
+    <div class="col-lg-4">
+      {{ form_start(form) }}
+
+        <div class="form-group">
+          <label>{{ 'contact_form_name'|trans }}</label>
+          {% if form_errors(form.name) %}
+            <span class="error">{{ form_errors(form.name) }}</span>
+          {% endif %}
+          {{ form_widget(form.name,{'attr':{'class':'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'contact_form_email'|trans }}</label>
+          {% if form_errors(form.email) %}
+            <span class="error">{{ form_errors(form.email) }}</span>
+          {% endif %}
+          {{ form_widget(form.email,{'attr':{'class':'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'contact_form_message'|trans }}</label>
+          {% if form_errors(form.message) %}
+            <span class="error">{{ form_errors(form.message) }}</span>
+          {% endif %}
+          {{ form_widget(form.message,{'attr':{'class':'form-control'}}) }}
+        </div>
+
+        {{ form_widget(form) }}
+        <button type="submit" id="btn-create-contact" class="btn btn-default">{{ 'contact_form_button'|trans }}</button>
+      {{ form_end(form) }}
+    </div>
+  </div>
+{% endblock %}
