@@ -1,0 +1,80 @@
+<div class="col-md-6 text-center">
+    <h3 style="color:#1ab394">Achat</h3>
+
+    {{ form_start(formBuyLimit) }}
+    <div class="form-group">
+        {{ form_widget(formBuyLimit.tradingWallet,{'attr':{'class':'form-control', 'autocomplete':'off'}}) }}
+    </div>
+
+    {% if form_errors(formBuyLimit.total) %}
+        <span class="error">{{ form_errors(formBuyLimit.total) }}</span>
+    {% endif %}
+    <div class="form-group input-group">
+        {{ form_widget(formBuyLimit.total,{'attr':{'class':'form-control', 'placeholder': 'Montant', 'autocomplete':'off'}}) }}
+        <span class="input-group-addon">€</span>
+    </div>
+
+    {% if form_errors(form.price) %}
+        <span class="error">{{ form_errors(formBuyLimit.price) }}</span>
+    {% endif %}
+    <div class="form-group input-group">
+        {{ form_widget(formBuyLimit.price,{'attr':{'class':'form-control', 'autocomplete':'off', 'placeholder': 'Prix'}}) }}
+        <span class="input-group-addon">€</span>
+    </div>
+
+    {% if form_errors(formBuyLimit.amount) %}
+        <span class="error">{{ form_errors(formBuyLimit.amount) }}</span>
+    {% endif %}
+    <div class="form-group input-group">
+        {{ form_widget(formBuyLimit.amount,{'attr':{'class':'form-control', 'placeholder': 'Nombre de devises', 'autocomplete':'off', 'readonly': 'readonly'}}) }}
+        <span class="input-group-addon">{{ currency.symbol }}</span>
+    </div>
+
+    <div class="invisible">
+        {{ form_widget(formBuyLimit.currency,{'attr':{'autocomplete':'off', 'readonly': 'readonly'}}) }}
+    </div>
+
+    <button type="submit" id="btn-finalise-order-limit-buy" class="btn btn-primary">Acheter</button>
+    {{ form_end(formBuyLimit) }}
+</div>
+
+<div class="col-md-6 text-center">
+    <h3 style="color:#ed5565">Vente</h3>
+
+    {{ form_start(formSellLimit) }}
+    <div class="form-group">
+        {{ form_widget(formSellLimit.tradingWallet,{'attr':{'class':'form-control', 'autocomplete':'off'}}) }}
+    </div>
+
+    {% if form_errors(formSellLimit.total) %}
+        <span class="error">{{ form_errors(formSellLimit.total) }}</span>
+    {% endif %}
+    <div class="form-group input-group">
+        {{ form_widget(formSellLimit.total,{'attr':{'class':'form-control', 'placeholder': 'Montant', 'autocomplete':'off'}}) }}
+        <span class="input-group-addon">€</span>
+    </div>
+
+    {% if form_errors(formSellLimit.price) %}
+        <span class="error">{{ form_errors(formSellLimit.price) }}</span>
+    {% endif %}
+    <div class="form-group input-group">
+        {{ form_widget(formSellLimit.price,{'attr':{'class':'form-control', 'autocomplete':'off', 'placeholder': 'Prix' }}) }}
+        <span class="input-group-addon">€</span>
+    </div>
+
+    {% if form_errors(formSellLimit.amount) %}
+        <span class="error">{{ form_errors(formSellLimit.amount) }}</span>
+    {% endif %}
+    <div class="form-group input-group">
+        {{ form_widget(formSellLimit.amount,{'attr':{'class':'form-control', 'placeholder': 'Nombre de devises', 'autocomplete':'off', 'readonly': 'readonly'}}) }}
+        <span class="input-group-addon">{{ currency.symbol }}</span>
+    </div>
+
+    <div class="invisible">
+        {{ form_widget(formSellLimit.currency,{'attr':{'autocomplete':'off', 'readonly': 'readonly'}}) }}
+    </div>
+
+
+    <button type="submit" id="btn-finalise-order-limit-sell" class="btn btn-danger">Vendre</button>
+    {{ form_end(formSellLimit) }}
+</div>
