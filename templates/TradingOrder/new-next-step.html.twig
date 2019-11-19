@@ -1,10 +1,11 @@
 {% extends "base.html.twig" %}
 
 {% block title_wrapper %}
-  <h2>Nouvel ordre:</h2>
+  <h2>Nouvel ordre depuis le portefeuille: {{ wallet.name }}</h2>
   <p>
-    Valeur actuelle du {{ currency.name }}: {{ currency.priceEur|price }} €<br/>
-    Montant restant: {{ wallet.euroWallet.amount|price }} €
+      Monnaie choisie: {{ currency.name }} <img src="{{ asset('images/coin-logo/thumb/' ~ currency.image) }}" /><br><br>
+      Valeur actuelle: {{ currency.priceEur|price }} €<br/>
+      Fond utilisable: {{ usabledAmount|price }} €<br/>
   </p>
 {% endblock title_wrapper %}
 

@@ -188,4 +188,23 @@ class TradingOrderService
             'isMarket' => $isMarket
         ];
     }
+
+    /**
+     * @return float
+     * @throws \Exception
+     */
+    public function getUsabledAmount(): float
+    {
+        $wallet = $this->getSessionWallet();
+        $orders = $wallet->getTradingOrders();
+        $amount = $wallet->getEuroWallet()->getAmount();
+        foreach ($orders as $order) {
+            if($order->getOrderStatus()->getName() === 'En cours' && $order->getOrderAction()->getName() === 'Achat') {
+                $amount = $amount - $order->getTotal();
+            }
+        }
+
+        return (float) $amount;
+    }
+
 }

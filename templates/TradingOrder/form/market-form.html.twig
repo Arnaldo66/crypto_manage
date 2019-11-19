@@ -2,7 +2,7 @@
     <h3 style="color:#1ab394">Achat</h3>
 
     {{ form_start(form) }}
-        <div class="form-group">
+        <div class="invisible">
             {{ form_widget(form.tradingWallet,{'attr':{'class':'form-control', 'autocomplete':'off'}}) }}
         </div>
 
@@ -42,7 +42,7 @@
     <h3 style="color:#ed5565">Vente</h3>
 
     {{ form_start(formSell) }}
-    <div class="form-group">
+    <div class="invisible">
         {{ form_widget(formSell.tradingWallet,{'attr':{'class':'form-control', 'autocomplete':'off'}}) }}
     </div>
 

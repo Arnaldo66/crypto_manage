@@ -3,10 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\OrderStatus;
-use App\Entity\TradingWallet;
-use App\Form\TradingOrderNextStepBuyLimitType;
-use App\Form\TradingOrderNextStepSellLimitType;
-use App\Form\TradingOrderNextStepSellType;
 use App\Service\TradingOrderService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,7 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Form\TradingOrderFirstStepType;
-use App\Form\TradingOrderNextStepType;
 use App\Entity\TradingOrder;
 use App\Service\WalletManager;
 
@@ -72,7 +67,7 @@ class TradingOrderController extends AbstractController
                 'form'=> $arrayForm['form']->createView(), 'formSell' => $arrayForm['formSell']->createView(),
                 'currency' => $currency, 'formBuyLimit' => $arrayForm['formBuyLimit']->createView(),
                 'formSellLimit' => $arrayForm['formSellLimit']->createView(), 'isMarket' => $arrayForm['isMarket'],
-                'wallet' =>$this->tradeOrderService->getSessionWallet(), 'errors'=> 0
+                'wallet' =>$this->tradeOrderService->getSessionWallet(), 'errors'=> 0, 'usabledAmount' => $this->tradeOrderService->getUsabledAmount()
             ));
         }
     }
@@ -109,12 +104,12 @@ class TradingOrderController extends AbstractController
 
         $arrayForm = $this->tradeOrderService->generateTradingForm($tradeOrder, $form);
 
-        //TODO: currency not working is null
         return $this->render('TradingOrder/new-next-step.html.twig', array(
             'form'=> $arrayForm['form']->createView(), 'currency' => $tradeOrder->getCurrency(),
             'formSell' => $arrayForm['formSell']->createView(), 'formBuyLimit' => $arrayForm['formBuyLimit']->createView(),
             'formSellLimit' => $arrayForm['formSellLimit']->createView(), 'isMarket' => $arrayForm['isMarket'],
-            'wallet' => $tradeOrder->getTradingWallet(), 'errors'=> $errors, 'entity' => $tradeOrder
+            'wallet' => $tradeOrder->getTradingWallet(), 'errors'=> $errors, 'entity' => $tradeOrder,
+            'usabledAmount' => $this->tradeOrderService->getUsabledAmount()
         ));
     }
 
