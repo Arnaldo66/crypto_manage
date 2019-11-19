@@ -70,7 +70,6 @@ class TradingOrder
     private $currency;
 
     /**
-     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="OrderAction")
      * @ORM\JoinColumn(name="order_action_id", referencedColumnName="id", nullable=false)
      */
@@ -83,7 +82,6 @@ class TradingOrder
     private $orderStatus;
 
     /**
-     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="OrderMethod")
      * @ORM\JoinColumn(name="order_method_id", referencedColumnName="id", nullable=false)
      */

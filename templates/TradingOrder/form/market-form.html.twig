@@ -1,0 +1,84 @@
+<div class="col-md-6 text-center">
+    <h3 style="color:#1ab394">Achat</h3>
+
+    {{ form_start(form) }}
+        <div class="invisible">
+            {{ form_widget(form.tradingWallet,{'attr':{'class':'form-control', 'autocomplete':'off'}}) }}
+        </div>
+
+        {% if form_errors(form.total) %}
+            <span class="error">{{ form_errors(form.total) }}</span>
+        {% endif %}
+        <div class="form-group input-group">
+            {{ form_widget(form.total,{'attr':{'class':'form-control', 'placeholder': 'Montant', 'autocomplete':'off'}}) }}
+            <span class="input-group-addon">€</span>
+        </div>
+
+        {% if form_errors(form.price) %}
+            <span class="error">{{ form_errors(form.price) }}</span>
+        {% endif %}
+        <div class="form-group input-group">
+            {{ form_widget(form.price,{'attr':{'class':'form-control', 'autocomplete':'off', 'value': currency.priceEur ,'placeholder': 'Prix', 'readonly': 'readonly' }}) }}
+            <span class="input-group-addon">€</span>
+        </div>
+
+        {% if form_errors(form.amount) %}
+            <span class="error">{{ form_errors(form.amount) }}</span>
+        {% endif %}
+        <div class="form-group input-group">
+            {{ form_widget(form.amount,{'attr':{'class':'form-control', 'placeholder': 'Nombre de devises', 'autocomplete':'off', 'readonly': 'readonly'}}) }}
+            <span class="input-group-addon">{{ currency.symbol }}</span>
+        </div>
+
+        <div class="invisible">
+            {{ form_widget(form.currency,{'attr':{'autocomplete':'off', 'readonly': 'readonly'}}) }}
+        </div>
+
+        <button type="submit" id="btn-finalise-order" class="btn btn-primary">Acheter</button>
+    {{ form_end(form) }}
+</div>
+
+<div class="col-md-6 text-center">
+    <h3 style="color:#ed5565">Vente</h3>
+
+    {{ form_start(formSell) }}
+    <div class="invisible">
+        {{ form_widget(formSell.tradingWallet,{'attr':{'class':'form-control', 'autocomplete':'off'}}) }}
+    </div>
+
+    {% if form_errors(formSell.total) %}
+        <span class="error">{{ form_errors(formSell.total) }}</span>
+    {% endif %}
+    <div class="form-group input-group">
+        {{ form_widget(formSell.total,{'attr':{'class':'form-control', 'placeholder': 'Montant', 'autocomplete':'off'}}) }}
+        <span class="input-group-addon">€</span>
+    </div>
+
+    {% if form_errors(formSell.price) %}
+        <span class="error">{{ form_errors(formSell.price) }}</span>
+    {% endif %}
+    <div class="form-group input-group">
+        {% if errors == 0 %}
+            {{ form_widget(formSell.price,{'attr':{'class':'form-control', 'autocomplete':'off', 'value': currency.priceEur, 'placeholder': 'Prix', 'readonly': 'readonly' }}) }}
+        {% else %}
+            {{ form_widget(formSell.price,{'attr':{'class':'form-control', 'autocomplete':'off', 'value': currency.priceEur, 'placeholder': 'Prix', 'readonly': 'readonly' }}) }}
+        {% endif %}
+        <span class="input-group-addon">€</span>
+    </div>
+
+    {% if form_errors(formSell.amount) %}
+        <span class="error">{{ form_errors(formSell.amount) }}</span>
+    {% endif %}
+    <div class="form-group input-group">
+        {{ form_widget(formSell.amount,{'attr':{'class':'form-control', 'placeholder': 'Nombre de devises', 'autocomplete':'off', 'readonly': 'readonly'}}) }}
+        <span class="input-group-addon">{{ currency.symbol }}</span>
+    </div>
+
+    <div class="invisible">
+        {{ form_widget(formSell.currency,{'attr':{'autocomplete':'off', 'readonly': 'readonly'}}) }}
+    </div>
+
+
+    <button type="submit" id="btn-finalise-order-sell" class="btn btn-danger">Vendre</button>
+    {{ form_end(formSell) }}
+</div>
