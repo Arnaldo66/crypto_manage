@@ -10,15 +10,15 @@
 
 {% block body %}
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#market">Ordre market</a></li>
-        <li><a data-toggle="tab" href="#limit">Ordre limit</a></li>
+        <li {% if isMarket == true %}class="active"{% endif %}><a data-toggle="tab" href="#market">Ordre market</a></li>
+        <li {% if isMarket == false %}class="active"{% endif %}><a data-toggle="tab" href="#limit">Ordre limit</a></li>
     </ul>
 
     <div class="tab-content">
-        <div id="market" class="tab-pane fade in active">
+        <div id="market" class="tab-pane fade {% if isMarket == true %}in active{% endif %}">
             {% include 'TradingOrder/form/market-form.html.twig'%}
         </div>
-        <div id="limit" class="tab-pane fade">
+        <div id="limit" class="tab-pane fade {% if isMarket == false %}in active{% endif %}">
             {% include 'TradingOrder/form/limit-form.html.twig'%}
         </div>
     </div>

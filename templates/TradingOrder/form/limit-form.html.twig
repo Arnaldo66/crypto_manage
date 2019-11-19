@@ -18,7 +18,7 @@
         <span class="error">{{ form_errors(formBuyLimit.price) }}</span>
     {% endif %}
     <div class="form-group input-group">
-        {{ form_widget(formBuyLimit.price,{'attr':{'class':'form-control', 'autocomplete':'off', 'placeholder': 'Prix'}}) }}
+        {{ form_widget(formBuyLimit.price,{'attr':{'class':'form-control', 'value': currency.priceEur, 'autocomplete':'off', 'placeholder': 'Prix'}}) }}
         <span class="input-group-addon">€</span>
     </div>
 
@@ -58,7 +58,7 @@
         <span class="error">{{ form_errors(formSellLimit.price) }}</span>
     {% endif %}
     <div class="form-group input-group">
-        {{ form_widget(formSellLimit.price,{'attr':{'class':'form-control', 'autocomplete':'off', 'placeholder': 'Prix' }}) }}
+        {{ form_widget(formSellLimit.price,{'attr':{'class':'form-control', 'value': currency.priceEur, 'autocomplete':'off', 'placeholder': 'Prix' }}) }}
         <span class="input-group-addon">€</span>
     </div>
 

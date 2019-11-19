@@ -7,9 +7,8 @@ use App\Entity\TradingWallet;
 use App\Form\TradingOrderNextStepBuyLimitType;
 use App\Form\TradingOrderNextStepSellLimitType;
 use App\Form\TradingOrderNextStepSellType;
+use App\Service\TradingOrderService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Form;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -18,11 +17,19 @@ use App\Form\TradingOrderFirstStepType;
 use App\Form\TradingOrderNextStepType;
 use App\Entity\TradingOrder;
 use App\Service\WalletManager;
-use App\Entity\OrderAction;
-use App\Entity\OrderMethod;
 
 class TradingOrderController extends AbstractController
 {
+    /**
+     * @var TradingOrderService
+     */
+    private $tradeOrderService;
+
+    public function __construct(TradingOrderService $tradeOrderService)
+    {
+        $this->tradeOrderService = $tradeOrderService;
+    }
+
     /**
      * @Route("/u/trade/order/new", name="trade_order_new", methods={"GET"})
      */
@@ -55,40 +62,17 @@ class TradingOrderController extends AbstractController
         }
 
         if ($form->isSubmitted()) {
-            $em = $this->getDoctrine()->getManager();
-            $wallet = $this->getSessionWallet();
-            if($this->isMarket($form)) {
+            if($this->tradeOrderService->isMarket($form)) {
                 $tradeOrder->setPrice($currency->getPriceEur());
             }
 
-            $form = $this->createForm(TradingOrderNextStepType::class, $tradeOrder, array(
-                'wallet' => $wallet,
-                'action' => $this->generateUrl('trade_order_new_final_step'),
-                'method' => 'POST',
-            ));
-            $formSell = $this->createForm(TradingOrderNextStepSellType::class, $tradeOrder, array(
-                'wallet' => $wallet,
-                'action' => $this->generateUrl('trade_order_new_final_step'),
-                'method' => 'POST',
-            ));
-
-            $formBuyLimit = $this->createForm(TradingOrderNextStepBuyLimitType::class, $tradeOrder, array(
-                'wallet' => $wallet,
-                'action' => $this->generateUrl('trade_order_new_final_step'),
-                'method' => 'POST',
-            ));
-
-            $formSellLimit = $this->createForm(TradingOrderNextStepSellLimitType::class, $tradeOrder, array(
-                'wallet' => $wallet,
-                'action' => $this->generateUrl('trade_order_new_final_step'),
-                'method' => 'POST',
-            ));
+            $arrayForm = $this->tradeOrderService->generateTradingForm($tradeOrder);
 
             return $this->render('TradingOrder/new-next-step.html.twig', array(
-                'form'=> $form->createView(), 'formSell' => $formSell->createView(),
-                'currency' => $currency, 'formBuyLimit' => $formBuyLimit->createView(),
-                'formSellLimit' => $formSellLimit->createView(),
-                'wallet' =>$wallet, 'errors'=> 0
+                'form'=> $arrayForm['form']->createView(), 'formSell' => $arrayForm['formSell']->createView(),
+                'currency' => $currency, 'formBuyLimit' => $arrayForm['formBuyLimit']->createView(),
+                'formSellLimit' => $arrayForm['formSellLimit']->createView(), 'isMarket' => $arrayForm['isMarket'],
+                'wallet' =>$this->tradeOrderService->getSessionWallet(), 'errors'=> 0
             ));
         }
     }
@@ -99,12 +83,12 @@ class TradingOrderController extends AbstractController
     public function newFinalStepAction(Request $request, WalletManager $walletManager)
     {
         $tradeOrder = new TradingOrder;
-        $form = $this->getSpecificForm($tradeOrder, $request);
+        $form = $this->tradeOrderService->getSpecificForm($tradeOrder, $request);
         $form->handleRequest($request);
         $errors = 0;
 
-        $this->setOrderAction($form, $tradeOrder);
-        $this->setOrderMethod($form, $tradeOrder);
+        $this->tradeOrderService->setOrderAction($form, $tradeOrder);
+        $this->tradeOrderService->setOrderMethod($form, $tradeOrder);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($tradeOrder->getTradingWallet()->getUser()->getId() !== $this->getUser()->getId()) {
@@ -123,104 +107,15 @@ class TradingOrderController extends AbstractController
             }
         }
 
+        $arrayForm = $this->tradeOrderService->generateTradingForm($tradeOrder, $form);
+
         //TODO: currency not working is null
         return $this->render('TradingOrder/new-next-step.html.twig', array(
-            'form'=> $form->createView(), 'currency' => $tradeOrder->getCurrency(),
+            'form'=> $arrayForm['form']->createView(), 'currency' => $tradeOrder->getCurrency(),
+            'formSell' => $arrayForm['formSell']->createView(), 'formBuyLimit' => $arrayForm['formBuyLimit']->createView(),
+            'formSellLimit' => $arrayForm['formSellLimit']->createView(), 'isMarket' => $arrayForm['isMarket'],
             'wallet' => $tradeOrder->getTradingWallet(), 'errors'=> $errors, 'entity' => $tradeOrder
         ));
-    }
-
-    /**
-     * @param Form $form
-     *
-     * @return bool
-     */
-    private function isMarket(Form $form): bool
-    {
-        if ($form->getName() === 'trading_order_next_step' || 'trading_order_next_step_sell') {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param TradingOrder $entity
-     *
-     * @return FormInterface
-     * @throws \Exception
-     */
-    private function getSpecificForm(TradingOrder $entity, Request $request): FormInterface
-    {
-        $params = $request->request->all();
-        if(isset($params['trading_order_next_step'])) {
-            return $this->createForm(
-                TradingOrderNextStepType::class,
-                $entity,
-                ['wallet' => $this->getSessionWallet()]
-            );
-        }
-        if(isset($params['trading_order_next_step_sell'])) {
-            return $this->createForm(
-                TradingOrderNextStepSellType::class,
-                $entity,
-                ['wallet' => $this->getSessionWallet()]
-            );
-        }
-
-        if(isset($params['trading_order_next_step_buy_limit'])) {
-            return $this->createForm(
-                TradingOrderNextStepBuyLimitType::class,
-                $entity,
-                ['wallet' => $this->getSessionWallet()]
-            );
-        }
-
-        if(isset($params['trading_order_next_step_sell_limit'])) {
-            return $this->createForm(
-                TradingOrderNextStepSellLimitType::class,
-                $entity,
-                ['wallet' => $this->getSessionWallet()]
-            );
-        }
-
-        throw new \Exception('nothing is good');
-    }
-
-    private function setOrderAction(Form $form, TradingOrder $entity): void
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        if ($form->getName() === 'trading_order_next_step' || $form->getName() === 'trading_order_next_step_buy_limit') {
-            $order = $entityManager->getRepository(OrderAction::class)->findOneByName('Achat');
-        } else {
-            $order = $entityManager->getRepository(OrderAction::class)->findOneByName('Vente');
-        }
-
-        $entity->setOrderAction($order);
-    }
-
-    private function setOrderMethod(Form $form, TradingOrder $entity): void
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        if ($form->getName() === 'trading_order_next_step' || $form->getName() === 'trading_order_next_step_sell') {
-            $method = $entityManager->getRepository(OrderMethod::class)->findOneByName('Market');
-        } elseif($form->getName() === 'trading_order_next_step_buy_limit' || $form->getName() === 'trading_order_next_step_sell_limit') {
-            $method = $entityManager->getRepository(OrderMethod::class)->findOneByName('Limit');
-        }
-
-        $entity->setOrderMethod($method);
-    }
-
-
-    /**
-     * get wallet in session
-     */
-    private function getSessionWallet()
-    {
-        $session = $this->get('session');
-        $id = $session->get('current_wallet_id');
-
-        return $this->getDoctrine()->getManager()->getRepository(TradingWallet::class)->find($id);
     }
 
 
