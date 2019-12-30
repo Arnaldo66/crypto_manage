@@ -60,8 +60,34 @@ class MyCryptoWalletDetailController extends AbstractController
         $em->flush();
 
         $this->addFlash('success-message', 'Votre crypto a bien été supprimée.');
-        return $this->redirectToRoute('my_crypto_show', array(
+        return $this->redirectToRoute('my_crypto_show', [
             'id'=> $walletDetail->getMyCryptoWallet()->getId()
-        ));
+        ]);
+    }
+
+    /**
+     * @Route("/u/my-crypto-detail/add-amount/{id}", name="my_crypto_detail_add_amount", options = { "expose" = true }, methods={"DELETE", "POST"})
+     */
+    public function addAmount(Request $request, MyCryptoWalletDetail $walletDetail)
+    {
+        if ($this->getUser()->getId() !== $walletDetail->getMyCryptoWallet()->getUser()->getId()) {
+            throw new AccessDeniedException('Access denied: It\'s not your alert');
+        }
+
+        $amount = $request->get('add_amount');
+        if (!is_numeric($amount)) {
+            $this->addFlash('error-message', 'Veuillez saisir une valeur numérique');
+            return $this->redirectToRoute('my_crypto_show', [
+                'id' => $walletDetail->getMyCryptoWallet()->getId()
+            ]);
+        }
+
+        $walletDetail->setAmount($walletDetail->getAmount() + (float) $amount);
+        $this->getDoctrine()->getManager()->flush();
+
+        $this->addFlash('success-message', 'Votre montant a bien été augmenté.');
+        return $this->redirectToRoute('my_crypto_show', [
+            'id'=> $walletDetail->getMyCryptoWallet()->getId()
+        ]);
     }
 }
