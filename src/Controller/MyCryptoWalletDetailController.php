@@ -46,7 +46,7 @@ class MyCryptoWalletDetailController extends AbstractController
     }
 
     /**
-     * @Route("/u/my-crypto-detail/delete/{id}", name="my_crypto_detail_delete", options = { "expose" = true }, methods={"DELETE"})
+     * @Route("/u/my-crypto-detail/delete/{id}", name="my_crypto_detail_delete", options = { "expose" = true }, methods={"DELETE", "POST"})
      * @ParamConverter("myCryptoWalletDetail", class="App:MyCryptoWalletDetail")
      */
     public function deleteAction(MyCryptoWalletDetail $walletDetail)

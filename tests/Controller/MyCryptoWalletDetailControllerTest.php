@@ -34,7 +34,24 @@ class MyCryptoWalletDetailControllerTest extends PantherTestCase
         $this->assertResponseRedirects('/u/my-crypto/' . $myCryptoWallet->getId() , 302);
     }
 
-    public function testDelete()
+//    public function testDelete()
+//    {
+//        $client = static::createClient(
+//            [],
+//            [
+//                'PHP_AUTH_USER' => 'user',
+//                'PHP_AUTH_PW' => 'phpunit_user'
+//            ]
+//        );
+//        $manager = $client->getContainer()->get('doctrine');
+//        $myCryptoWallet = $manager->getRepository(MyCryptoWallet::class)->findOneByName('wallet');
+//        $myCryptoWalletDetail = $manager->getRepository(MyCryptoWalletDetail::class)->findOneByAmount(1230);
+//
+//        $client->request('DELETE', '/u/my-crypto-detail/delete/' . $myCryptoWalletDetail->getId());
+//        $this->assertResponseRedirects('/u/my-crypto/' . $myCryptoWallet->getId() , 302);
+//    }
+
+    public function testPost()
     {
         $client = static::createClient(
             [],
@@ -47,7 +64,7 @@ class MyCryptoWalletDetailControllerTest extends PantherTestCase
         $myCryptoWallet = $manager->getRepository(MyCryptoWallet::class)->findOneByName('wallet');
         $myCryptoWalletDetail = $manager->getRepository(MyCryptoWalletDetail::class)->findOneByAmount(1230);
 
-        $client->request('DELETE', '/u/my-crypto-detail/delete/' . $myCryptoWalletDetail->getId());
+        $client->request('POST', '/u/my-crypto-detail/delete/' . $myCryptoWalletDetail->getId());
         $this->assertResponseRedirects('/u/my-crypto/' . $myCryptoWallet->getId() , 302);
     }
 }
