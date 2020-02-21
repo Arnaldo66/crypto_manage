@@ -90,4 +90,30 @@ class MyCryptoWalletDetailController extends AbstractController
             'id'=> $walletDetail->getMyCryptoWallet()->getId()
         ]);
     }
+
+    /**
+     * @Route("/u/my-crypto-detail/less-amount/{id}", name="my_crypto_detail_less_amount", options = { "expose" = true }, methods={"DELETE", "POST"})
+     */
+    public function lessAmount(Request $request, MyCryptoWalletDetail $walletDetail)
+    {
+        if ($this->getUser()->getId() !== $walletDetail->getMyCryptoWallet()->getUser()->getId()) {
+            throw new AccessDeniedException('Access denied: It\'s not your alert');
+        }
+
+        $amount = $request->get('less_amount');
+        if (!is_numeric($amount)) {
+            $this->addFlash('error-message', 'Veuillez saisir une valeur numérique');
+            return $this->redirectToRoute('my_crypto_show', [
+                'id' => $walletDetail->getMyCryptoWallet()->getId()
+            ]);
+        }
+
+        $walletDetail->setAmount($walletDetail->getAmount() - (float) $amount);
+        $this->getDoctrine()->getManager()->flush();
+
+        $this->addFlash('success-message', 'Votre montant a bien été diminué.');
+        return $this->redirectToRoute('my_crypto_show', [
+            'id'=> $walletDetail->getMyCryptoWallet()->getId()
+        ]);
+    }
 }

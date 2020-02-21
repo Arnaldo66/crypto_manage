@@ -24,6 +24,7 @@
                         <th>{{ 'change'|trans }}</th>
                         <th class="text-center">{{ 'delete'|trans }}</th>
                         <th class="text-center">{{ 'increase'|trans }}</th>
+                        <th class="text-center">{{ 'decrease'|trans }}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -66,6 +67,9 @@
                             </td>
                             <td class="text-center">
                                 <p class="fa fa-plus"  data-toggle="modal" data-target="#addAmount" data-id="{{ detail.id }}" data-name="{{ detail.currency.name }}"></p>
+                            </td>
+                            <td class="text-center">
+                                <p class="fa fa-minus"  data-toggle="modal" data-target="#lessAmount" data-id="{{ detail.id }}" data-name="{{ detail.currency.name }}"></p>
                             </td>
                         </tr>
                     {% endfor %}
@@ -141,6 +145,26 @@
         </div>
     </div>
 </div>
+
+    <div class="modal fade" id="lessAmount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content text-center">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="name_less_amount">Diminuer le montant</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="" method="POST">
+                    <input type="text" value="" id="less_amount" name="less_amount">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Confirmer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block local_javascripts %}
@@ -160,6 +184,14 @@
           var name = button.data('name');
           $('#name_add_amount').text('Augmenter le montant de vos ' + name + 's');
           $(this).find('form').attr('action', Routing.generate('my_crypto_detail_add_amount', { id: id }));
+      })
+
+      $('#lessAmount').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget);
+          var id = button.data('id');
+          var name = button.data('name');
+          $('#name_less_amount').text('Diminuer le montant de vos ' + name + 's');
+          $(this).find('form').attr('action', Routing.generate('my_crypto_detail_less_amount', { id: id }));
       })
   });
   </script>
