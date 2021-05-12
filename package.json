@@ -3,7 +3,7 @@
     "@symfony/webpack-encore": "^0.28.0"
   },
   "dependencies": {
-    "codemirror": "^5.48.4",
+    "codemirror": "^5.58.2",
     "jquery": "^3.4.1"
   }
 }
